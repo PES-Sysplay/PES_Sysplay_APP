@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="song_artist">Song Artist</string>
+    <string name="song_title">Song Title</string>
+    <string name="todo">TODO</string>
 </resources>

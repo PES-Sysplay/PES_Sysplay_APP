@@ -1,19 +1,22 @@
 package com.example.workoutapp.ui.home;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.view.View;
+import android.widget.TextView;
 
-public class HomeViewModel extends ViewModel {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-    private MutableLiveData<String> mText;
+import com.example.workoutapp.R;
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+public class HomeViewModel extends RecyclerView.ViewHolder {
+
+    private TextView view;
+    public HomeViewModel(@NonNull View itemView) {
+        super(itemView);
+        view = itemView.findViewById(R.id.activityTitle);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public TextView getView(){
+        return view;
     }
 }
