@@ -39,7 +39,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateList(){
-        activityList.add(new Activitat("gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+            activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
 
         //ObjectMapper mapper = new ObjectMapper();
 

@@ -1,6 +1,8 @@
 package com.example.workoutapp;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Activitat {
     String name;
@@ -97,6 +99,7 @@ public class Activitat {
     }
 
     public String getDateTimeString(){
-        return dateTime.toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
+        return dateTime.format(formatter);
     }
 }
