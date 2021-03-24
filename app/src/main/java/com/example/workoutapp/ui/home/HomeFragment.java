@@ -2,8 +2,13 @@ package com.example.workoutapp.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +31,13 @@ public class HomeFragment extends Fragment {
     private ActivityListAdapter adapter;
     private List<Activitat> activityList = new ArrayList<>();
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -31,15 +45,47 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerview);
         updateList();
 
-
+        adapter = new ActivityListAdapter(root.getContext(),activityList);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setAdapter(new ActivityListAdapter(root.getContext(), activityList));
+        recyclerView.setAdapter(adapter);
 
         return root;
     }
+    @Override
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_seach_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+
 
     private void updateList(){
-        activityList.add(new Activitat("gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepega"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("domino", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
 
         //ObjectMapper mapper = new ObjectMapper();
 
@@ -49,4 +95,6 @@ public class HomeFragment extends Fragment {
 
 
     }
+
+
 }
