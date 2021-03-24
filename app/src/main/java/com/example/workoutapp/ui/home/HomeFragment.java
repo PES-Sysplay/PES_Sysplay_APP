@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
 
 
@@ -73,9 +75,22 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-
     private void updateList(){
+        ActivityController dc = new ActivityController(getContext());
+
+        dc.getActivitats(new ActivityController.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(ArrayList<Activitat> ret) {
+               // do things
+            }
+        });
+
+        /*
         activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
         activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepega"));
         activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
@@ -85,7 +100,7 @@ public class HomeFragment extends Fragment {
         activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
         activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
         activityList.add(new Activitat("domino", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));*/
 
         //ObjectMapper mapper = new ObjectMapper();
 
