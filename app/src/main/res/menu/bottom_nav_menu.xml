@@ -18,4 +18,10 @@
         android:icon="@drawable/ic_baseline_location_on_24"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/title_profile" />
+
+
 </menu>
