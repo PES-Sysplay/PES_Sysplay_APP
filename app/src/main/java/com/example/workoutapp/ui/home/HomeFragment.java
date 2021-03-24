@@ -19,6 +19,8 @@ import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -74,15 +77,15 @@ public class HomeFragment extends Fragment {
 
     private void updateList(){
         activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-            activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepega"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("domino", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
 
         //ObjectMapper mapper = new ObjectMapper();
 
