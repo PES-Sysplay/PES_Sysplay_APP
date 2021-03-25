@@ -1,6 +1,7 @@
 package com.example.workoutapp.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,18 +21,15 @@ import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
 
-
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
-    private List<Activitat> activityList = new ArrayList<>();
+    private ArrayList<Activitat> activityList = new ArrayList<>();
 
 
     @Override
@@ -45,7 +43,7 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerview);
-        updateList();
+        updateList(root);
 
         adapter = new ActivityListAdapter(root.getContext(),activityList);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -75,18 +73,20 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void updateList(){
+    private void updateList(View root){
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivitats(new ActivityController.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(ArrayList<Activitat> ret) {
-               // do things
+               adapter.setList(ret);
+               Log.d("STATE", ret.get(0).getDate_time());
+                // do things
             }
         });
 

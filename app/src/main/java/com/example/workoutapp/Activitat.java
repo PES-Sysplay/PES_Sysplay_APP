@@ -1,19 +1,16 @@
 package com.example.workoutapp;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
 public class Activitat {
     String name;
     String description;
-    String photo;
-    LocalDateTime dateTime;
+    String photo_url;
+    String activity_type_id;
+    String date_time;
     int duration;
     int preu;
     int preuSoci;
     int capacity;
-    int status;
+    String status;
     String location;
     boolean onlySoci;
     String organizerName;
@@ -23,11 +20,12 @@ public class Activitat {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo, LocalDateTime dateTime, int duration, int preu, int preuSoci, int capacity, int status, String location, boolean onlySoci, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, int duration, int preu, int preuSoci, int capacity, String status, String location, boolean onlySoci, String organizerName) {
         this.name = name;
         this.description = description;
-        this.photo = photo;
-        this.dateTime = dateTime;
+        this.photo_url = photo_url;
+        this.activity_type_id = activity_type_id;
+        this.date_time = date_time;
         this.duration = duration;
         this.preu = preu;
         this.preuSoci = preuSoci;
@@ -39,11 +37,11 @@ public class Activitat {
     }
 
     //constructor with the paramters we will most likely use
-    public Activitat(String name, String description, String photo, LocalDateTime dateTime, int duration, int preu, int preuSoci, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String date_time, int duration, int preu, int preuSoci, String organizerName) {
         this.name = name;
         this.description = description;
-        this.photo = photo;
-        this.dateTime = dateTime;
+        this.photo_url = photo_url;
+        this.date_time = date_time;
         this.duration = duration;
         this.preu = preu;
         this.preuSoci = preuSoci;
@@ -58,12 +56,12 @@ public class Activitat {
         return description;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPhoto_url() {
+        return photo_url;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public String getDate_time() {
+        return date_time;
     }
 
     public int getDuration() {
@@ -82,7 +80,7 @@ public class Activitat {
         return capacity;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -99,7 +97,8 @@ public class Activitat {
     }
 
     public String getDateTimeString(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
-        return dateTime.format(formatter);
+        //DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
+        //return dateTime.format(formatter);
+        return date_time;
     }
 }

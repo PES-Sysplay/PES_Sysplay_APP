@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
 
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView organization,activityTitle, dateTime;
-        ImageView songCoverImage;
+        ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,7 +35,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             organization = itemView.findViewById(R.id.organization);
             activityTitle = itemView.findViewById(R.id.activityTitle);
             dateTime = itemView.findViewById(R.id.dateTime);
-            songCoverImage = itemView.findViewById(R.id.coverImage);
+            image = itemView.findViewById(R.id.coverImage);
 
             // handle onClick
 
@@ -62,6 +64,9 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         holder.organization.setText(activitats.get(position).getOrganizerName());
         holder.activityTitle.setText(activitats.get(position).getName());
         holder.dateTime.setText(activitats.get(position).getDateTimeString());
+        //Picasso.get().load("https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg").into(holder.image);
+        Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
+
         //TODO poner la imagen
 
     }
@@ -76,6 +81,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return exampleFilter;
     }
 
+    public void setList(List<Activitat> aux){
+        activitats = aux;
+        notifyDataSetChanged();
+    }
 
     private Filter exampleFilter = new Filter() {
         @Override
