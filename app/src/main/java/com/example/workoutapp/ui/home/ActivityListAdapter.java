@@ -37,12 +37,9 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
             // handle onClick
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Do Something With this Click", Toast.LENGTH_SHORT).show();
-                }
-            });
+            itemView.setOnClickListener(v ->
+                    Toast.makeText(v.getContext(), "Do Something With this Click", Toast.LENGTH_SHORT).show()
+            );
         }
     }
     public ActivityListAdapter(Context ctx, List<Activitat> activitats){
@@ -78,6 +75,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public Filter getFilter() {
         return exampleFilter;
     }
+
+
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
