@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -73,16 +74,17 @@ public class HomeFragment extends Fragment {
 
 
     private void updateList(){
+
         activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
             activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
         activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Futbol", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Natacion", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Bici", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
         activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Bici", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Running", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
 
         //ObjectMapper mapper = new ObjectMapper();
 

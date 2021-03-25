@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WorkOut App</string>
+    <string name="app_name">WorkOut</string>
     <string name="title_home">Activities</string>
     <string name="title_dashboard">Calendar</string>
     <string name="title_notifications">Map</string>
