@@ -29,8 +29,6 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
-    private ArrayList<Activitat> activityList = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,12 +43,13 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerview);
         updateList(root);
 
-        adapter = new ActivityListAdapter(root.getContext(),activityList);
+        adapter = new ActivityListAdapter(root.getContext(), new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
 
         return root;
     }
+
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
@@ -73,7 +72,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void updateList(View root){
+    private void updateList(View root) {
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivitats(new ActivityController.VolleyResponseListener() {
@@ -88,25 +87,22 @@ public class HomeFragment extends Fragment {
                Log.d("STATE", ret.get(0).getDate_time());
                 // do things
             }
+
         });
 
         /*
-        activityList.add(new Activitat("Gym", "descripcion to wapa", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepega"));
-        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("domino", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "", LocalDateTime.now(), 5, 0, 0, "pepegym"));*/
+        activityList.add(new Activitat("Gym", "descripcion to wapa", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Padel", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepega"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("domino", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg","", 5, 0, 0, "pepegym"));
+        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg","", 5, 0, 0, "pepegym"));
 
-        //ObjectMapper mapper = new ObjectMapper();
-
-        //llamada a controlador
-        //activityList = mapper.readValue(input, new TypeReference<List<Activitat>>(){});
-        //activityLsit = parse(xd) y algo mas
+         */
 
 
     }

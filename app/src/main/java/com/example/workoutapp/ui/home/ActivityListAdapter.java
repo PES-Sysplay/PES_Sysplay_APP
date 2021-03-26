@@ -64,11 +64,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         holder.organization.setText(activitats.get(position).getOrganizerName());
         holder.activityTitle.setText(activitats.get(position).getName());
         holder.dateTime.setText(activitats.get(position).getDateTimeString());
-        //Picasso.get().load("https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg").into(holder.image);
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
-
-        //TODO poner la imagen
-
     }
 
     @Override
@@ -82,11 +78,12 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     }
 
     public void setList(List<Activitat> aux){
-        activitats = aux;
+        activitats = new ArrayList<>(aux);
+        activitatsFull  = new ArrayList<>(aux);
         notifyDataSetChanged();
     }
 
-    private Filter exampleFilter = new Filter() {
+    private final Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Activitat> filteredList = new ArrayList<>();
@@ -106,8 +103,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            activitats.clear();
-            activitats.addAll((List) results.values);
+            activitats = new ArrayList<>((ArrayList<Activitat>) results.values);
             notifyDataSetChanged();
         }
     };
