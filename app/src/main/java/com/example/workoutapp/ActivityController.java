@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ActivityController {
 
-    public static final String QUERY_FOR_ACTIVITY = "https://dev-pes-workout.herokuapp.com/api/activity/";
+    public static final String QUERY_FOR_ACTIVITY = "https://pes-workout.herokuapp.com/api/activity/";
     Context ctx;
 
     public ActivityController(Context context){
