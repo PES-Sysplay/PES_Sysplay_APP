@@ -89,23 +89,5 @@ public class HomeFragment extends Fragment {
             }
 
         });
-
-        /*
-        activityList.add(new Activitat("Gym", "descripcion to wapa", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Padel", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepega"));
-        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Furbo", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Basquet", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("polo con elefantes", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg", "", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("domino", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg","", 5, 0, 0, "pepegym"));
-        activityList.add(new Activitat("Liga de las Leyendas", "descripcion to wapassss", "https://pbs.twimg.com/media/Ed7_MAOWAAs2D9H.jpg","", 5, 0, 0, "pepegym"));
-
-         */
-
-
     }
-
-
 }
