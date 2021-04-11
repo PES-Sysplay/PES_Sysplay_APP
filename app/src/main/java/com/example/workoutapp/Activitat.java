@@ -101,4 +101,8 @@ public class Activitat {
         //return dateTime.format(formatter);
         return date_time;
     }
+
+    public String getActivity_type_id() {
+        return activity_type_id;
+    }
 }
