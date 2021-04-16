@@ -66,7 +66,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -84,28 +84,10 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
             e.printStackTrace();
         }
 
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+
     }
 
-    /*private void initGoogleMap(Bundle savedInstanceState){
-        // *** IMPORTANT ***
-        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
-        // objects or sub-Bundles.
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(API_KEY);
-        }
 
-        mMapView.onCreate(mapViewBundle);
-
-        mMapView.getMapAsync(this);
-    }*/
 
     void init_values(){
 
@@ -119,6 +101,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         photo = findViewById(R.id.imageView);
 
     }
+    @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
         Log.d("STATE", activity_list.get(pos).getName());
         activity.setText(activity_list.get(pos).getName());
@@ -129,14 +112,20 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List <Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]),Double.parseDouble(locations[1]), 1);
-        Log.d("0000000000000000000000", String.valueOf(addresses.get(0)));
 
-        Log.d("0000000000000000000000", String.valueOf(addresses.get(0).getAddressLine(0)));
         place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
 
+        if(activity_list.get(pos).getPreu().equals("0.0")) {
+            price.setText("GRATIS");
+        }
+        else price.setText(activity_list.get(pos).getPreu() + " €");
 
-        price.setText(activity_list.get(pos).getPreu());
-        member_price.setText(activity_list.get(pos).getPreuSoci());
+        Log.d("eeeeeeeeeeeee",activity_list.get(pos).getPreuSoci());
+
+        if(activity_list.get(pos).getPreuSoci().equals("0.0")){
+            member_price.setText("GRATIS");
+        }
+        else member_price.setText(activity_list.get(pos).getPreuSoci()+ " €");
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
@@ -159,7 +148,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
         //LatLng sydney = new LatLng(41.391461899999996, 2.1352135);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName()));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
