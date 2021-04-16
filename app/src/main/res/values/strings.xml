@@ -7,6 +7,8 @@
     <string name="song_artist">Song Artist</string>
     <string name="song_title">Song Title</string>
     <string name="todo">TODO</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>

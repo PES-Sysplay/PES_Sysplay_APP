@@ -130,15 +130,19 @@
 
         <TextView
             android:id="@+id/place_text"
-            android:layout_width="159dp"
-            android:layout_height="31dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="22dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:autoSizeTextType="uniform"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/price_title"
+            app:layout_constraintBottom_toTopOf="@+id/submap"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <TextView
             android:id="@+id/organization_text"
@@ -154,14 +158,18 @@
 
         <TextView
             android:id="@+id/timehour_text"
-            android:layout_width="159dp"
-            android:layout_height="31dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="22dp"
+            android:autoSizeTextType="uniform"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/place_title"
+            app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -206,6 +214,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent" />
+
+
+        <fragment
+            android:id="@+id/submap"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="380dp"
+            android:layout_height="157dp"
+            android:layout_marginBottom="39dp"
+            app:layout_constraintBottom_toTopOf="@+id/price_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:context=".ui.home.ScrollingActivity" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
