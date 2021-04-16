@@ -56,26 +56,23 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
-        // = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-       // toolbar = getSupportActionBar();
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
         mapFragment.getMapAsync(this);
-        //mMapView = findViewById(R.id.mapView);
-        //initGoogleMap(savedInstanceState);
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
         init_values();
         activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
         try {
@@ -132,21 +129,14 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
-
-    /*@Override
-    public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }*/
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         String[] locations = activity_list.get(pos).getLocation().split(", ");
-        Log.d("STATE", locations[0]);
-        Log.d("hola", locations[1]);
 
-        // Add a marker in Sydney and move the camera
+
         LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
-        //LatLng sydney = new LatLng(41.391461899999996, 2.1352135);
+
 
         mMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName()));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));

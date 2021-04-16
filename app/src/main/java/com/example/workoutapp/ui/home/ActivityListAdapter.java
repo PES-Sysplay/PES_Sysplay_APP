@@ -81,11 +81,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                                             intent.putExtra("Position recycler", position);
                                             context.startActivity(intent);
 
-                                            /*AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                                            ActivityDetail activity_detail = new ActivityDetail();
-
-                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, activity_detail).addToBackStack(null).commit();*/
-
 
                                         }
                                     }
