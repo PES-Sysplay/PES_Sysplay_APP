@@ -87,7 +87,6 @@ public class HomeFragment extends Fragment {
                Log.d("STATE", ret.get(0).getDate_time());
                 // do things
             }
-
         });
     }
 }
