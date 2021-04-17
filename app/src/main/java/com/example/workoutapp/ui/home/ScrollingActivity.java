@@ -8,12 +8,15 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -56,6 +59,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
+        Log.d("SE VIENEEEE", String.valueOf(pos));
 
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
@@ -132,14 +136,23 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        List<Marker> markers = new ArrayList<>();
         String[] locations = activity_list.get(pos).getLocation().split(", ");
 
 
         LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
 
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        markers.add(mMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName())));
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));
+        // Zoom in, animating the camera.
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }
