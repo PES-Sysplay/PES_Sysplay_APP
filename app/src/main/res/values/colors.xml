@@ -10,7 +10,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="whitetransparent">#80FFFFFF</color>
     <color name="colorPrimary">#506EB5</color>
+    <color name="colorPrimaryLight">#B4F6F6</color>
     <color name="Selected">#B4F6F6</color>
-
+    <color name="grey">#2F4F4F</color>
 
 </resources>

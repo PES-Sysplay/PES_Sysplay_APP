@@ -7,4 +7,14 @@
     <string name="song_artist">Song Artist</string>
     <string name="song_title">Song Title</string>
     <string name="todo">TODO</string>
+    <string name="welcome">Bienvenido a WorkOut</string>
+    <string name="email">Email</string>
+    <string name="pwd">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Regístrate</string>
+    <string name="forgetpwd">¿Olvidaste tu contraseña?</string>
+    <string name="pwdconfirm">Confirma tu contraseña</string>
+    <string name="username">Nombre de usuario</string>
+
+
 </resources>
