@@ -1,22 +1,25 @@
 package com.example.workoutapp;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class UserController {
 
-    public static final String QUERY_FOR_LOGIN = "https://pes-workout.herokuapp.com/api/login/";
-    public static final String QUERY_FOR_CHANGE_PW = "https://pes-workout.herokuapp.com/api/change-password/";
-    //aun no está implementada esta api creo
-    public static final String QUERY_FOR_REGISTER = "https://pes-workout.herokuapp.com/api/register/";
+    public static final String URL = "https://pes-workout.herokuapp.com";
     Context ctx;
 
     public UserController(Context context){
@@ -26,78 +29,158 @@ public class UserController {
     public interface VolleyResponseListener {
         void onError(String message);
 
-        void onResponse(User ret);
+        void onResponse(String message);
     }
 
-    public void logIn(UserController.VolleyResponseListener vrl) {
-        String url = QUERY_FOR_LOGIN;
+    public void logIn(String userEmail, String userPassword) {
+        try {
+            String loginURL = URL + "/api/login/";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("email", userEmail);
+            jsonBody.put("password", userPassword);
+            final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest req = new JsonObjectRequest
-                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, loginURL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("VOLLEY", response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        User ret = gson.fromJson(response.toString(), User.class);
-
-                        vrl.onResponse(ret);
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
                     }
-                }, new Response.ErrorListener() {
+                }
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
-                        vrl.onError("Error al iniciar sesión");
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    String responseString = "";
+                    if (response != null) {
+                        responseString = String.valueOf(response.statusCode);
                     }
-                });
-        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+
+            RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void register(UserController.VolleyResponseListener vrl) {
-        String url = QUERY_FOR_REGISTER;
+    public void register(String userEmail, String userName, String userPassword, String userConfirmPassword) {
+        try {
+            String registerURL = URL + "/api/register/";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("email", userEmail);
+            jsonBody.put("username", userName);
+            jsonBody.put("password", userPassword);
+            jsonBody.put("password2", userConfirmPassword);
+            final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest req = new JsonObjectRequest
-                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, registerURL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("VOLLEY", response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        User ret = gson.fromJson(response.toString(), User.class);
-
-                        vrl.onResponse(ret);
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
                     }
-                }, new Response.ErrorListener() {
+                }
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "Error al registrarse", Toast.LENGTH_SHORT).show();
-                        vrl.onError("Error al registrarse");
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    String responseString = "";
+                    if (response != null) {
+                        responseString = String.valueOf(response.statusCode);
                     }
-                });
-        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+
+            RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void changePass(UserController.VolleyResponseListener vrl) {
-        String url = QUERY_FOR_CHANGE_PW;
+    public void changePassword(String userOldPassword, String userNewPassword) {
+        try {
+            String changePassURL = URL + "/api/change-password/";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("oldPassword", userOldPassword);
+            jsonBody.put("newPassword", userNewPassword);
+            final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest req = new JsonObjectRequest
-                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, changePassURL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i("VOLLEY", response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        User ret = gson.fromJson(response.toString(), User.class);
-
-                        vrl.onResponse(ret);
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
                     }
-                }, new Response.ErrorListener() {
+                }
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "Error al cambiar la contraseña", Toast.LENGTH_SHORT).show();
-                        vrl.onError("Error al cambiar la contraseña");
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    String responseString = "";
+                    if (response != null) {
+                        responseString = String.valueOf(response.statusCode);
                     }
-                });
-        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+
+            RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
