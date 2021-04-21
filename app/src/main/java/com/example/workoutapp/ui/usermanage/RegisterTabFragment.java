@@ -1,5 +1,6 @@
 package com.example.workoutapp.ui.usermanage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
-import com.example.workoutapp.User;
+import com.example.workoutapp.UserController;
 
 public class RegisterTabFragment extends Fragment {
 
@@ -31,6 +33,7 @@ public class RegisterTabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.register_tab_fragment, container, false);
+        UserController userController = new UserController(getContext());
 
         email_et = root.findViewById(R.id.email);
         username_et = root.findViewById(R.id.username);
@@ -43,24 +46,45 @@ public class RegisterTabFragment extends Fragment {
             String uname = username_et.getText().toString();
             String pwd = password_et.getText().toString();
             String pwd2 = password_check_et.getText().toString();
+            boolean u = checkCorrectFields(emailu, uname, pwd, pwd2, root);
 
-            checkCorrectFields(emailu, uname, pwd, pwd2, root);
+            if (u) {
+                userController.register(emailu, uname, pwd, new UserController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+            }
 
         });
 
         return root;
     }
 
-    private void checkCorrectFields(String email, String uname, String pwd, String pwd2, View root) {
+    private boolean checkCorrectFields(String email, String uname, String pwd, String pwd2, View root) {
 
 
         if (email.matches("") || uname.matches("") || pwd.matches("") || pwd2.matches("")){
             Toast.makeText(root.getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
 
+            return false;
         } else if (!pwd.equals(pwd2)) {
 
             Toast.makeText(root.getContext(), "La contraseña no coincide", Toast.LENGTH_SHORT).show();
             password_check_et.getText().clear();
+
+            return false;
         }
+        return true;
     }
 }

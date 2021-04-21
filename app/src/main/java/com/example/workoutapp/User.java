@@ -4,22 +4,15 @@ import android.media.Image;
 
 public class User {
 
-    private String email;
+    private String token;
     private String username;
-    private String id;
     private String password;
-    private Boolean googleSigned; //If true password is empty
 
-    //default constructor
-    public User(){
-    }
-
-    //constructor for google sign-up
-    public User(String email, String username, String id, String password, Boolean googleSigned){
-        this.email = email;
+    public User(String token, String username, String password){
+        this.token = token;
         this.username = username;
-        this.id = id;
         this.password = password;
+<<<<<<< HEAD
         this.googleSigned = googleSigned;
     }
 
@@ -30,29 +23,20 @@ public class User {
         this.id = id;
         this.googleSigned = googleSigned;
         //this.profilePic = defaultavatar.png;
+=======
+>>>>>>> 5a61227f9671f2d1d927377b47466866a2dff365
     }
 
-    public Boolean getGoogleSigned() {
-        return googleSigned;
+    public String getToken(){
+        return this.token;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername(){
+        return this.username;
     }
 
-    public String getId() {
-        return id;
+    public String getPassword(){
+        return this.password;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void changePassword(String newPass){
-        this.password = newPass;
-    }
 }

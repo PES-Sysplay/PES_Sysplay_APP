@@ -1,6 +1,6 @@
 package com.example.workoutapp.ui.usermanage;
 
-import com.example.workoutapp.User;
+import com.example.workoutapp.UserSingleton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -8,7 +8,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -19,7 +18,7 @@ public class GoogleManager extends AppCompatActivity {
     int RC_SIGN_IN = 0;
     GoogleSignInClient mGoogleSignInClient;
     Context ctx;
-    User u;
+    GoogleSignInAccount g_u;
 
     public GoogleManager(Context context) {
         this.ctx = context;
@@ -31,11 +30,10 @@ public class GoogleManager extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso);
     }
 
-    public User signIn() {
+    public GoogleSignInAccount signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
-        return u;
+        return g_u;
     }
 
     @Override
@@ -53,7 +51,7 @@ public class GoogleManager extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            g_u = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
             // Intent intent = new Intent (SignIn.this, Activity.class);
