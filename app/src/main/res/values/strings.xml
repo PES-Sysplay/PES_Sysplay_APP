@@ -15,6 +15,10 @@
     <string name="forgetpwd">¿Olvidaste tu contraseña?</string>
     <string name="pwdconfirm">Confirma tu contraseña</string>
     <string name="username">Nombre de usuario</string>
-
+    <string name="settings">Ajustes</string>
+    <string name="changepwd">Cambiar contraseña</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="myevents">Mis eventos</string>
+    <string name="myfavs">Mis favoritos</string>
 
 </resources>

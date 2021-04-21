@@ -1,5 +1,7 @@
 package com.example.workoutapp;
 
+import android.media.Image;
+
 public class User {
 
     private String email;
@@ -27,6 +29,7 @@ public class User {
         this.username = username;
         this.id = id;
         this.googleSigned = googleSigned;
+        //this.profilePic = defaultavatar.png;
     }
 
     public Boolean getGoogleSigned() {

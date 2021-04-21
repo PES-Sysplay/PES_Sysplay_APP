@@ -11,7 +11,10 @@
     <color name="whitetransparent">#80FFFFFF</color>
     <color name="colorPrimary">#506EB5</color>
     <color name="colorPrimaryLight">#B4F6F6</color>
+    <color name="colorPrimaryLightLight">#D5F6F6</color>
+    <color name="colorSecondaryDark">#506EB5</color>
     <color name="Selected">#B4F6F6</color>
     <color name="grey">#2F4F4F</color>
+    <color name="lightGray">#808080</color>
 
 </resources>
