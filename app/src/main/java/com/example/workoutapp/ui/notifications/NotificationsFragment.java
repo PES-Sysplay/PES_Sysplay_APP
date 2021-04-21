@@ -55,10 +55,8 @@ public class NotificationsFragment extends Fragment {
             public void onMapReady(GoogleMap googleMap) {
 
                 activity_list = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>()).copyInfo();
-                Log.d("hola",String.valueOf(activity_list.size()));
                 while(i < activity_list.size()){
                     String[] locations = activity_list.get(i).getLocation().split(", ");
-                    //Log.d("hola", locations[1]);
                     LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
                      markers.add(googleMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(i).getName())));
 
@@ -77,7 +75,6 @@ public class NotificationsFragment extends Fragment {
                     i = 0;
                     while (i < activity_list.size()) {
                         if (marker.equals(markers.get(i))) {
-                            Log.d("idins", String.valueOf(i));
                             CoordinatorLayout rootlayout = root.findViewById(R.id.coordinatorLayout);
                             Snackbar snackbar = Snackbar.make(rootlayout, activity_list.get(i).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
@@ -90,7 +87,6 @@ public class NotificationsFragment extends Fragment {
                                     context.startActivity(intent);
                                 }
                             });
-                            Log.d("idespres", String.valueOf(i));
                             snackbar.setActionTextColor(Color.parseColor("#7f5aa0"));
 
                             snackbar.show();

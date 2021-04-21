@@ -59,7 +59,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
-        Log.d("SE VIENEEEE", String.valueOf(pos));
 
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
@@ -104,7 +103,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
     }
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
-        Log.d("STATE", activity_list.get(pos).getName());
         activity.setText(activity_list.get(pos).getName());
         //organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
@@ -121,7 +119,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         }
         else price.setText(activity_list.get(pos).getPreu() + " €");
 
-        Log.d("eeeeeeeeeeeee",activity_list.get(pos).getPreuSoci());
 
         if(activity_list.get(pos).getPreuSoci().equals("0.0")){
             member_price.setText("GRATIS");
