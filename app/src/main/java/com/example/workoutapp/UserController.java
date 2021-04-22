@@ -143,13 +143,13 @@ public class UserController {
 
     public void changePassword(String userOldPassword, String userNewPassword) {
         try {
-            String changePassURL = URL + "/api/change-password/";
+            String changePassURL = URL + "/api/change_password/";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("oldPassword", userOldPassword);
             jsonBody.put("newPassword", userNewPassword);
             final String requestBody = jsonBody.toString();
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, changePassURL, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, changePassURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.i("VOLLEY", response);
