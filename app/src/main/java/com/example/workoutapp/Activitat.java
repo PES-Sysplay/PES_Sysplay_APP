@@ -48,6 +48,18 @@ public class Activitat {
         this.organizerName = organizerName;
     }
 
+    public Activitat(String name, String description, String photo_url, String date_time, int duration, int preu, int preuSoci, String organizerName, String activity_type_id) {
+        this.name = name;
+        this.description = description;
+        this.photo_url = photo_url;
+        this.date_time = date_time;
+        this.duration = duration;
+        this.preu = preu;
+        this.preuSoci = preuSoci;
+        this.organizerName = organizerName;
+        this.activity_type_id = activity_type_id;
+    }
+
     public String getName() {
         return name;
     }

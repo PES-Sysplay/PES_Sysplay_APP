@@ -2,6 +2,7 @@ package com.example.workoutapp;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,21 +20,16 @@ import java.util.ArrayList;
 
 public class ActivityController {
 
-    public static final String QUERY_FOR_ACTIVITY = "https://pes-workout.herokuapp.com/api/activity/";
+    public static final String BASE_URL = "https://pes-workout.herokuapp.com";
+
     Context ctx;
 
-    public ActivityController(Context context){
+    public ActivityController(Context context) {
         this.ctx = context;
     }
 
-    public interface VolleyResponseListener {
-        void onError(String message);
-
-        void onResponse(ArrayList<Activitat> ret);
-    }
-
     public void getActivitats(VolleyResponseListener vrl) {
-        String url = QUERY_FOR_ACTIVITY;
+        String url = BASE_URL + "/api/activity";
         ArrayList<Activitat> ret = new ArrayList<Activitat>();
 
         JsonArrayRequest req = new JsonArrayRequest
@@ -42,7 +38,7 @@ public class ActivityController {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        for (int i = 0; i < response.length(); i++){
+                        for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jsonact = response.getJSONObject(i);
                                 Gson gson = new Gson();
@@ -53,7 +49,7 @@ public class ActivityController {
                             }
 
                         }
-                        vrl.onResponse(ret);
+                        vrl.onResponseActivity(ret);
                     }
                 }, new Response.ErrorListener() {
 
@@ -64,6 +60,49 @@ public class ActivityController {
                     }
                 });
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public void getActivityTypes(VolleyResponseListener vrl) {
+        //String url = BASE_URL + "/api/activitytype";
+        String url = "https://dev-pes-workout.herokuapp.com/api/activitytype"; //TODO quitar esto cuando hagamos el merge a master
+        ArrayList<String> ret = new ArrayList<String>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                String aux = jsonact.getString("name");
+                                Log.d("EY", aux);
+                                ret.add(aux);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseType(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No s'han trobat activitats", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No s'han trobat activitats");
+                    }
+                });
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public interface VolleyResponseListener {
+        void onError(String message);
+
+        void onResponseActivity(ArrayList<Activitat> ret);
+
+        void onResponseType(ArrayList<String> ret);
     }
 
 }

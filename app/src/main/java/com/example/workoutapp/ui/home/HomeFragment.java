@@ -10,9 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerview);
 
         updateList(root);
+        updateType(root);
 
         adapter = new ActivityListAdapter(root.getContext(), new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -110,10 +112,15 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(ArrayList<Activitat> ret) {
+            public void onResponseActivity(ArrayList<Activitat> ret) {
                 adapter.setList(ret);
                 Log.d("STATE", ret.get(0).getDate_time());
                 // do things
+            }
+
+            @Override
+            public void onResponseType(ArrayList<String> ret) {
+
             }
 
         });
@@ -137,17 +144,25 @@ public class HomeFragment extends Fragment {
         dialog.setTitle("Advanced Search");
         dialog.setView(inflator);
 
-        final EditText title = (EditText) inflator.findViewById(R.id.advanced_title);
-        final EditText organization = (EditText) inflator.findViewById(R.id.advanced_org);
-        final AutoCompleteTextView sport = (AutoCompleteTextView) inflator.findViewById(R.id.advanced_sport);
+        final EditText title = inflator.findViewById(R.id.advanced_title);
+        final EditText organization = inflator.findViewById(R.id.advanced_org);
+        final Spinner sport = inflator.findViewById(R.id.advanced_sport);
+
+        ArrayList<String> types = adapter.getActivity_id_list();
+        types.add(0, "Any sport");
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, types);
+        sport.setAdapter(stringAdapter);
 
         dialog.setPositiveButton("Search!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String sTitle = title.getText().toString();
                 String sOrg = organization.getText().toString();
-                String sSport = sport.getText().toString();
+                String sSport = sport.getSelectedItem().toString();
+
+                if (sSport.equals("Any sport")) sSport = "";
 
                 adapter.getFilter().filter(transformQueryFormat(sTitle, sOrg, sSport));
+                //searchView.setIconified(true);
             }
         });
 
@@ -156,6 +171,7 @@ public class HomeFragment extends Fragment {
                 searchView.setQuery("", true);
                 searchView.clearFocus();
                 dialog.cancel();
+                //searchView.setIconified(true);
             }
         });
 
@@ -169,4 +185,26 @@ public class HomeFragment extends Fragment {
                 "StartOrganization" + org + "EndOrganization" +
                 "StartSport" + sport + "EndSport";
     }
+
+    private void updateType(View root) {
+        ActivityController dc = new ActivityController(getContext());
+
+        dc.getActivityTypes(new ActivityController.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponseActivity(ArrayList<Activitat> ret) {
+            }
+
+            @Override
+            public void onResponseType(ArrayList<String> ret) {
+                adapter.setActivity_id_list(ret);
+            }
+
+        });
+    }
+
 }

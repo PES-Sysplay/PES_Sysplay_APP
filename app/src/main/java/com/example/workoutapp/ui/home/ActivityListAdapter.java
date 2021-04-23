@@ -58,9 +58,16 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             notifyDataSetChanged();
         }
     };
+    ArrayList<String> activity_id_list;
 
     public ActivityListAdapter(Context ctx, List<Activitat> activitats) {
         this.inflater = LayoutInflater.from(ctx);
+        this.activitats = activitats;
+        activitatsFull = new ArrayList<>(activitats);
+    }
+
+    //for testing purposes
+    public ActivityListAdapter(List<Activitat> activitats) {
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
@@ -87,6 +94,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return activitats.size();
     }
 
+    public List<Activitat> getActivitats() {
+        return activitats;
+    }
+
+    public List<Activitat> getActivitatsFull() {
+        return activitatsFull;
+    }
 
     public Filter getFilter() {
         return exampleFilter;
@@ -112,6 +126,14 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return out;
     }
 
+    public ArrayList<String> getActivity_id_list() {
+        return activity_id_list;
+    }
+
+    public void setActivity_id_list(ArrayList<String> activity_id_list) {
+        this.activity_id_list = activity_id_list;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView organization, activityTitle, dateTime;
         ImageView image;
@@ -131,5 +153,4 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             );
         }
     }
-
 }
