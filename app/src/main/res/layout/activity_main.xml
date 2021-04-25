@@ -12,7 +12,6 @@
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
         android:visibility="visible"
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/colorbotttom"
@@ -29,14 +28,14 @@
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="423dp"
-        android:layout_height="635dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="412dp"
+        android:layout_height="636dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
