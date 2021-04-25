@@ -6,10 +6,10 @@ public class Activitat {
     String photo_url;
     String activity_type_id;
     String date_time;
-    int duration;
-    int preu;
-    int preuSoci;
-    int capacity;
+    float duration;
+    float normal_price;
+    float member_price;
+    float capacity;
     String status;
     String location;
     boolean onlySoci;
@@ -20,15 +20,15 @@ public class Activitat {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, int duration, int preu, int preuSoci, int capacity, String status, String location, boolean onlySoci, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean onlySoci, String organizerName) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
         this.activity_type_id = activity_type_id;
         this.date_time = date_time;
         this.duration = duration;
-        this.preu = preu;
-        this.preuSoci = preuSoci;
+        this.normal_price = normal_price;
+        this.member_price = member_price;
         this.capacity = capacity;
         this.status = status;
         this.location = location;
@@ -37,14 +37,14 @@ public class Activitat {
     }
 
     //constructor with the paramters we will most likely use
-    public Activitat(String name, String description, String photo_url, String date_time, int duration, int preu, int preuSoci, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String date_time, float duration, float normal_price, float member_price, String organizerName) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
         this.date_time = date_time;
         this.duration = duration;
-        this.preu = preu;
-        this.preuSoci = preuSoci;
+        this.normal_price = normal_price;
+        this.member_price = member_price;
         this.organizerName = organizerName;
     }
 
@@ -64,19 +64,19 @@ public class Activitat {
         return date_time;
     }
 
-    public int getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public int getPreu() {
-        return preu;
+    public String getPreu() {
+        return String.valueOf(normal_price);
     }
 
-    public int getPreuSoci() {
-        return preuSoci;
+    public String getPreuSoci() {
+        return String.valueOf(member_price);
     }
 
-    public int getCapacity() {
+    public float getCapacity() {
         return capacity;
     }
 
@@ -100,5 +100,9 @@ public class Activitat {
         //DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
         //return dateTime.format(formatter);
         return date_time;
+    }
+
+    public String getActivity_type_id() {
+        return activity_type_id;
     }
 }
