@@ -7,6 +7,30 @@
     <string name="song_artist">Song Artist</string>
     <string name="song_title">Song Title</string>
     <string name="todo">TODO</string>
+    <string name="welcome">Bienvenido a WorkOut</string>
+    <string name="email">Email</string>
+    <string name="resetpassword">ACTUALIZAR CONTRASEÑA</string>
+    <string name="pwd">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Regístrate</string>
+    <string name="forgetpwd">¿Olvidaste tu contraseña?</string>
+    <string name="pwdconfirm">Confirma tu contraseña</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="settings">Ajustes</string>
+    <string name="changepwd">Cambiar contraseña</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="myevents">Mis eventos</string>
+    <string name="myfavs">Mis favoritos</string>
+    <string name="title_activity_change_password">Change_password</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0</string>
 
     <!-- TODO: Remove or change this placeholder text -->

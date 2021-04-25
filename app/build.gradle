@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.android.support:support-v4:+'
     implementation 'org.apache.commons:commons-lang3:3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
 
 }

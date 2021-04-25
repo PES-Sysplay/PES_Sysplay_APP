@@ -15,6 +15,15 @@
 
     </style>
 
+    <style name="Theme.WorkOut.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.WorkOut.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.WorkOut.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="ActivityDetail" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorControlNormal">@color/white</item>
@@ -34,9 +43,6 @@
         <item name="cornerSizeTopRight">0dp</item>
 
     </style>
-
-
-
 
 
 </resources>
