@@ -1,6 +1,7 @@
 package com.example.workoutapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder> {
+    private static ActivityListAdapter INSTANCE;
     LayoutInflater inflater;
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
@@ -39,10 +42,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
             // handle onClick
 
-            itemView.setOnClickListener(v ->
-                    Toast.makeText(v.getContext(), "Do Something With this Click", Toast.LENGTH_SHORT).show()
-            );
+
         }
+    }
+
+    public static ActivityListAdapter getInstance(Context ctx, List<Activitat> activitats){
+        if (INSTANCE == null) INSTANCE = new ActivityListAdapter(ctx,activitats);
+        return INSTANCE;
     }
     public ActivityListAdapter(Context ctx, List<Activitat> activitats){
         this.inflater = LayoutInflater.from(ctx);
@@ -65,6 +71,20 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         holder.activityTitle.setText(activitats.get(position).getName());
         holder.dateTime.setText(activitats.get(position).getDateTimeString());
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Context context = v.getContext();
+                                            Intent intent = new Intent(context, ScrollingActivity.class);
+                                            intent.putExtra("Position recycler", position);
+                                            context.startActivity(intent);
+
+
+                                        }
+                                    }
+        );
     }
 
     @Override
@@ -77,6 +97,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return exampleFilter;
     }
 
+
+    public List<Activitat> copyInfo(){
+        return activitats;
+    }
     public void setList(List<Activitat> aux){
         activitats = new ArrayList<>(aux);
         activitatsFull  = new ArrayList<>(aux);
