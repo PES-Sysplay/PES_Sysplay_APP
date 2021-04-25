@@ -11,18 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkOut">
+
         <activity
-            android:name=".ui.profile.Change_password"
-            android:label="@string/title_activity_change_password"
-            android:theme="@style/Theme.WorkOut.NoActionBar"
-            android:parentActivityName=".MainActivity">
-            ></activity>
-        <activity
-            android:name=".LoginRegisterActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginRegisterActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -31,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.profile.ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/Theme.WorkOut.NoActionBar"
+            android:parentActivityName=".MainActivity">
+            ></activity>
 
         <meta-data
             android:name="preloaded_fonts"

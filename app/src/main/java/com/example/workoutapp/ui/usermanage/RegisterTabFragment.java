@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
+import com.example.workoutapp.UserSingleton;
 
 public class RegisterTabFragment extends Fragment {
 

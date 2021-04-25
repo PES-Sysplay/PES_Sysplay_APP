@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
-public class Change_password extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

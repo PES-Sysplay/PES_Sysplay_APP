@@ -38,7 +38,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, Change_password.class);
+                Intent intent = new Intent(context, ChangePasswordActivity.class);
                 context.startActivity(intent);
             }
         });

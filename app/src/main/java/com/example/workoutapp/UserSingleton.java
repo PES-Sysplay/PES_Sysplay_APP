@@ -17,7 +17,7 @@ public class UserSingleton {
         this.id = id;
     }
 
-    public static synchronized UserSingleton getInstance(String username, String id, String password,Context context){
+    public static synchronized UserSingleton getInstance(String username, String id, String password, Context context){
         if (instance == null) {
             instance = new UserSingleton(username, id, context);
         }
@@ -32,4 +32,5 @@ public class UserSingleton {
         return username;
     }
 
+    public static UserSingleton getInstance(){ return instance; }
 }

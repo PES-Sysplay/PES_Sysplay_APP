@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 
-public class SecondFragment extends Fragment {
+public class PasswordChangedFragment extends Fragment {
 
     @Override
     public View onCreateView(

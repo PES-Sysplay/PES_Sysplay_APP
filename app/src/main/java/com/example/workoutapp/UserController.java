@@ -166,6 +166,15 @@ public class UserController {
                 }
 
                 @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<String, String>();
+                    UserSingleton us = UserSingleton.getInstance();
+                    String token = us.getId();
+                    header.put("Authorization", "Token "+token);
+                    return header;
+                }
+
+                @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {
                         return requestBody == null ? null : requestBody.getBytes("utf-8");
