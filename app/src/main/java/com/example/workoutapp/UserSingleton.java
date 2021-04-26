@@ -5,19 +5,17 @@ import android.content.Context;
 public class UserSingleton {
 
     private String username;
-    private String id;
-    private String email;
+    private String token_id;
     private static Context ctx;
     private static UserSingleton instance;
 
 
-    //constructor for google sign-up
     public UserSingleton(String username, String id, Context context){
         this.username = username;
-        this.id = id;
+        this.token_id = id;
     }
 
-    public static synchronized UserSingleton getInstance(String username, String id, String password, Context context){
+    public static synchronized UserSingleton setInstance(String username, String id, Context context){
         if (instance == null) {
             instance = new UserSingleton(username, id, context);
         }
@@ -25,7 +23,7 @@ public class UserSingleton {
     }
 
     public String getId() {
-        return id;
+        return token_id;
     }
 
     public String getUsername() {
