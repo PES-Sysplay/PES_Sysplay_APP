@@ -12,6 +12,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -53,9 +54,10 @@ public class UserController {
                     String response_token = null;
                     try {
                         response_token = response.getString("token");
-                        UserSingleton us = UserSingleton.getInstance(userName, response_token, userPassword, ctx);
-                        Log.d("userinfo", us.getId());
-                        Log.d("userinfo", us.getUsername());
+
+                        UserSingleton us = UserSingleton.setInstance(userName, response_token, ctx);
+                        SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+                        pref_ctrl.storePreferences(userName, response_token);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -108,10 +110,11 @@ public class UserController {
                     String response_username = response.getString("username");
                     String response_token = response.getString("token");
 
-                    UserSingleton us = UserSingleton.getInstance(response_username, response_token, userPassword, ctx);
 
-                    Log.d("userinfo", us.getId());
-                    Log.d("userinfo", us.getUsername());
+                    UserSingleton us = UserSingleton.setInstance(response_username, response_token, ctx);
+                    SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+                    pref_ctrl.storePreferences(userName, response_token);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

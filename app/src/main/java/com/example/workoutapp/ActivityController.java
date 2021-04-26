@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ActivityController {
@@ -58,7 +61,22 @@ public class ActivityController {
                         Toast.makeText(ctx, "No s'han trobat activitats", Toast.LENGTH_SHORT).show();
                         vrl.onError("No s'han trobat activitats");
                     }
-                });
+                }) {
+                    @Override
+                    public Map<String,String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    String userToken = UserSingleton.getInstance().getId();
+                    Log.d("", "");
+                    headers.put("Authorization", "Token " + userToken);
+                    return headers;
+                    }
+
+                    @Override
+                    public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                    }
+
+        };
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
 
@@ -93,8 +111,21 @@ public class ActivityController {
                         Toast.makeText(ctx, "No s'han trobat activitats", Toast.LENGTH_SHORT).show();
                         vrl.onError("No s'han trobat activitats");
                     }
-                });
-        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        String userToken = UserSingleton.getInstance().getId();
+                        headers.put("Authorization", "Token " + userToken);
+                        return headers;
+                    }
+
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/json; charset=utf-8";
+                    }
+                };
+            RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
 
     public interface VolleyResponseListener {

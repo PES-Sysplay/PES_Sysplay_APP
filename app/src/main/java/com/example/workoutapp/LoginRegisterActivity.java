@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.workoutapp.ui.usermanage.GoogleManager;
 import com.example.workoutapp.ui.usermanage.LoginRegisterFragmentManager;
+import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -94,5 +95,28 @@ public class LoginRegisterActivity extends AppCompatActivity {
             }
         });
 
+
+        checkUserActual();
+
+    }
+
+    private void checkUserActual() {
+        SharedPreferencesController pref_ctrl = new SharedPreferencesController(LoginRegisterActivity.this);
+
+        String user_act = pref_ctrl.loadUserAct();
+
+        if (!user_act.equals("")){
+            String token;
+            token = pref_ctrl.loadUserToken(user_act);
+
+
+            UserSingleton us = UserSingleton.setInstance(user_act, token,LoginRegisterActivity.this);
+
+            if (!us.getId().equals("") && !us.getUsername().equals("")) {
+                Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }
