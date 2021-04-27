@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
+import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 
 public class ProfileFragment extends Fragment {
 
@@ -42,12 +44,30 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                logOut(context);
+                Intent intent = new Intent(context, LoginRegisterActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    public void logOut(Context ctx){
+        SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+
+        String user_act = pref_ctrl.loadUserAct();
+
+        pref_ctrl.deletePreferences(user_act);
     }
 
 }
