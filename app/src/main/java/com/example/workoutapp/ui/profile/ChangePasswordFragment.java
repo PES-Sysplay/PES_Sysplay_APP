@@ -49,7 +49,17 @@ public class ChangePasswordFragment extends Fragment {
 
             if(isCorrect) {
 
-                userController.changePassword(oldpass, newpass);
+                userController.changePassword(oldpass, newpass, new UserController.VolleyResponseListener(){
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponse(String message) {
+                    Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            });
 
                 NavHostFragment.findNavController(ChangePasswordFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);

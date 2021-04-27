@@ -24,6 +24,17 @@ public class SharedPreferencesController {
         editor.apply();
     }
 
+    public void deletePreferences(String username){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("u_"+username);
+        editor.remove("t_"+username);
+        editor.remove("user_act");
+
+        editor.apply();
+    }
+
     public String loadUserAct(){
 
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
