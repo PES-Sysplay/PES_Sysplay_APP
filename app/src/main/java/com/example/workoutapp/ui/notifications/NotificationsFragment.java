@@ -51,10 +51,12 @@ public class NotificationsFragment extends Fragment {
 
 
             int i = 0;
+
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
                 activity_list = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>()).copyInfo();
+
                 while(i < activity_list.size()){
                     String[] locations = activity_list.get(i).getLocation().split(", ");
                     LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
@@ -62,6 +64,7 @@ public class NotificationsFragment extends Fragment {
 
                     ++i;
                 }
+
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for (Marker marker : markers) {
                     builder.include(marker.getPosition());
@@ -71,16 +74,21 @@ public class NotificationsFragment extends Fragment {
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                 googleMap.moveCamera(cu);
                 googleMap.animateCamera(cu);
+
                 googleMap.setOnMarkerClickListener(marker -> {
                     i = 0;
                     while (i < activity_list.size()) {
+
                         if (marker.equals(markers.get(i))) {
+                            //Log.d("ENTRA AL IFFFF", String.valueOf(i));
+
                             CoordinatorLayout rootlayout = root.findViewById(R.id.coordinatorLayout);
-                            Snackbar snackbar = Snackbar.make(rootlayout, activity_list.get(i).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                            Snackbar snackbar = Snackbar.make(root, activity_list.get(i).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
                                 int j = i;
                                 @Override
                                 public void onClick(View v) {
+
                                     Context context = v.getContext();
                                     Intent intent = new Intent(context, ScrollingActivity.class);
                                     intent.putExtra("Position recycler", j);

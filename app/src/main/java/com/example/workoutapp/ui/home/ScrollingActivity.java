@@ -20,7 +20,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
+    ExtendedFloatingActionButton button;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -100,11 +103,14 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
 
+
+        button = findViewById(R.id.meapunto);
+
     }
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
         activity.setText(activity_list.get(pos).getName());
-        //organization.setText((activity_list.get(pos).getOrganizerName()));
+        organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
 
 
@@ -126,6 +132,19 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         else member_price.setText(activity_list.get(pos).getPreuSoci()+ " €");
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
+        //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
+
+        button.setOnClickListener((View v) -> {
+
+            View parentLayout = findViewById(R.id.activity_detail);
+            Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        });
 
 
     }

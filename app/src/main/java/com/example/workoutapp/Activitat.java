@@ -12,15 +12,15 @@ public class Activitat {
     float capacity;
     String status;
     String location;
-    boolean onlySoci;
-    String organizerName;
+    boolean only_member;
+    String organization;
 
     //empty constructor
     public Activitat() {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean onlySoci, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean only_member, String organization) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -32,12 +32,12 @@ public class Activitat {
         this.capacity = capacity;
         this.status = status;
         this.location = location;
-        this.onlySoci = onlySoci;
-        this.organizerName = organizerName;
+        this.only_member = only_member;
+        this.organization = organization;
     }
 
     //constructor with the paramters we will most likely use
-    public Activitat(String name, String description, String photo_url, String date_time, float duration, float normal_price, float member_price, String organizerName) {
+    public Activitat(String name, String description, String photo_url, String date_time, float duration, float normal_price, float member_price, String organization) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -45,7 +45,7 @@ public class Activitat {
         this.duration = duration;
         this.normal_price = normal_price;
         this.member_price = member_price;
-        this.organizerName = organizerName;
+        this.organization = organization;
     }
 
     public String getName() {
@@ -89,11 +89,11 @@ public class Activitat {
     }
 
     public boolean isOnlySoci() {
-        return onlySoci;
+        return only_member;
     }
 
     public String getOrganizerName() {
-        return organizerName;
+        return organization;
     }
 
     public String getDateTimeString(){
