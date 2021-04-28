@@ -14,9 +14,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserController;
+import com.example.workoutapp.UserSingleton;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 
 public class ProfileFragment extends Fragment {
@@ -30,7 +34,31 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, container, false);
+        TextView username = root.findViewById(R.id.textView);
+        TextView email = root.findViewById(R.id.textView2);
+
+        username.append(UserSingleton.getInstance().getUsername());
+
+        UserController userController = new UserController(getContext());
+        userController.getProfile(new UserController.VolleyResponseListener() {
+            @Override
+        public void onError(String message) {
+            Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onResponse(String message) {
+            email.append(message);
+        }
+    });
+
+
+
+
+        return root;
+
 
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {

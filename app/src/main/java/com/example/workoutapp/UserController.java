@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -183,4 +184,47 @@ public class UserController {
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void getProfile(VolleyResponseListener vrl) {
+        String getProfileURL = URL + "/api/me/";
+        Map<String, String> params = new HashMap<>();
+        final JSONObject[] jsonBody = {new JSONObject(params)};
+        final String[] ret = new String[1];
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getProfileURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ret[0] = response.getString("email");
+                    vrl.onResponse(ret[0]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al obtener datos del perfil");
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
 }
+
