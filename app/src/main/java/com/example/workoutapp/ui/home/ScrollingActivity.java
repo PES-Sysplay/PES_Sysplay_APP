@@ -72,6 +72,15 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int to = getIntent().getExtras().getInt("From");
+                Log.d("IEEPAAA", "okey");
+
+                finish();
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);

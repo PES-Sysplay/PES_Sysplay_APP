@@ -1,19 +1,14 @@
-package com.example.workoutapp.ui.notifications;
+package com.example.workoutapp.ui.maps;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
@@ -36,14 +31,14 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsFragment extends Fragment {
+public class MapFragment extends Fragment {
 
     List<Marker> markers = new ArrayList<>();
     List<Activitat> activity_list = new ArrayList<>();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View root = inflater.inflate(R.layout.fragment_maps, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
 
@@ -83,7 +78,7 @@ public class NotificationsFragment extends Fragment {
                             //Log.d("ENTRA AL IFFFF", String.valueOf(i));
 
                             CoordinatorLayout rootlayout = root.findViewById(R.id.coordinatorLayout);
-                            Snackbar snackbar = Snackbar.make(root, activity_list.get(i).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                            Snackbar snackbar = Snackbar.make(rootlayout, activity_list.get(i).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
                                 int j = i;
                                 @Override
@@ -92,6 +87,7 @@ public class NotificationsFragment extends Fragment {
                                     Context context = v.getContext();
                                     Intent intent = new Intent(context, ScrollingActivity.class);
                                     intent.putExtra("Position recycler", j);
+                                    intent.putExtra("From", "map");
                                     context.startActivity(intent);
                                 }
                             });

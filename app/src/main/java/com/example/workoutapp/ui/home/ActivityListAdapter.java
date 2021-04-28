@@ -103,8 +103,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                                             Context context = v.getContext();
                                             Intent intent = new Intent(context, ScrollingActivity.class);
                                             intent.putExtra("Position recycler", position);
+                                            intent.putExtra("From", "home");
                                             context.startActivity(intent);
-
 
                                         }
                                     }
