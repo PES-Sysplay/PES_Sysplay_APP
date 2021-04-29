@@ -1,6 +1,8 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -8,6 +10,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ui.profile.ChangePasswordActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +38,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +56,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
-    ExtendedFloatingActionButton button;
+    ExtendedFloatingActionButton button, reportButton;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -96,6 +100,15 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
             e.printStackTrace();
         }
 
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ReportActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -112,6 +125,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
 
+        reportButton = findViewById(R.id.reportButton);
 
         button = findViewById(R.id.meapunto);
 

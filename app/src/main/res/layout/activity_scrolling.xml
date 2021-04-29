@@ -24,6 +24,22 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic"
         tools:ignore="RtlCompat" />
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/reportButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:clickable="true"
+        android:shadowColor="#00FFFFFF"
+        android:text="Reportar"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:theme="@style/FloatingButton"
+        android:translationY="-662dp"
+        app:backgroundTint="@color/colorPrimary"
+        tools:ignore="RtlCompat"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -57,6 +73,7 @@
                 app:layout_collapseMode="pin"
                 app:navigationIcon="?attr/homeAsUpIndicator"
                 />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
