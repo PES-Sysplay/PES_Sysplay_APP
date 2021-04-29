@@ -58,6 +58,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 
 
 }
