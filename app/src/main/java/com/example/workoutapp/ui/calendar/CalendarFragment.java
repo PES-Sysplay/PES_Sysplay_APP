@@ -34,6 +34,7 @@ public class CalendarFragment extends Fragment {
     CompactCalendarView calendar;
     RecyclerView activityListView;
     TextView emptyView;
+    TextView monthText;
     CalendarAdapter adapter;
     List<Activitat> activitatsUsuari;
 
@@ -51,6 +52,7 @@ public class CalendarFragment extends Fragment {
         calendar = (CompactCalendarView) root.findViewById(R.id.calendar);
         activityListView = (RecyclerView) root.findViewById(R.id.calendarActivity);
         emptyView = (TextView) root.findViewById(R.id.empty_view);
+        monthText = (TextView) root.findViewById(R.id.month_text);
 
         adapter = CalendarAdapter.getInstance(root.getContext(), new ArrayList<>());
         activityListView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -67,7 +69,8 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                //TODO cambiar (y poner) el texto del mes
+                String a = new SimpleDateFormat("MMMM - yyyy").format(firstDayOfNewMonth);
+                monthText.setText(a);
             }
         });
 
@@ -91,6 +94,9 @@ public class CalendarFragment extends Fragment {
         calendar.setCurrentSelectedDayIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
 
         calendar.setEventIndicatorStyle(CompactCalendarView.SMALL_INDICATOR);
+
+        String a = new SimpleDateFormat("MMMM - yyyy").format(Calendar.getInstance().getTime());
+        monthText.setText(a);
     }
 
     //date tiene la hora 00:00
@@ -147,14 +153,14 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
 
-                /*just testing here, keep scrolling
+                /*
                 Activitat aux = ret.get(0);
                 ret.add(aux);
                 ret.add(aux);
                 ret.add(aux);
                 ret.add(aux);
-                ret.add(aux);*/
-
+                ret.add(aux);
+                */
 
                 activitatsUsuari = ret;
                 setUpEvents();
