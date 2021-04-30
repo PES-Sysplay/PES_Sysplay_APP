@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     int pos;
     ImageView photo;
@@ -55,7 +55,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
     ExtendedFloatingActionButton button;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
-    //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +74,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int to = getIntent().getExtras().getInt("From");
-                Log.d("IEEPAAA", "okey");
-
                 finish();
             }
         });
