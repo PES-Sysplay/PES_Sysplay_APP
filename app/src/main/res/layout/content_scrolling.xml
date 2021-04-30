@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.home.ScrollingActivity"
+    tools:context=".ui.home.ActivityDetail"
     tools:showIn="@layout/activity_scrolling">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -189,18 +189,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
         <fragment
             android:id="@+id/submap"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="157dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="39dp"
             app:layout_constraintBottom_toTopOf="@+id/price_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:context=".ui.home.ScrollingActivity" />
+            tools:context=".ui.home.ActivityDetail" />
 
 
 

@@ -1,8 +1,10 @@
 package com.example.workoutapp.ui.profile;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.example.workoutapp.UserSingleton;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -38,11 +41,15 @@ public class ProfileFragment extends Fragment {
         return new ProfileFragment();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, container, false);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+
         updateList(root);
         return root;
 
