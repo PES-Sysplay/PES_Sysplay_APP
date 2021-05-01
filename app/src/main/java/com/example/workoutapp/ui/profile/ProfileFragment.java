@@ -75,6 +75,15 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.appCompatButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, SettingsActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

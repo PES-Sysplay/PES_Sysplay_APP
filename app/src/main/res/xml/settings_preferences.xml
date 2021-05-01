@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/account_header">
+        <Preference
+            app:title="@string/delete_button"
+            app:key="@string/delete_button"
+        />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/notifications_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_email"></SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
+            app:key="push"
+            app:title="@string/sync_push"></SwitchPreferenceCompat>
+
+        <SwitchPreferenceCompat
+            app:dependency="push"
+            app:key="attachment"
+            app:title="@string/favorite"
+            app:summaryOn="@string/favorite_desc"
+            app:summaryOff="@string/favorite_desc"
+         />
+
+        <SwitchPreferenceCompat
+            app:dependency="push"
+            app:key="attachment"
+            app:title="@string/activity"
+            app:summaryOn="@string/activity_desc"
+            app:summaryOff="@string/activity_desc"
+        />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

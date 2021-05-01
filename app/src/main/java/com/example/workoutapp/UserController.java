@@ -226,5 +226,43 @@ public class UserController {
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void deleteUser(VolleyResponseListener vrl) {
+        String deleteURL = URL + "/api/me/";
+        Map<String, String> params = new HashMap<>();
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, deleteURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("El usuario se ha eliminado correctamente");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("El usuario se ha eliminado correctamente");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
 }
 

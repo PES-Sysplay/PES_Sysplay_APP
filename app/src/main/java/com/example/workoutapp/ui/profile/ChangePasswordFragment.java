@@ -59,7 +59,7 @@ public class ChangePasswordFragment extends Fragment {
                 public void onResponse(String message) {
                     Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
                 }
-            });
+                });
 
                 NavHostFragment.findNavController(ChangePasswordFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
