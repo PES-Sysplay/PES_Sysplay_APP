@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:clickable="true"
-        android:text="¡ME APUNTO!"
+        android:text="@string/join"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:theme="@style/FloatingButton"
         app:backgroundTint="@color/colorPrimary"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:ignore="RtlCompat" />
+        tools:ignore="RtlCompat"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"

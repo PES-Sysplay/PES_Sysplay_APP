@@ -1,6 +1,7 @@
 package com.example.workoutapp;
 
 public class Activitat {
+    Integer id;
     String name;
     String description;
     String photo_url;
@@ -38,6 +39,7 @@ public class Activitat {
 
     //constructor with the paramters we will most likely use
     public Activitat(String name, String description, String photo_url, String date_time, float duration, float normal_price, float member_price, String organization) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -47,6 +49,8 @@ public class Activitat {
         this.member_price = member_price;
         this.organization = organization;
     }
+
+    public Integer getId() { return id; }
 
     public String getName() {
         return name;
