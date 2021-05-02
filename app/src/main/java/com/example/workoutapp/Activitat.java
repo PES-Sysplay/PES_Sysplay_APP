@@ -40,7 +40,7 @@ public class Activitat {
 
     //constructor with the paramters we will most likely use
     public Activitat(String name, String description, String photo_url, String date_time, float duration, float normal_price, float member_price, String organization) {
-        this.id = id;
+        //this.id = id;
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -49,7 +49,7 @@ public class Activitat {
         this.normal_price = normal_price;
         this.member_price = member_price;
         this.organization = organization;
-        this.joined = joined;
+        //this.joined = joined;
     }
 
     public Integer getId() { return id; }
@@ -109,6 +109,9 @@ public class Activitat {
     }
 
     public boolean isJoined() { return joined; }
+
+    public void toggleJoined() { this.joined = !this.joined; }
+
     public String getActivity_type_id() {
         return activity_type_id;
     }

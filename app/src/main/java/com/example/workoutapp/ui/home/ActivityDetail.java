@@ -83,8 +83,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.submap);
         mapFragment.getMapAsync(this);
 
-
-
         init_values();
         activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
         try {
@@ -145,7 +143,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
         if (joined) {
-            //me desapunto button
+            //Botón para desapuntarse
             button.setText("ME DESAPUNTO");
             button.setOnClickListener(v -> {
                 activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
@@ -167,13 +165,14 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseType(ArrayList<String> ret) {
                     }
                 });
-                //finish();
-                //startActivity(getIntent());
-                this.recreate();
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
             });
         }
         else {
-            //me apunto button
+            //Botón para apuntarse
             button.setOnClickListener(v -> {
                 activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
@@ -194,39 +193,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseType(ArrayList<String> ret) {
                     }
                 });
-                //finish();
-                //startActivity(getIntent());
-                this.recreate();
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
             });
         }
         //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
-
-        /*if (activity_client.get(pos).getApuntat()) {
-            //me desapunto button
-            button.setOnClickListener(v -> {
-                View parentLayout = findViewById(R.id.activity_detail);
-                Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                }
-            }
-        }
-        else {
-            //me apunto
-            button.setOnClickListener(v -> {
-                View parentLayout = findViewById(R.id.activity_detail);
-                Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                }
-            }
-        }*/
     }
 
     @Override
