@@ -10,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -127,9 +128,85 @@ public class ActivityController {
                 };
             RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
+    public void joinActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
+        String joinActURL = BASE_URL + "/api/join/";
+        Map<String, Integer> params = new HashMap<>();
+        params.put("activity_id", activityID);
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponseJoinedOrLeft("Te has unido a la actividad");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al unirse a la actividad");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void leftActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
+        String leaveActURL = BASE_URL + "/api/join/"+activityID+"/";
+        Map<String, String> params = new HashMap<>();
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, leaveActURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponseJoinedOrLeft("Te has desapuntado de la actividad");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al desapuntarse de la actividad");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
 
     public interface VolleyResponseListener {
         void onError(String message);
+
+        void onResponseJoinedOrLeft(String message);
 
         void onResponseActivity(ArrayList<Activitat> ret);
 

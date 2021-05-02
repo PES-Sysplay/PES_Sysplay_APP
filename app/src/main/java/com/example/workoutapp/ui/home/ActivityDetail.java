@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.R;
 import com.squareup.picasso.Picasso;
@@ -62,7 +64,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
 
-
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -81,8 +82,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
         mapFragment.getMapAsync(this);
-
-
 
         init_values();
         activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
@@ -107,8 +106,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         member_price = findViewById(R.id.price_text2);
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
-
-
         button = findViewById(R.id.meapunto);
 
     }
@@ -117,42 +114,86 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         activity.setText(activity_list.get(pos).getName());
         organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
-
+        Integer activity_ID = activity_list.get(pos).getId();
+        boolean joined = activity_list.get(pos).isJoined();
+        ActivityController activityController = new ActivityController(this);
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List <Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]),Double.parseDouble(locations[1]), 1);
+        List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
         place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
 
-        if(activity_list.get(pos).getPreu().equals("0.0")) {
+        if (activity_list.get(pos).getPreu().equals("0.0")) {
             price.setText("GRATIS");
-        }
-        else price.setText(activity_list.get(pos).getPreu() + " €");
+        } else price.setText(activity_list.get(pos).getPreu() + " €");
 
 
-        if(activity_list.get(pos).getPreuSoci().equals("0.0")){
+        if (activity_list.get(pos).getPreuSoci().equals("0.0")) {
             member_price.setText("GRATIS");
-        }
-        else member_price.setText(activity_list.get(pos).getPreuSoci()+ " €");
+        } else member_price.setText(activity_list.get(pos).getPreuSoci() + " €");
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
-        //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
-        button.setOnClickListener((View v) -> {
+        if (joined) {
+            //Botón para desapuntarse
+            button.setText("ME DESAPUNTO");
+            button.setOnClickListener(v -> {
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-            View parentLayout = findViewById(R.id.activity_detail);
-            Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-            snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                    @Override
+                    public void onResponseJoinedOrLeft(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-                }
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
             });
-        });
+        }
+        else {
+            //Botón para apuntarse
+            button.setOnClickListener(v -> {
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onResponseJoinedOrLeft(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
+            });
+        }
     }
+    //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
