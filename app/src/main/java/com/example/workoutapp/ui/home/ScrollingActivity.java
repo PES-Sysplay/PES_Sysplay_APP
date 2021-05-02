@@ -35,12 +35,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.R;
 import com.squareup.picasso.Picasso;
@@ -51,12 +56,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
-    ExtendedFloatingActionButton button, reportButton;
+    ExtendedFloatingActionButton button;
+    FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -66,6 +72,16 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
+
+
+        optionsBt = findViewById(R.id.optionsBt);
+
+        optionsBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
 
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
@@ -100,19 +116,41 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
             e.printStackTrace();
         }
 
-        reportButton.setOnClickListener(new View.OnClickListener() {
+        /*reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ReportActivity.class);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
 
     }
 
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.scrolling_options_menu);
+        popup.show();
+    }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reportBt:
+                Intent intent = new Intent(this, ReportActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
+                break;
+            case R.id.reviewBt:
+                break;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+        return true;
+    }
 
     void init_values(){
 
@@ -125,7 +163,7 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
 
-        reportButton = findViewById(R.id.reportButton);
+        //reportButton = findViewById(R.id.reportButton);
 
         button = findViewById(R.id.meapunto);
 

@@ -13,11 +13,14 @@ import com.example.workoutapp.R;
 import java.util.ArrayList;
 
 public class ReportActivity extends AppCompatActivity {
+    int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        pos = getIntent().getIntExtra("Position recycler",0);
 
         Spinner reportSpinner = (Spinner) findViewById(R.id.ReportType);
 

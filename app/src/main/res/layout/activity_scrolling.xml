@@ -10,6 +10,18 @@
     tools:context=".ui.home.ScrollingActivity">
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/optionsBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:onClick="showPopup"
+        android:translationX="330dp"
+        android:translationY="10dp"
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/meapunto"
         android:layout_width="400dp"
@@ -23,22 +35,6 @@
         app:backgroundTint="@color/colorPrimary"
         tools:srcCompat="@tools:sample/backgrounds/scenic"
         tools:ignore="RtlCompat" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/reportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:clickable="true"
-        android:shadowColor="#00FFFFFF"
-        android:text="Reportar"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:theme="@style/FloatingButton"
-        android:translationY="-662dp"
-        app:backgroundTint="@color/colorPrimary"
-        tools:ignore="RtlCompat"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -60,24 +56,36 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="showPopup"
+                android:overScrollMode="always"
+                android:translationX="200dp"
+                app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"/>
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                />
+                app:navigationIcon="?attr/homeAsUpIndicator"></androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_scrolling" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
