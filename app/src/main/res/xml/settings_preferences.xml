@@ -1,37 +1,44 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/account_header">
+    <PreferenceCategory
+        android:layout_width="match_parent"
+        app:title="@string/account_header">
         <Preference
-            app:title="@string/delete_button"
+            android:layout_width="match_parent"
             app:key="@string/delete_button"
-        />
+            app:title="@string/delete_button" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/notifications_header">
+    <PreferenceCategory
+        android:layout_width="match_parent"
+        app:title="@string/notifications_header">
 
         <SwitchPreferenceCompat
+            android:layout_width="match_parent"
             app:key="sync"
             app:title="@string/sync_email"></SwitchPreferenceCompat>
 
         <SwitchPreferenceCompat
+            android:layout_width="match_parent"
             app:key="push"
             app:title="@string/sync_push"></SwitchPreferenceCompat>
 
         <SwitchPreferenceCompat
+            android:layout_width="match_parent"
             app:dependency="push"
             app:key="attachment"
-            app:title="@string/favorite"
-            app:summaryOn="@string/favorite_desc"
             app:summaryOff="@string/favorite_desc"
-         />
+            app:summaryOn="@string/favorite_desc"
+            app:title="@string/favorite" />
 
         <SwitchPreferenceCompat
+            android:layout_width="match_parent"
             app:dependency="push"
             app:key="attachment"
-            app:title="@string/activity"
-            app:summaryOn="@string/activity_desc"
             app:summaryOff="@string/activity_desc"
-        />
+            app:summaryOn="@string/activity_desc"
+            app:title="@string/activity" />
 
     </PreferenceCategory>
 

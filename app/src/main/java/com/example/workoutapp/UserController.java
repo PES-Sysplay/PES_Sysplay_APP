@@ -229,13 +229,12 @@ public class UserController {
 
     public void deleteUser(VolleyResponseListener vrl) {
         String deleteURL = URL + "/api/me/";
-        Map<String, String> params = new HashMap<>();
-        JSONObject jsonBody = new JSONObject(params);
+        JSONObject jsonBody = new JSONObject();
         final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, deleteURL, jsonBody, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteURL, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 Log.i("VOLLEY", response.toString());
                 vrl.onResponse("El usuario se ha eliminado correctamente");
             }
@@ -243,7 +242,7 @@ public class UserController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VOLLEY", error.toString());
-                vrl.onError("El usuario se ha eliminado correctamente");
+                vrl.onError("Error al eliminar el usuario");
             }
         }) {
             @Override
@@ -260,9 +259,19 @@ public class UserController {
                 return "application/json; charset=utf-8";
             }
 
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+
         };
 
-        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+        RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 }
 
