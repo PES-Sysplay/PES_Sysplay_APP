@@ -95,7 +95,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int to = getIntent().getExtras().getInt("From");
                 Log.d("IEEPAAA", "okey");
 
                 finish();
@@ -115,15 +114,6 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*reportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ReportActivity.class);
-                context.startActivity(intent);
-            }
-        });*/
 
 
     }

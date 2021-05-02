@@ -50,7 +50,7 @@
             android:theme="@style/Theme.WorkOut.NoActionBar"></activity>
 
         <activity android:name=".ui.home.ReportActivity"
-            android:parentActivityName=".MainActivity"></activity>
+                android:parentActivityName=".MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -56,16 +56,6 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00FFFFFF"
-                android:onClick="showPopup"
-                android:overScrollMode="always"
-                android:translationX="200dp"
-                app:srcCompat="@drawable/ic_baseline_more_vert_24" />
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
