@@ -129,14 +129,14 @@ public class ActivityController {
             RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
     //activityID sera la primary key de activity
-    public void joinActivity(String activityID, ActivityController.VolleyResponseListener vrl) {
-        String joinActURL = BASE_URL + "/api/joinActivity/";
-        Map<String, String> params = new HashMap<>();
+    public void joinActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
+        String joinActURL = BASE_URL + "/api/join/";
+        Map<String, Integer> params = new HashMap<>();
         params.put("activity_id", activityID);
         JSONObject jsonBody = new JSONObject(params);
         final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("VOLLEY", response.toString());
@@ -164,16 +164,17 @@ public class ActivityController {
             }
 
         };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void leftActivity(String activityID, ActivityController.VolleyResponseListener vrl) {
-        String joinActURL = BASE_URL + "/api/unjoinActivity/";
+    public void leftActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
+        String leaveActURL = BASE_URL + "/api/join/"+activityID+"/";
         Map<String, String> params = new HashMap<>();
-        params.put("activity_id", activityID);
+        //params.put("activity_id", activityID);
         JSONObject jsonBody = new JSONObject(params);
         final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, leaveActURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("VOLLEY", response.toString());
@@ -201,6 +202,7 @@ public class ActivityController {
             }
 
         };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
 
     public interface VolleyResponseListener {

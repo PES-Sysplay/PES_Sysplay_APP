@@ -15,6 +15,7 @@ public class Activitat {
     String location;
     boolean only_member;
     String organization;
+    boolean joined;
 
     //empty constructor
     public Activitat() {
@@ -48,6 +49,7 @@ public class Activitat {
         this.normal_price = normal_price;
         this.member_price = member_price;
         this.organization = organization;
+        this.joined = joined;
     }
 
     public Integer getId() { return id; }
@@ -106,6 +108,7 @@ public class Activitat {
         return date_time;
     }
 
+    public boolean isJoined() { return joined; }
     public String getActivity_type_id() {
         return activity_type_id;
     }

@@ -124,6 +124,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
         Integer activity_ID = activity_list.get(pos).getId();
+        boolean joined = activity_list.get(pos).isJoined();
         ActivityController activityController = new ActivityController(this);
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
@@ -143,20 +144,19 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
-        //if (activity_client.get(pos).getApuntat()) {
-        if (false) {
+        if (joined) {
             //me desapunto button
             button.setText("ME DESAPUNTO");
             button.setOnClickListener(v -> {
-                activityController.leftActivity(activity_ID.toString(), new ActivityController.VolleyResponseListener(){
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(null, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponseJoinedOrLeft(String message) {
-                        Toast.makeText(null, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -167,20 +167,23 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseType(ArrayList<String> ret) {
                     }
                 });
+                //finish();
+                //startActivity(getIntent());
+                this.recreate();
             });
         }
         else {
             //me apunto button
             button.setOnClickListener(v -> {
-                activityController.joinActivity(activity_ID.toString(), new ActivityController.VolleyResponseListener(){
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(null, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponseJoinedOrLeft(String message) {
-                        Toast.makeText(null, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -191,6 +194,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseType(ArrayList<String> ret) {
                     }
                 });
+                //finish();
+                //startActivity(getIntent());
+                this.recreate();
             });
         }
         //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
@@ -221,9 +227,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 }
             }
         }*/
-        button.setOnClickListener(v -> {
-
-        });
     }
 
     @Override
