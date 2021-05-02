@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkOut">
+        <activity android:name=".ui.favorites.ActivityFavorites"></activity>
         <activity
             android:name=".ui.profile.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
