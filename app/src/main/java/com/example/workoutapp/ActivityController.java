@@ -128,7 +128,6 @@ public class ActivityController {
                 };
             RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
-    //activityID sera la primary key de activity
     public void joinActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
         String joinActURL = BASE_URL + "/api/join/";
         Map<String, Integer> params = new HashMap<>();
@@ -170,7 +169,6 @@ public class ActivityController {
     public void leftActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
         String leaveActURL = BASE_URL + "/api/join/"+activityID+"/";
         Map<String, String> params = new HashMap<>();
-        //params.put("activity_id", activityID);
         JSONObject jsonBody = new JSONObject(params);
         final String requestBody = jsonBody.toString();
 

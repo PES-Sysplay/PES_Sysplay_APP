@@ -106,15 +106,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         member_price = findViewById(R.id.price_text2);
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
-
         button = findViewById(R.id.meapunto);
 
-        /*if (activity_client.get(pos).getApuntat()) {
-            button = findViewById(R.id.meapunto);
-        }
-        else {
-            button = findViewById(R.id.medesapunto);
-        }*/
     }
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
@@ -199,8 +192,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 overridePendingTransition(0, 0);
             });
         }
-        //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
     }
+    //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
