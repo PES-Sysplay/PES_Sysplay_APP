@@ -1,6 +1,8 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.ui.profile.ChangePasswordActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,8 +36,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +47,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,20 +63,33 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
     ExtendedFloatingActionButton button;
+    FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
+    //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
+
+
+        optionsBt = findViewById(R.id.optionsBt);
+
+        optionsBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
 
@@ -82,6 +102,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("IEEPAAA", "okey");
+
                 finish();
             }
         });
@@ -90,6 +112,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.submap);
         mapFragment.getMapAsync(this);
 
+
+
         init_values();
         activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
         try {
@@ -97,6 +121,30 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.scrolling_options_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reportBt:
+                Intent intent = new Intent(this, ReportActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
+                break;
+            case R.id.reviewBt:
+                break;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+        return true;
     }
 
     void init_values(){
@@ -109,6 +157,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         member_price = findViewById(R.id.price_text2);
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
+
+
         button = findViewById(R.id.meapunto);
 
     }
