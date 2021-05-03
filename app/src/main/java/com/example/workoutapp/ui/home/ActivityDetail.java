@@ -34,14 +34,21 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.workoutapp.R;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,11 +97,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 
     void init_values(){
 
