@@ -118,10 +118,6 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedOrLeft(String message) {
-            }
-
-            @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
                 adapter.setList(ret);
                 Log.d("STATE", ret.get(0).getDate_time());
@@ -202,10 +198,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onError(String message) {
                 Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponseJoinedOrLeft(String message) {
             }
 
             @Override

@@ -64,7 +64,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
-    ExtendedFloatingActionButton button;
+    ExtendedFloatingActionButton buttonJoin;
+    ExtendedFloatingActionButton buttonLeave;
     FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
@@ -155,8 +156,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
 
-
-        button = findViewById(R.id.meapunto);
+        buttonJoin = findViewById(R.id.meapunto);
+        buttonLeave = findViewById(R.id.medesapunto);
 
     }
     @SuppressLint("SetTextI18n")
@@ -185,62 +186,53 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
+        buttonLeave.setOnClickListener(v -> {
+            buttonJoin.show();
+            activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponseActivity(ArrayList<Activitat> ret) {
+                }
+
+                @Override
+                public void onResponseType(ArrayList<String> ret) {
+                }
+            });
+            activity_list.get(pos).toggleJoined();
+            buttonLeave.hide();
+        });
+
+        buttonJoin.setOnClickListener(v -> {
+            buttonLeave.show();
+            activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponseActivity(ArrayList<Activitat> ret) {
+                }
+
+                @Override
+                public void onResponseType(ArrayList<String> ret) {
+                }
+            });
+            activity_list.get(pos).toggleJoined();
+            buttonJoin.hide();
+        });
+
         if (joined) {
             //Botón para desapuntarse
-            button.setText("ME DESAPUNTO");
-            button.setOnClickListener(v -> {
-                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponseJoinedOrLeft(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponseActivity(ArrayList<Activitat> ret) {
-                    }
-
-                    @Override
-                    public void onResponseType(ArrayList<String> ret) {
-                    }
-                });
-                activity_list.get(pos).toggleJoined();
-                startActivity(getIntent());
-                finish();
-                overridePendingTransition(0, 0);
-            });
+            buttonJoin.hide();
         }
         else {
             //Botón para apuntarse
-            button.setOnClickListener(v -> {
-                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponseJoinedOrLeft(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponseActivity(ArrayList<Activitat> ret) {
-                    }
-
-                    @Override
-                    public void onResponseType(ArrayList<String> ret) {
-                    }
-                });
-                activity_list.get(pos).toggleJoined();
-                startActivity(getIntent());
-                finish();
-                overridePendingTransition(0, 0);
-            });
+            buttonLeave.hide();
         }
     }
     //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
