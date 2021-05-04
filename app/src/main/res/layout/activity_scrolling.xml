@@ -36,19 +36,7 @@
         tools:ignore="RtlCompat"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/medesapunto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:clickable="true"
-        android:text="@string/leave"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:theme="@style/FloatingButton"
-        app:backgroundTint="@color/colorPrimary"
-        tools:ignore="RtlCompat"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
