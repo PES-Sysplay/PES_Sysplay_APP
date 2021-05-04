@@ -16,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -77,7 +78,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("IEEPAAA", "okey");
 
                 finish();
             }
@@ -307,6 +307,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
+        mMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         List<Marker> markers = new ArrayList<>();
         String[] locations = activity_list.get(pos).getLocation().split(", ");
 
