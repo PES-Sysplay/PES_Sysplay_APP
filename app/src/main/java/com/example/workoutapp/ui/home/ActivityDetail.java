@@ -56,6 +56,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     ExtendedFloatingActionButton button;
     Boolean favorite;
     MenuItem favBtn, unfavBtn;
+    ExtendedFloatingActionButton buttonJoin;
+    ExtendedFloatingActionButton buttonLeave;
+    FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -214,8 +217,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description = findViewById(R.id.description_text);
         photo = findViewById(R.id.imageView);
 
-
-        button = findViewById(R.id.meapunto);
+        buttonJoin = findViewById(R.id.meapunto);
 
     }
     @SuppressLint("SetTextI18n")
@@ -244,38 +246,16 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
-        if (joined) {
-            //Botón para desapuntarse
-            button.setText("ME DESAPUNTO");
-            button.setOnClickListener(v -> {
-                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onResponseJoinedOrLeft(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponseActivity(ArrayList<Activitat> ret) {
-                    }
-
-                    @Override
-                    public void onResponseType(ArrayList<String> ret) {
-                    }
-                });
-                activity_list.get(pos).toggleJoined();
-                startActivity(getIntent());
-                finish();
-                overridePendingTransition(0, 0);
-            });
+        if(!activity_list.get(pos).isJoined()) {
+            buttonJoin.setText("¡ME APUNTO!");
         }
-        else {
-            //Botón para apuntarse
-            button.setOnClickListener(v -> {
+        else{
+            buttonJoin.setText("ME DESAPUNTO");
+        }
+
+        buttonJoin.setOnClickListener(v -> {
+            if(buttonJoin.getText().equals("¡ME APUNTO!")){
                 activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
                     public void onError(String message) {
@@ -283,7 +263,21 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponseJoinedOrLeft(String message) {
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                buttonJoin.setText("ME DESAPUNTO");
+
+            }
+            else {
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
                         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
@@ -296,11 +290,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
                 });
                 activity_list.get(pos).toggleJoined();
-                startActivity(getIntent());
-                finish();
-                overridePendingTransition(0, 0);
-            });
-        }
+                buttonJoin.setText("¡ME APUNTO!");
+            }
+
+        });
+
     }
     //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 

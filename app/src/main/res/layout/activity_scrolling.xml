@@ -13,7 +13,7 @@
         android:id="@+id/meapunto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_gravity="bottom|end"
         android:clickable="true"
         android:text="@string/join"
         android:textAlignment="center"
@@ -22,6 +22,8 @@
         app:backgroundTint="@color/colorPrimary"
         tools:ignore="RtlCompat"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"

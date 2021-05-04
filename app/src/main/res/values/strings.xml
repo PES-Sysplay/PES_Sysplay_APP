@@ -23,7 +23,7 @@
     <string name="myfavs">Mis favoritos</string>
     <string name="title_activity_change_password">Change_password</string>
     <string name="join">¡ME APUNTO!</string>
-    <string name="unjoin">ME DESAPUNTO</string>
+    <string name="leave">ME DESAPUNTO</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -142,4 +142,5 @@
     <string name="activity">Alertas de mis actividades</string>
     <string name="activity_desc">Notificar cuando queden menos de 24h para que se realice un evento al que estoy apuntado</string>
     <string name="title_activity_settings">Ajustes</string>
+    <string name="month_name">Month name</string>
 </resources>
