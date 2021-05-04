@@ -17,6 +17,8 @@ import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
 
+import java.util.ArrayList;
+
 public class LoginTabFragment extends Fragment {
 
     AppCompatButton login_bt;
@@ -55,6 +57,11 @@ public class LoginTabFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
                 }
             });
         });

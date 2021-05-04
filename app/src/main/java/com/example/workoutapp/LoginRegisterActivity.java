@@ -14,6 +14,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 public class LoginRegisterActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
@@ -76,6 +78,11 @@ public class LoginRegisterActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
+                    }
                 });
 
             } else if (screen == 1) {
@@ -90,6 +97,11 @@ public class LoginRegisterActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+                    }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
                     }
                 });
             }

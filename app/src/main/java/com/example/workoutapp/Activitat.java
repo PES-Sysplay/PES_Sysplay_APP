@@ -17,6 +17,7 @@ public class Activitat {
     String organization;
     Long timestamp; //in seconds
     boolean joined;
+    boolean favorite;
 
     //empty constructor
     public Activitat() {
@@ -115,6 +116,10 @@ public class Activitat {
     public boolean isJoined() { return joined; }
 
     public void toggleJoined() { this.joined = !this.joined; }
+
+    public boolean isFavorite() { return favorite; }
+
+    public void toggleFavorite() { this.favorite = !this.favorite; }
 
     public String getActivity_type_id() {
         return activity_type_id;
