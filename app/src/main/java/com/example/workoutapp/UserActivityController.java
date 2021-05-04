@@ -27,8 +27,8 @@ import java.util.Map;
 public class UserActivityController {
 
     public static final String URL = "https://dev-pes-workout.herokuapp.com";
-
     Context ctx;
+
 
     public UserActivityController(Context context) {
         this.ctx = context;
@@ -43,7 +43,7 @@ public class UserActivityController {
     }
 
     public void favorite(Integer activityId, UserActivityController.VolleyResponseListener vrl) {
-        String favURL = URL + "/api/favorite";
+        String favURL = URL + "/api/favorite/";
         Map<String, Integer> params = new HashMap<>();
         params.put("activity_id", activityId);
         JSONObject jsonBody = new JSONObject(params);
@@ -53,7 +53,7 @@ public class UserActivityController {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("VOLLEY", response.toString());
-                vrl.onResponse("Fav correct");
+                vrl.onResponse("correct fav");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -97,7 +97,7 @@ public class UserActivityController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al dejar de tener en favoritos la actividad");
+                vrl.onError("Error al dejar de tener en favoritos");
             }
         }) {
             @Override

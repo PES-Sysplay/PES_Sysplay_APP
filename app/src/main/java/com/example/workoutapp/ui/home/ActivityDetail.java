@@ -1,53 +1,38 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
-import com.example.workoutapp.ui.profile.ChangePasswordActivity;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.workoutapp.MainActivity;
+import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.UserController;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +46,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
@@ -69,7 +53,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
     ExtendedFloatingActionButton button;
-    FloatingActionButton optionsBt;
+    Boolean favorite;
+    MenuItem favBtn, unfavBtn;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -79,17 +64,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
-
-
-        optionsBt = findViewById(R.id.optionsBt);
-
-        optionsBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopup(v);
-            }
-        });
-
+        invalidateOptionsMenu();
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
 
@@ -121,6 +96,87 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NotNull Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_details_menu, menu);
+        favBtn = menu.findItem(R.id.action_fav);
+        unfavBtn = menu.findItem(R.id.action_unfav);
+        favorite =  activity_list.get(pos).isFavorite();
+
+        if(!favorite){
+            favBtn.setVisible(true);
+            unfavBtn.setVisible(false);
+        }
+        else{
+            favBtn.setVisible(false);
+            unfavBtn.setVisible(true);
+        }
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        UserActivityController uaController = new UserActivityController(this);
+        Integer activityID = activity_list.get(pos).getId();
+
+        switch (item.getItemId()){
+            case R.id.action_fav:
+                uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                });
+                activity_list.get(pos).toggleFavorite();
+                item.setVisible(false);
+                unfavBtn.setVisible(true);
+                return true;
+
+            case R.id.action_unfav:
+                uaController.unfavorite(activityID, new UserActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                });
+                activity_list.get(pos).toggleFavorite();
+                item.setVisible(false);
+                favBtn.setVisible(true);
+                return true;
+
+            case R.id.action_more:
+                showPopup(findViewById(R.id.action_more));
+                return true;
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public void showPopup(View v) {
