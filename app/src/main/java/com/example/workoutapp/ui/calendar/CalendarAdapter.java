@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.ui.calendar.CalendarAdapter;
-import com.example.workoutapp.ui.home.ScrollingActivity;
+import com.example.workoutapp.ui.home.ActivityDetail;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                                                @Override
                                                public void onClick(View v) {
                                                    Context context = v.getContext();
-                                                   Intent intent = new Intent(context, ScrollingActivity.class);
+                                                   Intent intent = new Intent(context, ActivityDetail.class);
                                                    intent.putExtra("Position recycler", position);
                                                    context.startActivity(intent);
 
