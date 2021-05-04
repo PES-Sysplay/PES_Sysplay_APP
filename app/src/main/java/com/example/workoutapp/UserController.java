@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,62 +145,133 @@ public class UserController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void changePassword(String userOldPassword, String userNewPassword) {
-        try {
-            String changePassURL = URL + "/api/change_password/";
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("oldPassword", userOldPassword);
-            jsonBody.put("newPassword", userNewPassword);
-            final String requestBody = jsonBody.toString();
+    public void changePassword(String userOldPassword, String userNewPassword, VolleyResponseListener vrl) {
+        String changePassURL = URL + "/api/change_password/";
+        Map<String, String> params = new HashMap<>();
+        params.put("old_password", userOldPassword);
+        params.put("new_password", userNewPassword);
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
 
-            StringRequest stringRequest = new StringRequest(Request.Method.PUT, changePassURL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i("VOLLEY", response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, changePassURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("Contraseña correctamente cambiada");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al cambiar la contraseña");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> header = new HashMap<String, String>();
-                    UserSingleton us = UserSingleton.getInstance();
-                    String token = us.getId();
-                    header.put("Authorization", "Token "+token);
-                    return header;
-                }
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
 
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    try {
-                        return requestBody == null ? null : requestBody.getBytes("utf-8");
-                    } catch (UnsupportedEncodingException uee) {
-                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                        return null;
-                    }
-                }
+        };
 
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-                        responseString = String.valueOf(response.statusCode);
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
-            };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
 
-            RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void getProfile(VolleyResponseListener vrl) {
+        String getProfileURL = URL + "/api/me/";
+        Map<String, String> params = new HashMap<>();
+        final JSONObject[] jsonBody = {new JSONObject(params)};
+        final String[] ret = new String[1];
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getProfileURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ret[0] = response.getString("email");
+                    vrl.onResponse(ret[0]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al obtener datos del perfil");
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void deleteUser(VolleyResponseListener vrl) {
+        String deleteURL = URL + "/api/me/";
+        JSONObject jsonBody = new JSONObject();
+        final String requestBody = jsonBody.toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("El usuario se ha eliminado correctamente");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al eliminar el usuario");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 }
+

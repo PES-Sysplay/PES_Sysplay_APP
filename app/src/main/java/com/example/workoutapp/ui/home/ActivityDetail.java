@@ -1,6 +1,8 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -8,6 +10,8 @@ import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.ui.profile.ChangePasswordActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,11 +36,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.R;
 import com.squareup.picasso.Picasso;
@@ -47,12 +58,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
     ExtendedFloatingActionButton button;
+    FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -64,6 +76,16 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         pos = getIntent().getIntExtra("Position recycler",0);
 
 
+        optionsBt = findViewById(R.id.optionsBt);
+
+        optionsBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
+
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -72,6 +94,14 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("IEEPAAA", "okey");
+
+                finish();
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
@@ -90,7 +120,29 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.scrolling_options_menu);
+        popup.show();
+    }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reportBt:
+                Intent intent = new Intent(this, ReportActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
+                break;
+            case R.id.reviewBt:
+                break;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+        return true;
+    }
 
     void init_values(){
 
@@ -112,42 +164,86 @@ public class ScrollingActivity extends AppCompatActivity implements OnMapReadyCa
         activity.setText(activity_list.get(pos).getName());
         organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
-
+        Integer activity_ID = activity_list.get(pos).getId();
+        boolean joined = activity_list.get(pos).isJoined();
+        ActivityController activityController = new ActivityController(this);
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List <Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]),Double.parseDouble(locations[1]), 1);
+        List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
         place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
 
-        if(activity_list.get(pos).getPreu().equals("0.0")) {
+        if (activity_list.get(pos).getPreu().equals("0.0")) {
             price.setText("GRATIS");
-        }
-        else price.setText(activity_list.get(pos).getPreu() + " €");
+        } else price.setText(activity_list.get(pos).getPreu() + " €");
 
 
-        if(activity_list.get(pos).getPreuSoci().equals("0.0")){
+        if (activity_list.get(pos).getPreuSoci().equals("0.0")) {
             member_price.setText("GRATIS");
-        }
-        else member_price.setText(activity_list.get(pos).getPreuSoci()+ " €");
+        } else member_price.setText(activity_list.get(pos).getPreuSoci() + " €");
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
-        //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
-        button.setOnClickListener((View v) -> {
+        if (joined) {
+            //Botón para desapuntarse
+            button.setText("ME DESAPUNTO");
+            button.setOnClickListener(v -> {
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-            View parentLayout = findViewById(R.id.activity_detail);
-            Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-            snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                    @Override
+                    public void onResponseJoinedOrLeft(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-                }
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
             });
-        });
+        }
+        else {
+            //Botón para apuntarse
+            button.setOnClickListener(v -> {
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onResponseJoinedOrLeft(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                startActivity(getIntent());
+                finish();
+                overridePendingTransition(0, 0);
+            });
+        }
     }
+    //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

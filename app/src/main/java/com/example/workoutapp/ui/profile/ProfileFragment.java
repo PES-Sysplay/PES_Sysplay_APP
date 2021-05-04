@@ -1,7 +1,10 @@
 package com.example.workoutapp.ui.profile;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +14,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
+import com.example.workoutapp.User;
+import com.example.workoutapp.UserController;
+import com.example.workoutapp.UserSingleton;
+import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -25,10 +41,17 @@ public class ProfileFragment extends Fragment {
         return new ProfileFragment();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, container, false);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+
+        updateList(root);
+        return root;
 
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -42,12 +65,59 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                logOut(context);
+                Intent intent = new Intent(context, LoginRegisterActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.appCompatButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, SettingsActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    private void updateList(View root) {
+        TextView username = root.findViewById(R.id.textView);
+        TextView email = root.findViewById(R.id.textView2);
+
+        username.append(UserSingleton.getInstance().getUsername());
+        String test = UserSingleton.getInstance().getUsername();
+        UserController userController = new UserController(getContext());
+        userController.getProfile(new UserController.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String message) {
+                email.append(message);
+            }
+        });
+    }
+
+    public void logOut(Context ctx){
+        SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+
+        String user_act = pref_ctrl.loadUserAct();
+
+        pref_ctrl.deletePreferences(user_act);
     }
 
 }

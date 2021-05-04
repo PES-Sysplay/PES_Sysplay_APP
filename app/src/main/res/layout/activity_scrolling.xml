@@ -7,22 +7,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     app:contentScrim="?attr/colorPrimary"
-    tools:context=".ui.home.ScrollingActivity">
+    tools:context=".ui.home.ActivityDetail">
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/optionsBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:onClick="showPopup"
+        android:translationX="330dp"
+        android:translationY="10dp"
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/meapunto"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:clickable="true"
-        android:text="¡ME APUNTO!"
+        android:text="@string/join"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:theme="@style/FloatingButton"
         app:backgroundTint="@color/colorPrimary"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:ignore="RtlCompat" />
+        tools:ignore="RtlCompat"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -50,16 +62,20 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"/>
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
                 app:layout_collapseMode="pin"
-                />
+                app:navigationIcon="?attr/homeAsUpIndicator"></androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_scrolling" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

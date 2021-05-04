@@ -101,10 +101,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                                         @Override
                                         public void onClick(View v) {
                                             Context context = v.getContext();
-                                            Intent intent = new Intent(context, ScrollingActivity.class);
+                                            Intent intent = new Intent(context, ActivityDetail.class);
                                             intent.putExtra("Position recycler", position);
+                                            intent.putExtra("From", "home");
                                             context.startActivity(intent);
-
 
                                         }
                                     }

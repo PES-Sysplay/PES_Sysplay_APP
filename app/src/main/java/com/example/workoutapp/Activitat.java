@@ -1,6 +1,7 @@
 package com.example.workoutapp;
 
 public class Activitat {
+    Integer id;
     String name;
     String description;
     String photo_url;
@@ -15,6 +16,7 @@ public class Activitat {
     boolean only_member;
     String organization;
     Long timestamp; //in seconds
+    boolean joined;
 
     //empty constructor
     public Activitat() {
@@ -49,6 +51,8 @@ public class Activitat {
         this.member_price = member_price;
         this.organization = organization;
     }
+
+    public Integer getId() { return id; }
 
     public String getName() {
         return name;
@@ -107,6 +111,10 @@ public class Activitat {
         //return dateTime.format(formatter);
         return date_time;
     }
+
+    public boolean isJoined() { return joined; }
+
+    public void toggleJoined() { this.joined = !this.joined; }
 
     public String getActivity_type_id() {
         return activity_type_id;
