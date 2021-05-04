@@ -15,6 +15,7 @@ public class Activitat {
     String location;
     boolean only_member;
     String organization;
+    Long timestamp; //in seconds
     boolean joined;
 
     //empty constructor
@@ -22,7 +23,7 @@ public class Activitat {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean only_member, String organization) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean only_member, String organization, Long timestamp) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -36,6 +37,7 @@ public class Activitat {
         this.location = location;
         this.only_member = only_member;
         this.organization = organization;
+        this.timestamp = timestamp;
     }
 
     //constructor with the paramters we will most likely use
@@ -98,6 +100,10 @@ public class Activitat {
 
     public String getOrganizerName() {
         return organization;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     public String getDateTimeString(){

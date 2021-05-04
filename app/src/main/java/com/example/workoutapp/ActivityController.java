@@ -38,7 +38,7 @@ public class ActivityController {
 
     public void getActivitats(VolleyResponseListener vrl) {
         String url = BASE_URL + "/api/activity";
-        ArrayList<Activitat> ret = new ArrayList<Activitat>();
+        ArrayList<Activitat> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -67,27 +67,27 @@ public class ActivityController {
                         vrl.onError("No s'han trobat activitats");
                     }
                 }) {
-                    @Override
-                    public Map<String,String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    String userToken = UserSingleton.getInstance().getId();
-                    Log.d("", "");
-                    headers.put("Authorization", "Token " + userToken);
-                    return headers;
-                    }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
 
-                    @Override
-                    public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                    }
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
 
         };
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
 
     public void getActivityTypes(VolleyResponseListener vrl) {
-        //String url = BASE_URL + "/api/activitytype";
-        String url = "https://dev-pes-workout.herokuapp.com/api/activitytype"; //TODO quitar esto cuando hagamos el merge a master
+        String url = BASE_URL + "/api/activitytype";
+        //String url = "https://dev-pes-workout.herokuapp.com/api/activitytype";
         ArrayList<String> ret = new ArrayList<String>();
 
         JsonArrayRequest req = new JsonArrayRequest
@@ -100,7 +100,6 @@ public class ActivityController {
                             try {
                                 JSONObject jsonact = response.getJSONObject(i);
                                 String aux = jsonact.getString("name");
-                                Log.d("EY", aux);
                                 ret.add(aux);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -117,20 +116,20 @@ public class ActivityController {
                         vrl.onError("No s'han trobat activitats");
                     }
                 }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<>();
-                        String userToken = UserSingleton.getInstance().getId();
-                        headers.put("Authorization", "Token " + userToken);
-                        return headers;
-                    }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
 
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8";
-                    }
-                };
-            RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
     public void joinActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
         String joinActURL = BASE_URL + "/api/join/";

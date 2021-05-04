@@ -27,6 +27,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     LayoutInflater inflater;
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
+
     private final Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -139,7 +140,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     }
 
     //Traduce la query del filtro y devuelve los parametros nombre, organizacion y nombre de deporte
-    //POST: Lista con elem0: nombre, elem1: organizacion, elem2: nombre del deporte (no codigo)
+    //POST: Lista con elem0: nombre, elem1: organizacion, elem2: nombre del deporte
     private List<String> getQueryParameters(String query) {
         List<String> out = new ArrayList<>();
         out.add(StringUtils.substringBetween(query, "StartTitle", "EndTitle"));
@@ -159,7 +160,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         this.activity_id_list = activity_id_list;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView organization, activityTitle, dateTime;
         ImageView image;
 
