@@ -53,7 +53,6 @@ public class UserActivityController {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("VOLLEY", response.toString());
-                vrl.onResponse("correct fav");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -91,7 +90,6 @@ public class UserActivityController {
             @Override
             public void onResponse(String response) {
                 Log.i("VOLLEY", response.toString());
-                vrl.onResponse("unfav correct");
             }
         }, new Response.ErrorListener() {
             @Override
