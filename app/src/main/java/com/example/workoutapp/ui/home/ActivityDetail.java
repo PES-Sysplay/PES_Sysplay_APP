@@ -157,7 +157,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         photo = findViewById(R.id.imageView);
 
         buttonJoin = findViewById(R.id.meapunto);
-        buttonLeave = findViewById(R.id.medesapunto);
 
     }
     @SuppressLint("SetTextI18n")
@@ -186,54 +185,55 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
-        buttonLeave.setOnClickListener(v -> {
-            buttonJoin.show();
-            activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                }
 
-                @Override
-                public void onResponseActivity(ArrayList<Activitat> ret) {
-                }
-
-                @Override
-                public void onResponseType(ArrayList<String> ret) {
-                }
-            });
-            activity_list.get(pos).toggleJoined();
-            buttonLeave.hide();
-        });
+        if(!activity_list.get(pos).isJoined()) {
+            buttonJoin.setText("¡ME APUNTO!");
+        }
+        else{
+            buttonJoin.setText("ME DESAPUNTO");
+        }
 
         buttonJoin.setOnClickListener(v -> {
-            buttonLeave.show();
-            activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                }
+            if(buttonJoin.getText().equals("¡ME APUNTO!")){
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void onResponseActivity(ArrayList<Activitat> ret) {
-                }
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
 
-                @Override
-                public void onResponseType(ArrayList<String> ret) {
-                }
-            });
-            activity_list.get(pos).toggleJoined();
-            buttonJoin.hide();
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                buttonJoin.setText("ME DESAPUNTO");
+
+            }
+            else {
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+                });
+                activity_list.get(pos).toggleJoined();
+                buttonJoin.setText("¡ME APUNTO!");
+            }
+
         });
 
-        if (joined) {
-            //Botón para desapuntarse
-            buttonJoin.hide();
-        }
-        else {
-            //Botón para apuntarse
-            buttonLeave.hide();
-        }
     }
     //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
