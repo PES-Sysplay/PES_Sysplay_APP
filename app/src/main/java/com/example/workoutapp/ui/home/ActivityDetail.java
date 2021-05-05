@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -53,12 +54,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos;
     ImageView photo;
     TextView activity,organization, time, place,price, member_price,description;
-    ExtendedFloatingActionButton button;
-    Boolean favorite;
-    MenuItem favBtn, unfavBtn;
+    Boolean favorite, is_old;
+    MenuItem favBtn, unfavBtn, moreBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
-    FloatingActionButton optionsBt;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
     //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
@@ -107,7 +106,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         inflater.inflate(R.menu.toolbar_details_menu, menu);
         favBtn = menu.findItem(R.id.action_fav);
         unfavBtn = menu.findItem(R.id.action_unfav);
+        moreBtn = menu.findItem(R.id.action_more);
         favorite =  activity_list.get(pos).isFavorite();
+        is_old = activity_list.get(pos).isOld();
+
 
         if(!favorite){
             favBtn.setVisible(true);
@@ -117,8 +119,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             favBtn.setVisible(false);
             unfavBtn.setVisible(true);
         }
+
+        if(!is_old) {
+            moreBtn.setVisible(false);
+        }
+        else {
+            moreBtn.setVisible(true);
+        }
+
+
         return true;
     }
+
+
+
 
     public boolean onOptionsItemSelected(MenuItem item){
         UserActivityController uaController = new UserActivityController(this);
@@ -186,6 +200,17 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
         popup.inflate(R.menu.scrolling_options_menu);
+
+        MenuItem reportBt = popup.getMenu().findItem(R.id.reportBt);
+
+        if (activity_list.get(pos).isReported()) {
+            reportBt.setVisible(false);
+        }
+
+        else {
+            reportBt.setVisible(true);
+        }
+
         popup.show();
     }
 

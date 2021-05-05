@@ -18,6 +18,8 @@ public class Activitat {
     Long timestamp; //in seconds
     boolean joined;
     boolean favorite;
+    boolean checked_in;
+    boolean reported;
 
     //empty constructor
     public Activitat() {
@@ -121,7 +123,13 @@ public class Activitat {
 
     public void toggleFavorite() { this.favorite = !this.favorite; }
 
+    public void toggleReported() { this.reported = !this.reported; }
+
+    public boolean isReported() { return reported; }
+
     public String getActivity_type_id() {
         return activity_type_id;
     }
+
+    public boolean isOld() { return timestamp*1000L<System.currentTimeMillis(); }
 }
