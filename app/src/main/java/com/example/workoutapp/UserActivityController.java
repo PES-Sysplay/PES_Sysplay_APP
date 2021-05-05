@@ -175,4 +175,46 @@ public class UserActivityController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
 
+    public void sendReport(Integer activityID, String comment, UserActivityController.VolleyResponseListener vrl) {
+        String reportURL = URL + "/api/report/";
+        Map<String, String> params = new HashMap<>();
+        params.put("activity_id", activityID.toString());
+        params.put("comment", comment);
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reportURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("Reporte enviado");
+            }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                    vrl.onError("Error al enviar el reporte");
+                }
+            }) {
+                @Override
+                public Map<String,String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    String userToken = UserSingleton.getInstance().getId();
+                    Log.d("", "");
+                    headers.put("Authorization", "Token " + userToken);
+                    return headers;
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+            };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+
+    }
+
 }
