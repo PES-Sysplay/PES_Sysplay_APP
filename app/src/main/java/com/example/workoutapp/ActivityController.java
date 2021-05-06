@@ -141,8 +141,8 @@ public class ActivityController {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponseJoinedOrLeft("Te has unido a la actividad");
+                //Log.i("VOLLEY", response.toString());
+                //vrl.onResponseJoinedOrLeft("Te has unido a la actividad");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -177,8 +177,8 @@ public class ActivityController {
         StringRequest request = new StringRequest(Request.Method.DELETE, leaveActURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponseJoinedOrLeft("Te has desapuntado de la actividad");
+                //Log.i("VOLLEY", response.toString());
+                //vrl.onResponseJoinedOrLeft("Te has desapuntado de la actividad");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -210,8 +210,6 @@ public class ActivityController {
 
     public interface VolleyResponseListener {
         void onError(String message);
-
-        void onResponseJoinedOrLeft(String message);
 
         void onResponseActivity(ArrayList<Activitat> ret);
 

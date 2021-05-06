@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -20,13 +21,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserController;
+import com.example.workoutapp.ui.profile.ChangePasswordFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +44,9 @@ public class HomeFragment extends Fragment {
     private ActivityListAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
+    private LayoutInflater privInflater;
+    private ViewGroup privContainer;
+    private Bundle privInstanceState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        privInflater = inflater;
+        privContainer = container;
+        privInstanceState = savedInstanceState;
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerview);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
@@ -118,10 +129,6 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedOrLeft(String message) {
-            }
-
-            @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
                 adapter.setList(ret);
                 Log.d("STATE", ret.get(0).getDate_time());
@@ -133,6 +140,12 @@ public class HomeFragment extends Fragment {
             }
 
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        onCreateView(privInflater, privContainer, privInstanceState);
     }
 
     @Override
@@ -202,10 +215,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onError(String message) {
                 Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponseJoinedOrLeft(String message) {
             }
 
             @Override

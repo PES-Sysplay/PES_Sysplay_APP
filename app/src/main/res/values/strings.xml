@@ -23,7 +23,7 @@
     <string name="myfavs">Mis favoritos</string>
     <string name="title_activity_change_password">Change_password</string>
     <string name="join">¡ME APUNTO!</string>
-    <string name="unjoin">ME DESAPUNTO</string>
+    <string name="leave">ME DESAPUNTO</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

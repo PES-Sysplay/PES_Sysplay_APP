@@ -18,6 +18,8 @@ import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
 import com.example.workoutapp.UserSingleton;
 
+import java.util.ArrayList;
+
 public class RegisterTabFragment extends Fragment {
 
     AppCompatButton register_bt;
@@ -63,6 +65,11 @@ public class RegisterTabFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
                         getActivity().finish();
+                    }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
                     }
                 });
             }

@@ -19,6 +19,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import java.util.ArrayList;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -35,14 +37,23 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
@@ -73,6 +84,11 @@ public class SettingsActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(String message) {
                                             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onResponseProfile(ArrayList<String> ret) {
+
                                         }
                                     });
                                     ProfileFragment pf = new ProfileFragment();

@@ -9,24 +9,11 @@
     app:contentScrim="?attr/colorPrimary"
     tools:context=".ui.home.ActivityDetail">
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/optionsBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:clickable="true"
-        android:onClick="showPopup"
-        android:translationX="330dp"
-        android:translationY="10dp"
-        app:backgroundTint="#FFFFFF"
-        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/meapunto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_gravity="bottom|end"
         android:clickable="true"
         android:text="@string/join"
         android:textAlignment="center"
@@ -35,6 +22,8 @@
         app:backgroundTint="@color/colorPrimary"
         tools:ignore="RtlCompat"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
