@@ -151,16 +151,21 @@ public class CalendarFragment extends Fragment {
             }
 
             @Override
+            public void onResponseJoinedOrLeft(String message) {
+
+            }
+
+            @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
 
-                /*
+
                 Activitat aux = ret.get(0);
                 ret.add(aux);
                 ret.add(aux);
                 ret.add(aux);
                 ret.add(aux);
                 ret.add(aux);
-                */
+
 
                 activitatsUsuari = ret;
                 setUpEvents();
