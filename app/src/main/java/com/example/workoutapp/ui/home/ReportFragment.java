@@ -97,6 +97,11 @@ public class ReportFragment extends Fragment {
                         public void onResponseFavorites(ArrayList<Activitat> ret) {
 
                         }
+
+                        @Override
+                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                        }
                     });
 
                 }

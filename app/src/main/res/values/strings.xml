@@ -143,4 +143,5 @@
     <string name="activity_desc">Notificar cuando queden menos de 24h para que se realice un evento al que estoy apuntado</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="month_name">Month name</string>
+    <string name="no_tienes_ninguna_actividad">No tienes ninguna actividad</string>
 </resources>

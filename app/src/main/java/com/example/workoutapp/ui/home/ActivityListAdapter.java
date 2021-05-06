@@ -139,6 +139,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
                 });
                 activitats.get(position).toggleFavorite();
                 holder.favBtn.setVisibility(View.GONE);
@@ -163,6 +167,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
 
                 });
                 activitats.get(position).toggleFavorite();
