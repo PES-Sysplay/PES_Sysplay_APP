@@ -150,7 +150,6 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="22dp"
-            android:autoSizeTextType="uniform"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="18sp"
@@ -162,23 +161,18 @@
 
         <TextView
             android:id="@+id/activitat_text"
-            android:layout_width="327dp"
-            android:layout_height="31dp"
-            android:layout_marginStart="31dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="30dp"
-            android:autoSizeMinTextSize="20dp"
-            android:autoSizeTextType="uniform"
+            android:layout_marginEnd="100dp"
             android:text="TextView"
             android:textColor="#000000"
+            android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/organization_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <fragment
             android:id="@+id/submap"
@@ -193,7 +187,33 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:context=".ui.home.ActivityDetail" />
 
+        <ImageView
+            android:id="@+id/people_drawable"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginBottom="22dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/people_foreground"
+            app:layout_constraintBottom_toTopOf="@+id/organization_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activitat_text" />
 
+        <TextView
+            android:id="@+id/people"
+            android:layout_width="112dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="22dp"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/organization_title"
+            app:layout_constraintStart_toEndOf="@+id/people_drawable"
+            app:layout_constraintTop_toBottomOf="@+id/activitat_text"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
