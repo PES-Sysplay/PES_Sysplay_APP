@@ -172,6 +172,11 @@ public class CalendarFragment extends Fragment {
 
             }
 
+            @Override
+            public void onResponseJoinActivity() {
+
+            }
+
         });
     }
 

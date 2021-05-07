@@ -139,6 +139,11 @@ public class HomeFragment extends Fragment {
             public void onResponseType(ArrayList<String> ret) {
             }
 
+            @Override
+            public void onResponseJoinActivity() {
+
+            }
+
         });
     }
 
@@ -224,6 +229,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponseType(ArrayList<String> ret) {
                 adapter.setActivity_id_list(ret);
+            }
+
+            @Override
+            public void onResponseJoinActivity() {
+
             }
 
         });
