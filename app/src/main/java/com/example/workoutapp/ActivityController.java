@@ -6,10 +6,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -127,6 +130,58 @@ public class ActivityController {
                 };
             RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
+
+    public void dummyCall(ActivityController.VolleyResponseListener vrl) {
+        String url = "https://dev-pes-workout.herokuapp.com/api/activitytype"; //TODO quitar esto cuando hagamos el merge a master
+        JSONObject jsonBody = new JSONObject();
+        final String requestBody = jsonBody.toString();
+        ArrayList<String> ret = new ArrayList<String>();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response.toString());
+                if (response.equals("200")) {
+                    ret.add("success");
+                }
+                vrl.onResponseType(ret);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Verifica tu correo eléctronico");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+    }
+
+
 
     public interface VolleyResponseListener {
         void onError(String message);

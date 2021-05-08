@@ -107,6 +107,9 @@ public class ProfileFragment extends Fragment {
         SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
 
         String user_act = pref_ctrl.loadUserAct();
+        UserSingleton userSingleton = UserSingleton.getInstance();
+        userSingleton.destroy();
+
 
         pref_ctrl.deletePreferences(user_act);
     }
