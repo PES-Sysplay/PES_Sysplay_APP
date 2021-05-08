@@ -1,67 +1,74 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.workoutapp.Activitat;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.MainActivity;
+import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.UserController;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.workoutapp.R;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
-    int pos;
-    ImageView photo;
-    TextView activity,organization, time, place,price, member_price,description;
-    ExtendedFloatingActionButton button;
+    int pos, clientsJoin;
+    ImageView photo, people_photo;
+    TextView activity,organization, time, place,price, member_price,description,people_activity;
+    Boolean favorite, is_old;
+    MenuItem favBtn, unfavBtn, moreBtn;
+    ExtendedFloatingActionButton buttonJoin;
+    ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
+    //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         pos = getIntent().getIntExtra("Position recycler",0);
-
+        invalidateOptionsMenu();
 
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
 
@@ -70,13 +77,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
@@ -91,11 +91,139 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NotNull Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_details_menu, menu);
+        favBtn = menu.findItem(R.id.action_fav);
+        unfavBtn = menu.findItem(R.id.action_unfav);
+        moreBtn = menu.findItem(R.id.action_more);
+        favorite =  activity_list.get(pos).isFavorite();
+        is_old = activity_list.get(pos).isOld();
 
 
+        if(!favorite){
+            favBtn.setVisible(true);
+            unfavBtn.setVisible(false);
+        }
+        else{
+            favBtn.setVisible(false);
+            unfavBtn.setVisible(true);
+        }
+
+        if(!is_old) {
+            moreBtn.setVisible(false);
+        }
+        else {
+            moreBtn.setVisible(true);
+        }
+
+
+        return true;
     }
 
 
+
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        UserActivityController uaController = new UserActivityController(this);
+        Integer activityID = activity_list.get(pos).getId();
+
+        switch (item.getItemId()){
+            case R.id.action_fav:
+                uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                });
+                activity_list.get(pos).toggleFavorite();
+                item.setVisible(false);
+                unfavBtn.setVisible(true);
+                return true;
+
+            case R.id.action_unfav:
+                uaController.unfavorite(activityID, new UserActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                });
+                activity_list.get(pos).toggleFavorite();
+                item.setVisible(false);
+                favBtn.setVisible(true);
+                return true;
+
+            case R.id.action_more:
+                showPopup(findViewById(R.id.action_more));
+                return true;
+
+            case android.R.id.home:
+                onBackPressed();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.scrolling_options_menu);
+
+        MenuItem reportBt = popup.getMenu().findItem(R.id.reportBt);
+
+        if (activity_list.get(pos).isReported()) {
+            reportBt.setVisible(false);
+        }
+
+        else {
+            reportBt.setVisible(true);
+        }
+
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reportBt:
+                Intent intent = new Intent(this, ReportActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
+                break;
+            case R.id.reviewBt:
+                break;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+        return true;
+    }
 
     void init_values(){
 
@@ -106,57 +234,128 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         price = findViewById(R.id.price_text);
         member_price = findViewById(R.id.price_text2);
         description = findViewById(R.id.description_text);
+        people_activity = findViewById(R.id.people);
         photo = findViewById(R.id.imageView);
+        people_photo = findViewById(R.id.people_drawable);
+        buttonJoin = findViewById(R.id.meapunto);
 
+    }
+    void updatePeople(int join){
+        clientsJoin += join;
 
-        button = findViewById(R.id.meapunto);
-
+        String people = (clientsJoin + " / " +activity_list.get(pos).getNumberParticipants());
+        people_activity.setText(people);
+        if(activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
+            people_activity.setTextColor(Color.parseColor("#A41E01"));
+            people_photo.setColorFilter(Color.parseColor("#A41E01"));
+        }
+        else{
+            people_activity.setTextColor(Color.BLACK);
+            people_photo.setColorFilter(Color.BLACK);
+        }
     }
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
         activity.setText(activity_list.get(pos).getName());
+
+        clientsJoin = activity_list.get(pos).getClientJoined() ;
+        updatePeople(0);
+
+
         organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
-
+        Integer activity_ID = activity_list.get(pos).getId();
+        boolean joined = activity_list.get(pos).isJoined();
+        ActivityController activityController = new ActivityController(this);
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List <Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]),Double.parseDouble(locations[1]), 1);
+        List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
         place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
 
-        if(activity_list.get(pos).getPreu().equals("0.0")) {
+        if (activity_list.get(pos).getPreu().equals("0.0")) {
             price.setText("GRATIS");
-        }
-        else price.setText(activity_list.get(pos).getPreu() + " €");
+        } else price.setText(activity_list.get(pos).getPreu() + " €");
 
 
-        if(activity_list.get(pos).getPreuSoci().equals("0.0")){
+        if (activity_list.get(pos).getPreuSoci().equals("0.0")) {
             member_price.setText("GRATIS");
-        }
-        else member_price.setText(activity_list.get(pos).getPreuSoci()+ " €");
+        } else member_price.setText(activity_list.get(pos).getPreuSoci() + " €");
         description.setText(activity_list.get(pos).getDescription());
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
-        //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
-        button.setOnClickListener((View v) -> {
 
-            View parentLayout = findViewById(R.id.activity_detail);
-            Snackbar snackbar = Snackbar.make(v, "HOLA", Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-            snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        if(!activity_list.get(pos).isJoined()) {
+            buttonJoin.setText("¡ME APUNTO!");
+        }
+        else{
+            buttonJoin.setText("ME DESAPUNTO");
+        }
 
-                }
-            });
+        buttonJoin.setOnClickListener(v -> {
+            if(buttonJoin.getText().equals("¡ME APUNTO!")){
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+
+                    @Override
+                    public void onResponseJoinActivity() {
+                        buttonJoin.setText("ME DESAPUNTO");
+                        updatePeople(1);
+                    }
+
+                });
+
+
+
+            }
+            else {
+                activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponseActivity(ArrayList<Activitat> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseType(ArrayList<String> ret) {
+                    }
+
+                    @Override
+                    public void onResponseJoinActivity() {
+                        buttonJoin.setText("¡ME APUNTO!");
+                        updatePeople(-1);
+                    }
+                });
+
+            }
+
         });
 
-
     }
+    //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
+        mMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         List<Marker> markers = new ArrayList<>();
         String[] locations = activity_list.get(pos).getLocation().split(", ");
 

@@ -18,6 +18,8 @@ import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
 
+import java.util.ArrayList;
+
 public class ChangePasswordFragment extends Fragment {
 
     AppCompatButton changepw_bt;
@@ -59,7 +61,12 @@ public class ChangePasswordFragment extends Fragment {
                 public void onResponse(String message) {
                     Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
                 }
-            });
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
+                }
+                });
 
                 NavHostFragment.findNavController(ChangePasswordFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);

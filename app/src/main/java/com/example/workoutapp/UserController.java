@@ -10,16 +10,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +40,8 @@ public class UserController {
         void onError(String message);
 
         void onResponse(String message);
+
+        void onResponseProfile(ArrayList<String> ret);
     }
 
     public void logIn(String userName, String userPassword, VolleyResponseListener vrl) {
@@ -216,17 +221,21 @@ public class UserController {
         String getProfileURL = URL + "/api/me/";
         Map<String, String> params = new HashMap<>();
         final JSONObject[] jsonBody = {new JSONObject(params)};
-        final String[] ret = new String[1];
+        ArrayList<String> ret = new ArrayList<String>();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getProfileURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    ret[0] = response.getString("email");
-                    vrl.onResponse(ret[0]);
+                    String email = response.getString("email");
+                    ret.add(email);
+                    String favs = response.getString("favorites");
+                    ret.add(favs);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vrl.onResponseProfile(ret);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -252,6 +261,53 @@ public class UserController {
         };
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void deleteUser(VolleyResponseListener vrl) {
+        String deleteURL = URL + "/api/me/";
+        JSONObject jsonBody = new JSONObject();
+        final String requestBody = jsonBody.toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("El usuario se ha eliminado correctamente");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al eliminar el usuario");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 }
 

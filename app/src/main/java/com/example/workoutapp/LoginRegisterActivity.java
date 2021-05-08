@@ -89,10 +89,12 @@ public class LoginRegisterActivity extends AppCompatActivity {
     }
 
 
+
     public void signIn(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -106,6 +108,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
             handleSignInResult(task, this);
         }
     }
+
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask, Context ctx) {
         try {
@@ -123,13 +126,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
                public void onResponse(String message) {
                    launchMainActivity();
                }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
+                }
            });
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("GM", "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(this, "google Error", Toast.LENGTH_SHORT).show();
         }
 
     }

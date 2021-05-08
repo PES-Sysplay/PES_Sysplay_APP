@@ -27,6 +27,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
+import java.util.ArrayList;
+
 public class RegisterTabFragment extends Fragment {
 
     AppCompatButton register_bt;
@@ -79,6 +81,11 @@ public class RegisterTabFragment extends Fragment {
                         Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
 
                         ((LoginRegisterActivity) getActivity()).setTabLayoutAfterRegister();
+                    }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
                     }
                 });
             }

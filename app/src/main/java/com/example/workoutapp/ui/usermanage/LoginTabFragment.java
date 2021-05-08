@@ -25,6 +25,8 @@ import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 public class LoginTabFragment extends Fragment {
 
     AppCompatButton login_bt;
@@ -62,6 +64,11 @@ public class LoginTabFragment extends Fragment {
                 public void onResponse(String message) {
                     provaActivitat(root.getContext());
                 }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
+                }
             });
         });
 
@@ -95,6 +102,12 @@ public class LoginTabFragment extends Fragment {
                     getActivity().finish();
                 }
             }
+
+            @Override
+            public void onResponseJoinActivity() {
+
+            }
+
         });
     }
 }

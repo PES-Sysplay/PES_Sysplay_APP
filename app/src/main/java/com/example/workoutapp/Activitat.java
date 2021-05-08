@@ -1,6 +1,7 @@
 package com.example.workoutapp;
 
 public class Activitat {
+    Integer id;
     String name;
     String description;
     String photo_url;
@@ -9,18 +10,25 @@ public class Activitat {
     float duration;
     float normal_price;
     float member_price;
-    float capacity;
+    float number_participants;
     String status;
     String location;
     boolean only_member;
     String organization;
+    String created;
+    Long timestamp; //in seconds
+    boolean joined;
+    boolean favorite;
+    float clients_joined;
+    boolean checked_in;
+    boolean reported;
 
     //empty constructor
     public Activitat() {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float capacity, String status, String location, boolean only_member, String organization) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float number_participants, String status, String location, boolean only_member, String organization, Long timestamp) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -29,11 +37,12 @@ public class Activitat {
         this.duration = duration;
         this.normal_price = normal_price;
         this.member_price = member_price;
-        this.capacity = capacity;
+        this.number_participants = number_participants;
         this.status = status;
         this.location = location;
         this.only_member = only_member;
         this.organization = organization;
+        this.timestamp = timestamp;
     }
 
     //constructor with the paramters we will most likely use
@@ -47,6 +56,8 @@ public class Activitat {
         this.member_price = member_price;
         this.organization = organization;
     }
+
+    public Integer getId() { return id; }
 
     public String getName() {
         return name;
@@ -76,8 +87,11 @@ public class Activitat {
         return String.valueOf(member_price);
     }
 
-    public float getCapacity() {
-        return capacity;
+    public int getNumberParticipants() {
+        return Math.round(number_participants);
+    }
+    public int getClientJoined(){
+        return Math.round(clients_joined);
     }
 
     public String getStatus() {
@@ -96,13 +110,31 @@ public class Activitat {
         return organization;
     }
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
     public String getDateTimeString(){
         //DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
         //return dateTime.format(formatter);
         return date_time;
     }
 
+    public boolean isJoined() { return joined; }
+
+    public void toggleJoined() { this.joined = !this.joined; }
+
+    public boolean isFavorite() { return favorite; }
+
+    public void toggleFavorite() { this.favorite = !this.favorite; }
+
+    public void toggleReported() { this.reported = !this.reported; }
+
+    public boolean isReported() { return reported; }
+
     public String getActivity_type_id() {
         return activity_type_id;
     }
+
+    public boolean isOld() { return timestamp*1000L<System.currentTimeMillis(); }
 }

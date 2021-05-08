@@ -75,6 +75,15 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.appCompatButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, SettingsActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -86,6 +95,8 @@ public class ProfileFragment extends Fragment {
     private void updateList(View root) {
         TextView username = root.findViewById(R.id.textView);
         TextView email = root.findViewById(R.id.textView2);
+        TextView favorites = root.findViewById(R.id.textView3);
+        TextView events = root.findViewById(R.id.textView5);
 
         username.append(UserSingleton.getInstance().getUsername());
         String test = UserSingleton.getInstance().getUsername();
@@ -99,6 +110,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(String message) {
                 email.append(message);
+            }
+
+            @Override
+            public void onResponseProfile(ArrayList<String> ret) {
+                email.append(ret.get(0));
+                favorites.append(ret.get(1));
             }
         });
     }
