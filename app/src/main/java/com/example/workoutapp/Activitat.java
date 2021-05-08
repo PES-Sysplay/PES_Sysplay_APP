@@ -122,6 +122,8 @@ public class Activitat {
 
     public boolean isJoined() { return joined; }
 
+    public boolean isChecked_in() {return checked_in; }
+
     public void toggleJoined() { this.joined = !this.joined; }
 
     public boolean isFavorite() { return favorite; }
