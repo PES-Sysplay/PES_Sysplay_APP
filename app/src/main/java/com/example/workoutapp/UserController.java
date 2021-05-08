@@ -36,6 +36,7 @@ public class UserController {
     }
 
     public interface VolleyResponseListener {
+
         void onError(String message);
 
         void onResponse(String message);
@@ -186,6 +187,32 @@ public class UserController {
             }
 
         };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void google_log_reg(String username, String token, VolleyResponseListener vrl){
+        String googleURL = URL + "/api/login/google/?token=" + token;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, googleURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String responseToken = response.getString("token");
+                    UserSingleton userSingleton = UserSingleton.setInstance(username, responseToken, ctx);
+                    SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+                    pref_ctrl.storePreferences(username, responseToken);
+                    vrl.onResponse(responseToken);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vrl.onError("error con Google");
+            }
+        });
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }

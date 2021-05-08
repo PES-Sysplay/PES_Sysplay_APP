@@ -30,5 +30,11 @@ public class UserSingleton {
         return username;
     }
 
+    public void destroy(){
+        this.username = null;
+        this.token_id = null;
+        this.instance = null;
+    }
+
     public static UserSingleton getInstance(){ return instance; }
 }

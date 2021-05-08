@@ -1,16 +1,25 @@
 package com.example.workoutapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.example.workoutapp.ui.usermanage.GoogleManager;
 import com.example.workoutapp.ui.usermanage.LoginRegisterFragmentManager;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,15 +29,25 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    FloatingActionButton bt_google;
+    GoogleSignInClient mGoogleSignInClient;
+    int RC_SIGN_IN = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
+        setLayout();
+
+        setGoogle();
+
+        checkUserActual();
+    }
+
+
+    private void setLayout(){
         tabLayout = findViewById(R.id.tab_layout);
-        bt_google = findViewById(R.id.fab_google);
         viewPager = findViewById(R.id.view_pager);
 
         tabLayout.addTab(tabLayout.newTab().setText("INICIAR SESIÓN"));
@@ -56,60 +75,92 @@ public class LoginRegisterActivity extends AppCompatActivity {
                 //haha lol
             }
         });
+    }
 
-        bt_google.setOnClickListener(v -> {
-            int screen = tabLayout.getSelectedTabPosition();
-            UserController userController = new UserController(this);
-            GoogleManager googleManager = new GoogleManager(this);
+    private void setGoogle(){
 
-            GoogleSignInAccount u;
-            u = googleManager.signIn();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.google_client))
+                .requestEmail()
+                .build();
 
-            if (screen == 0){
-                userController.logIn(u.getDisplayName(), "", new UserController.VolleyResponseListener() {
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+
+
+    public void signIn(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task, this);
+        }
+    }
+
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask, Context ctx) {
+        try {
+           GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+           UserController userController = new UserController(this);
+
+           userController.google_log_reg(account.getEmail(), account.getIdToken(), new UserController.VolleyResponseListener() {
+               @Override
+               public void onError(String message) {
+
+               }
+
+               @Override
+               public void onResponse(String message) {
+                   launchMainActivity();
+               }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
+                }
+           });
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("GM", "signInResult:failed code=" + e.getStatusCode());
+        }
+
+    }
+
+    public void setTabLayoutAfterRegister() {
+        viewPager.setCurrentItem(0);
+        Toast.makeText(this, "Verifica tu correo eléctronico", Toast.LENGTH_LONG).show();
+    }
+
+
+    private void launchMainActivity(){
+        Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
-                    public void onError(String message) {
-                        Toast.makeText(LoginRegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponse(String message) {
-                        Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onResponseProfile(ArrayList<String> ret) {
-
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
                     }
                 });
-
-            } else if (screen == 1) {
-                userController.register(u.getEmail(), u.getDisplayName(), "", new UserController.VolleyResponseListener() {
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(LoginRegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponse(String message) {
-                        Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onResponseProfile(ArrayList<String> ret) {
-
-                    }
-                });
-            }
-        });
-
-
-        checkUserActual();
-
     }
 
     private void checkUserActual() {
@@ -129,6 +180,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        } else {
+            signOut();
         }
     }
 }
