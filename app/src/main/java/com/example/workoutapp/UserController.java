@@ -8,20 +8,14 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +30,7 @@ public class UserController {
     }
 
     public interface VolleyResponseListener {
+
         void onError(String message);
 
         void onResponse(String message);
@@ -161,8 +156,7 @@ public class UserController {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, changePassURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponse("Contraseña correctamente cambiada");
+                vrl.onResponse("Contraseña cambiada correctamente");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -172,7 +166,7 @@ public class UserController {
             }
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -182,10 +176,36 @@ public class UserController {
 
             @Override
             public String getBodyContentType() {
-                return "application/json; charset=utf-8";
+                return "application/json";
             }
 
         };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void google_log_reg(String username, String token, VolleyResponseListener vrl){
+        String googleURL = URL + "/api/login/google/?token=" + token;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, googleURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String responseToken = response.getString("token");
+                    UserSingleton userSingleton = UserSingleton.setInstance(username, responseToken, ctx);
+                    SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
+                    pref_ctrl.storePreferences(username, responseToken);
+                    vrl.onResponse(responseToken);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vrl.onError("error con Google");
+            }
+        });
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }

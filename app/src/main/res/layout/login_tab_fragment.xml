@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintVertical_bias=".3"
+        app:layout_constraintVertical_bias=".2"
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
@@ -45,7 +45,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginbutton"
-        android:layout_width="0dp"
+        android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_bg"
         android:backgroundTint="@color/colorPrimaryLight"
@@ -55,10 +55,25 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signingoogle"
         app:layout_constraintTop_toBottomOf="@+id/log_password"
-        app:layout_constraintVertical_bias=".4"
+        app:layout_constraintVertical_bias=".3"
         app:layout_constraintWidth_percent=".8" />
+
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
+        android:id="@+id/signingoogle"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/loginbutton"
+        app:layout_constraintTop_toBottomOf="@+id/log_password"
+        app:layout_constraintVertical_bias=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="490dp" />
+
+
 
     <TextView
         android:layout_width="wrap_content"

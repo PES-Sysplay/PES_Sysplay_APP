@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.workoutapp"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -60,8 +60,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation "com.google.android.gms:play-services-location:18.0.0"
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
-
 
 }

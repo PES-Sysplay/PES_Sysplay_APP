@@ -23,13 +23,14 @@ public class Activitat {
     boolean checked_in;
     boolean reported;
     String token;
-
+    String date_time_finish;
+  
     //empty constructor
     public Activitat() {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float number_participants, String status, String location, boolean only_member, String organization, Long timestamp) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float number_participants, String status, String location, boolean only_member, String organization, Long timestamp, String date_time_finish) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -44,6 +45,7 @@ public class Activitat {
         this.only_member = only_member;
         this.organization = organization;
         this.timestamp = timestamp;
+        this.date_time_finish = date_time_finish;
     }
 
     //constructor with the paramters we will most likely use
@@ -121,6 +123,9 @@ public class Activitat {
         //DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT);
         //return dateTime.format(formatter);
         return date_time;
+    }
+    public String getDateTimeFinish(){
+        return date_time_finish;
     }
 
     public boolean isJoined() { return joined; }
