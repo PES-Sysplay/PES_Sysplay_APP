@@ -147,6 +147,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
+
                 });
                 activity_list.get(pos).toggleFavorite();
                 item.setVisible(false);
@@ -167,6 +172,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
 
                 });
                 activity_list.get(pos).toggleFavorite();
