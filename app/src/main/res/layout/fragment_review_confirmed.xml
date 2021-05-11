@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_confirm_report"
+    android:id="@+id/fragment_confirm_review"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userfeedback.ReportConfirmedFragment">
+    tools:context=".ui.userfeedback.ReviewConfirmedFragment">
 
     <ImageView
         android:id="@+id/imageView11"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
-        android:text="Gracias por enviar tu solucitud"
+        android:text="Gracias por enviar tu valoración"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
         android:id="@+id/textView12"
         android:layout_width="370dp"
         android:layout_height="56dp"
-        android:text="Nuestros administradores tomarán las medidas necesarias para seguir ofreciendo el mejor servicio."
+        android:text="Nuestros administradores considerarán sus sugerencias para seguir ofreciendo el mejor servicio."
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

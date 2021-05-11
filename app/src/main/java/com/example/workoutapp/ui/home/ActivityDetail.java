@@ -7,40 +7,33 @@ import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-
-import com.example.workoutapp.Activitat;
-import com.example.workoutapp.ActivityController;
-import com.example.workoutapp.MainActivity;
-import com.example.workoutapp.UserActivityController;
-import com.example.workoutapp.UserController;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
 import android.view.Menu;
-
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.userfeedback.ReportActivity;
+import com.example.workoutapp.ui.userfeedback.ReviewActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -103,7 +96,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         favorite =  activity_list.get(pos).isFavorite();
         is_old = activity_list.get(pos).isOld();
 
-
         if(!favorite){
             favBtn.setVisible(true);
             unfavBtn.setVisible(false);
@@ -119,8 +111,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         else {
             moreBtn.setVisible(true);
         }
-
-
         return true;
     }
 
@@ -140,17 +130,19 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onResponse(String message) {}
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
+                    @Override
+                    public void onResponseFav() {
+                        item.setVisible(false);
+                        unfavBtn.setVisible(true);
+                    }
+
                 });
-                activity_list.get(pos).toggleFavorite();
-                item.setVisible(false);
-                unfavBtn.setVisible(true);
+
                 return true;
 
             case R.id.action_unfav:
@@ -161,17 +153,18 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onResponse(String message) {}
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
+                    @Override
+                    public void onResponseFav() {
+                        item.setVisible(false);
+                        favBtn.setVisible(true);
+                    }
                 });
-                activity_list.get(pos).toggleFavorite();
-                item.setVisible(false);
-                favBtn.setVisible(true);
+
                 return true;
 
             case R.id.action_more:
@@ -200,9 +193,17 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         if (activity_list.get(pos).isReported()) {
             reportBt.setVisible(false);
         }
-
         else {
             reportBt.setVisible(true);
+        }
+
+        MenuItem reviewBt = popup.getMenu().findItem(R.id.reviewBt);
+
+        if (activity_list.get(pos).isReviewed()) {
+            reviewBt.setVisible(false);
+        }
+        else {
+            reviewBt.setVisible(true);
         }
 
         popup.show();
@@ -217,6 +218,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 this.startActivity(intent);
                 break;
             case R.id.reviewBt:
+                Intent review = new Intent(this, ReviewActivity.class);
+                review.putExtra("Position recycler", pos);
+                this.startActivity(review);
                 break;
             default:
                 return super.onContextItemSelected(item);
