@@ -72,7 +72,7 @@ public class CalendarFragment extends Fragment {
 
         calendarIni();
         getActivityTypeList();
-        updateList(root);
+        updateList();
 
 
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -171,7 +171,7 @@ public class CalendarFragment extends Fragment {
         }
     }
 
-    private void updateList(View root) {
+    private void updateList() {
         UserActivityController uc = new UserActivityController(getContext());
 
         uc.getJoinedActivities(new UserActivityController.VolleyResponseListener() {
@@ -226,5 +226,9 @@ public class CalendarFragment extends Fragment {
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+    }
 }

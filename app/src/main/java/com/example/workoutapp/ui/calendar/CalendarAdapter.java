@@ -16,6 +16,7 @@ import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.ui.calendar.CalendarAdapter;
 import com.example.workoutapp.ui.home.ActivityDetail;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,14 +44,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ActivityDetail.class);
-                intent.putExtra("Position recycler", position);
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, ActivityDetail.class);
+            ActivityListAdapter al = ActivityListAdapter.getInstance(null, null); //esto pinta que da errores
+            int aux = al.getActivityIndex(activitats.get(position).getName());
+            intent.putExtra("Position recycler", aux);
+            context.startActivity(intent);
         });
     }
 
