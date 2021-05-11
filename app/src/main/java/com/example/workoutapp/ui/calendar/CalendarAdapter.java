@@ -44,17 +44,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View v) {
-                                                   Context context = v.getContext();
-                                                   Intent intent = new Intent(context, ActivityDetail.class);
-                                                   intent.putExtra("Position recycler", position);
-                                                   context.startActivity(intent);
-
-
-                                               }
-                                           }
-        );
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, ActivityDetail.class);
+                intent.putExtra("Position recycler", position);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

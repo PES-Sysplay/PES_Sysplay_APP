@@ -215,6 +215,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onResponseType(ArrayList<String> ret) {
                 activityTypesList = ret;
+                if(activitatsUsuari != null) setUpEvents();
             }
         });
     }
