@@ -7,17 +7,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.workoutapp.LoginRegisterActivity;
-import com.example.workoutapp.MainActivity;
-import com.example.workoutapp.R;
-import com.example.workoutapp.UserController;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+
+import com.example.workoutapp.LoginRegisterActivity;
+import com.example.workoutapp.R;
+import com.example.workoutapp.UserController;
 
 import java.util.ArrayList;
 
@@ -84,7 +83,11 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onResponse(String message) {
-                                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                            ProfileFragment pf = new ProfileFragment();
+                                            pf.logOut(getContext());
+                                            Context context = getContext();
+                                            Intent intent = new Intent(context, LoginRegisterActivity.class);
+                                            context.startActivity(intent);
                                         }
 
                                         @Override
@@ -92,11 +95,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         }
                                     });
-                                    ProfileFragment pf = new ProfileFragment();
-                                    pf.logOut(getContext());
-                                    Context context = getContext();
-                                    Intent intent = new Intent(context, LoginRegisterActivity.class);
-                                    context.startActivity(intent);
                                 }
                             });
                     builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
