@@ -188,6 +188,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 showPopup(findViewById(R.id.action_more));
                 return true;
 
+            case R.id.action_qr:
+                Intent intent = new Intent(this, QRActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
+                return true;
+
             case android.R.id.home:
                 onBackPressed();
                 finish();

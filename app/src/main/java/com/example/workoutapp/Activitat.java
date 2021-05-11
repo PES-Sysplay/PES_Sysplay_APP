@@ -22,6 +22,7 @@ public class Activitat {
     float clients_joined;
     boolean checked_in;
     boolean reported;
+    String token;
 
     //empty constructor
     public Activitat() {
@@ -101,6 +102,8 @@ public class Activitat {
     public String getLocation() {
         return location;
     }
+
+    public String getToken() { return token; }
 
     public boolean isOnlySoci() {
         return only_member;

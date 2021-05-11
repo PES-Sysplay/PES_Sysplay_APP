@@ -61,6 +61,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:18.0.0"
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 
 
 }
