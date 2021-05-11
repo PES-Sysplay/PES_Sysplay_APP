@@ -247,7 +247,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         people_activity.setText(people);
         if(activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
             people_activity.setTextColor(Color.parseColor("#A41E01"));
-            people_photo.setColorFilter(Color.parseColor("#A41E01"));
+            if(activity_list.get(pos).getNumberParticipants() - clientsJoin == 0)
+                people_photo.setColorFilter(Color.parseColor("#A41E01"));
+            else{
+                people_photo.setColorFilter(Color.BLACK);
+            }
         }
         else{
             people_activity.setTextColor(Color.BLACK);
@@ -263,7 +267,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
 
         organization.setText((activity_list.get(pos).getOrganizerName()));
-        time.setText(activity_list.get(pos).getDate_time());
+
+        String[] date_time_beg = activity_list.get(pos).getDate_time().split(", ");
+        String[] date_time_end = activity_list.get(pos).getDateTimeFinish().split(", ");
+        String Date;
+        if((date_time_beg[0].split(" "))[1].equals((date_time_end[0].split(" "))[1])){
+           Date = activity_list.get(pos).getDate_time() +" - "+date_time_end[2];
+        }
+        else{
+            Date = activity_list.get(pos).getDate_time() +" - "+activity_list.get(pos).getDateTimeFinish();
+        }
+
+
+        time.setText(Date);
+        time.setText(Date);
         Integer activity_ID = activity_list.get(pos).getId();
         boolean joined = activity_list.get(pos).isJoined();
         ActivityController activityController = new ActivityController(this);
