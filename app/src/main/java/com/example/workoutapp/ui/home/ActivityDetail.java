@@ -55,8 +55,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos, clientsJoin;
     ImageView photo, people_photo;
     TextView activity,organization, time, place,price, member_price,description,people_activity;
-    Boolean favorite, is_old;
-    MenuItem favBtn, unfavBtn, moreBtn;
+    Boolean favorite, is_old, checked_in, joined;
+    MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
@@ -100,8 +100,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         favBtn = menu.findItem(R.id.action_fav);
         unfavBtn = menu.findItem(R.id.action_unfav);
         moreBtn = menu.findItem(R.id.action_more);
+        qrBtn = menu.findItem(R.id.action_qr);
         favorite =  activity_list.get(pos).isFavorite();
         is_old = activity_list.get(pos).isOld();
+        checked_in = activity_list.get(pos).isChecked_in();
+        joined = activity_list.get(pos).isJoined();
 
 
         if(!favorite){
@@ -113,13 +116,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        if(!is_old) {
+        if(!joined || !checked_in || !is_old) {
             moreBtn.setVisible(false);
         }
         else {
             moreBtn.setVisible(true);
         }
 
+        if (!joined) {
+            qrBtn.setVisible(false);
+        }
+
+        else {
+            qrBtn.setVisible(true);
+        }
 
         return true;
     }
@@ -186,6 +196,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
             case R.id.action_more:
                 showPopup(findViewById(R.id.action_more));
+                return true;
+
+            case R.id.action_qr:
+                Intent intent = new Intent(this, QRActivity.class);
+                intent.putExtra("Position recycler", pos);
+                this.startActivity(intent);
                 return true;
 
             case android.R.id.home:
@@ -340,7 +356,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("ME DESAPUNTO");
+                        activity_list.get(pos).toggleJoined();
                         updatePeople(1);
+                        qrBtn.setVisible(true);
                     }
 
                 });
@@ -367,7 +385,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("¡ME APUNTO!");
+                        activity_list.get(pos).toggleJoined();
                         updatePeople(-1);
+                        qrBtn.setVisible(false);
                     }
                 });
 
