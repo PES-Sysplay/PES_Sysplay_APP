@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
@@ -51,9 +52,9 @@ import java.util.Locale;
 
 public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
-    int pos;
-    ImageView photo;
-    TextView activity,organization, time, place,price, member_price,description;
+    int pos, clientsJoin;
+    ImageView photo, people_photo;
+    TextView activity,organization, time, place,price, member_price,description,people_activity;
     Boolean favorite, is_old;
     MenuItem favBtn, unfavBtn, moreBtn;
     ExtendedFloatingActionButton buttonJoin;
@@ -76,14 +77,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
@@ -197,6 +190,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
             case android.R.id.home:
                 onBackPressed();
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -250,14 +244,34 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         price = findViewById(R.id.price_text);
         member_price = findViewById(R.id.price_text2);
         description = findViewById(R.id.description_text);
+        people_activity = findViewById(R.id.people);
         photo = findViewById(R.id.imageView);
-
+        people_photo = findViewById(R.id.people_drawable);
         buttonJoin = findViewById(R.id.meapunto);
 
+    }
+    void updatePeople(int join){
+        clientsJoin += join;
+
+        String people = (clientsJoin + " / " +activity_list.get(pos).getNumberParticipants());
+        people_activity.setText(people);
+        if(activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
+            people_activity.setTextColor(Color.parseColor("#A41E01"));
+            people_photo.setColorFilter(Color.parseColor("#A41E01"));
+        }
+        else{
+            people_activity.setTextColor(Color.BLACK);
+            people_photo.setColorFilter(Color.BLACK);
+        }
     }
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
         activity.setText(activity_list.get(pos).getName());
+
+        clientsJoin = activity_list.get(pos).getClientJoined() ;
+        updatePeople(0);
+
+
         organization.setText((activity_list.get(pos).getOrganizerName()));
         time.setText(activity_list.get(pos).getDate_time());
         Integer activity_ID = activity_list.get(pos).getId();
@@ -299,14 +313,22 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseActivity(ArrayList<Activitat> ret) {
+
                     }
 
                     @Override
                     public void onResponseType(ArrayList<String> ret) {
                     }
+
+                    @Override
+                    public void onResponseJoinActivity() {
+                        buttonJoin.setText("ME DESAPUNTO");
+                        updatePeople(1);
+                    }
+
                 });
-                activity_list.get(pos).toggleJoined();
-                buttonJoin.setText("ME DESAPUNTO");
+
+
 
             }
             else {
@@ -318,14 +340,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseActivity(ArrayList<Activitat> ret) {
+
                     }
 
                     @Override
                     public void onResponseType(ArrayList<String> ret) {
                     }
+
+                    @Override
+                    public void onResponseJoinActivity() {
+                        buttonJoin.setText("¡ME APUNTO!");
+                        updatePeople(-1);
+                    }
                 });
-                activity_list.get(pos).toggleJoined();
-                buttonJoin.setText("¡ME APUNTO!");
+
             }
 
         });
