@@ -38,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -64,6 +65,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     LocationRequest mLocationRequest;
     FusedLocationProviderClient mFusedLocationClient;
     boolean location = false;
+    boolean firstTime = true;
     GoogleMap mGoogleMap;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -85,6 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mapFragment.getMapAsync(this);
     }
@@ -117,20 +120,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NotNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        GoogleMapOptions options = new GoogleMapOptions();
+        options.mapType(mGoogleMap.MAP_TYPE_SATELLITE)
+                .compassEnabled(true)
+                .rotateGesturesEnabled(true)
+                .tiltGesturesEnabled(true);
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(0); // two minute interval
         mLocationRequest.setFastestInterval(0);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-
         if(location){
+
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             mGoogleMap.setMyLocationEnabled(true);
 
             ActivitiesDisplay(googleMap);
         }
-        else {
+        else  {
+
             ActivitiesDisplay(googleMap);
 
         }
@@ -194,7 +203,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
@@ -212,7 +220,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);*/
 
                 //move map camera
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15),2000,null);
+                if(firstTime) {
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15),2000,null);
+                    firstTime = false;
+
+                }
             }
         }
     };
