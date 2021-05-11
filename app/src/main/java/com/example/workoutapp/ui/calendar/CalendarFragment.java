@@ -71,8 +71,9 @@ public class CalendarFragment extends Fragment {
         activityListView.setAdapter(adapter);
 
         calendarIni();
-        updateList(root);
         getActivityTypeList();
+        updateList(root);
+
 
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -100,10 +101,10 @@ public class CalendarFragment extends Fragment {
         calendar.shouldDrawIndicatorsBelowSelectedDays(true);
         calendar.setDayColumnNames(new String[]{"L", "M", "X", "J", "V", "S", "D"});
 
-        calendar.setCurrentDayBackgroundColor(Color.CYAN);
+        calendar.setCurrentDayBackgroundColor(Color.rgb(0xac, 0xb4, 0xdb));
         calendar.setCurrentDayIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
 
-        calendar.setCurrentSelectedDayBackgroundColor(Color.rgb(0xac, 0xb4, 0xdb));
+        calendar.setCurrentSelectedDayBackgroundColor(Color.argb(81,110,180,255));
         calendar.setCurrentSelectedDayIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
 
         calendar.setEventIndicatorStyle(CompactCalendarView.SMALL_INDICATOR);
@@ -216,6 +217,11 @@ public class CalendarFragment extends Fragment {
             public void onResponseType(ArrayList<String> ret) {
                 activityTypesList = ret;
                 if(activitatsUsuari != null) setUpEvents();
+            }
+
+            @Override
+            public void onResponseJoinActivity() {
+
             }
         });
     }

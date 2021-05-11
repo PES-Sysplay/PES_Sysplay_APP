@@ -168,7 +168,9 @@ public class HomeFragment extends Fragment {
         final View inflator = linf.inflate(R.layout.advanced_search_dialog, null);
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
 
-        dialog.setTitle("Advanced Search");
+        final String anySport = "Cualquier deporte";
+
+        dialog.setTitle("Busqueda Avanzada");
         dialog.setView(inflator);
 
         final EditText title = inflator.findViewById(R.id.advanced_title);
@@ -176,24 +178,25 @@ public class HomeFragment extends Fragment {
         final Spinner sport = inflator.findViewById(R.id.advanced_sport);
 
         ArrayList<String> types = adapter.getActivity_id_list();
-        types.add(0, "Any sport");
+        if(!types.get(0).equals(anySport)) types.add(0, anySport);
+
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, types);
         sport.setAdapter(stringAdapter);
 
-        dialog.setPositiveButton("Search!", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Buscar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String sTitle = title.getText().toString();
                 String sOrg = organization.getText().toString();
                 String sSport = sport.getSelectedItem().toString();
 
-                if (sSport.equals("Any sport")) sSport = "";
+                if (sSport.equals(anySport)) sSport = "";
 
                 adapter.getFilter().filter(transformQueryFormat(sTitle, sOrg, sSport));
                 //searchView.setIconified(true);
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 searchView.setQuery("", true);
                 searchView.clearFocus();
