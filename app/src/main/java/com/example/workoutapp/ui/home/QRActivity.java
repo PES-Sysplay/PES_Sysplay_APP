@@ -32,7 +32,7 @@ public class QRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_q_r);
         pos = getIntent().getIntExtra("Position recycler",0);
         activity = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo().get(pos);
-        activity_token = activity.getToken();
+        activity_token = getIntent().getStringExtra("Updated Token");
         qrImage=findViewById(R.id.qr_image);
 
         MultiFormatWriter writer = new MultiFormatWriter();

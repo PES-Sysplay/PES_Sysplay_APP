@@ -200,7 +200,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
             case R.id.action_qr:
                 Intent intent = new Intent(this, QRActivity.class);
-                intent.putExtra("Position recycler", pos);
+                intent.putExtra("Activity recycler", pos);
+                intent.putExtra("Updated Token", activity_list.get(pos).getToken());
                 this.startActivity(intent);
                 return true;
 
@@ -356,8 +357,28 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("ME DESAPUNTO");
-                        activity_list.get(pos).toggleJoined();
                         updatePeople(1);
+                        activityController.getActivitats(new ActivityController.VolleyResponseListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponseActivity(ArrayList<Activitat> ret) {
+                                activity_list = ret;
+                            }
+
+                            @Override
+                            public void onResponseType(ArrayList<String> ret) {
+
+                            }
+
+                            @Override
+                            public void onResponseJoinActivity() {
+
+                            }
+                        });
                         qrBtn.setVisible(true);
                     }
 
@@ -385,7 +406,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("¡ME APUNTO!");
-                        activity_list.get(pos).toggleJoined();
                         updatePeople(-1);
                         qrBtn.setVisible(false);
                     }
