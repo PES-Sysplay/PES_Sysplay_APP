@@ -200,7 +200,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
             case R.id.action_qr:
                 Intent intent = new Intent(this, QRActivity.class);
-                intent.putExtra("Activity recycler", pos);
+                intent.putExtra("Position recycler", pos);
                 intent.putExtra("Updated Token", activity_list.get(pos).getToken());
                 this.startActivity(intent);
                 return true;

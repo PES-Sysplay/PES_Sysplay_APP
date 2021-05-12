@@ -9,10 +9,69 @@
     android:gravity="center_horizontal"
     tools:context=".ui.home.QRActivity">
 
+    <TextView
+        android:id="@+id/activity_name"
+        android:layout_width="344dp"
+        android:layout_height="47dp"
+        android:gravity="center_horizontal"
+        android:scaleType="fitStart"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/activity_date"
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:scaleType="fitCenter"
+        android:text="Fecha: "
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:id="@+id/activity_place"
+        android:layout_width="335dp"
+        android:layout_height="52dp"
+        android:gravity="start"
+        android:scaleType="fitCenter"
+        android:text="Lugar: "
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:id="@+id/textviewqr1"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:scaleType="fitStart"
+        android:text="TU ENTRADA"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/qr_image"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/textviewqr2"
+        android:layout_width="344dp"
+        android:layout_height="73dp"
+        android:gravity="start"
+        android:scaleType="fitStart"
+        android:text="Enseña este código QR el día de la actividad al organizador responsable. No compartas este código con otras personas."
+        android:textAlignment="textStart"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_definitiu1"
+        android:id="@+id/logoqr"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"/>
 
