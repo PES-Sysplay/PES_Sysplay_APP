@@ -115,12 +115,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
         });
         Integer activityID = activitats.get(position).getId();
-        boolean favorite =  activitats.get(position).isFavorite();
-        if(!favorite) {
+        boolean favorite = activitats.get(position).isFavorite();
+        if (!favorite) {
             holder.favBtn.setVisibility(View.VISIBLE);
             holder.unfavBtn.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             holder.unfavBtn.setVisibility(View.VISIBLE);
             holder.favBtn.setVisibility(View.GONE);
         }
@@ -139,10 +138,12 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
-                public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                public void onResponseFavorites(ArrayList<Activitat> ret) {
+                }
 
                 @Override
                 public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                }
 
                 @Override
                 public void onResponseFav() {
@@ -170,7 +171,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
-                public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                public void onResponseFavorites(ArrayList<Activitat> ret) {
+                }
 
                 @Override
                 public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
@@ -187,7 +189,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.favBtn.setVisibility(View.VISIBLE);
             holder.unfavBtn.setVisibility(View.GONE);
         });
-    
+
+    }
 
     public void updateFavs(@NonNull ViewHolder holder, int position){
         Integer activityID = activitats.get(position).getId();

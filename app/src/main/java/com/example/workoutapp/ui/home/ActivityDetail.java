@@ -150,12 +150,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseFav() {
                         item.setVisible(false);
                         unfavBtn.setVisible(true);
-
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-
                     }
 
-                });
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+
+                    });
 
                 return true;
 
@@ -178,6 +178,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                         favBtn.setVisible(true);
                     }
 
+                    @Override
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
                     }

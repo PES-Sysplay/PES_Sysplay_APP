@@ -84,6 +84,11 @@ public class ReviewFragment extends Fragment {
                         public void onResponseFav() {
 
                         }
+
+                        @Override
+                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                        }
                     });
                 }
             }

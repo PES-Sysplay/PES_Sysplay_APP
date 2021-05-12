@@ -191,6 +191,11 @@ public class CalendarFragment extends Fragment {
             }
 
             @Override
+            public void onResponseFav() {
+
+            }
+
+            @Override
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
                 activitatsUsuari = ret;
                 setUpEvents();
