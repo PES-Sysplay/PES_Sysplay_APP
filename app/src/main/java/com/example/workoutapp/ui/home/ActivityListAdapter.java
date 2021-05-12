@@ -89,6 +89,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return new ViewHolder(view);
     }
 
+    public int getActivityIndex(String title){
+        for (int i = 0; i < activitatsFull.size(); ++i){
+            if(activitatsFull.get(i).getName().equals(title)) return i;
+        }
+        return -1;
+    }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -99,19 +106,16 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, ActivityDetail.class);
-                    intent.putExtra("Position recycler", position);
-                    intent.putExtra("From", "home");
-                    context.startActivity(intent);
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, ActivityDetail.class);
+            intent.putExtra("Position recycler", position);
+            intent.putExtra("From", "home");
+            context.startActivity(intent);
 
-                }
         });
         Integer activityID = activitats.get(position).getId();
-        Boolean favorite =  activitats.get(position).isFavorite();
+        boolean favorite =  activitats.get(position).isFavorite();
         if(!favorite) {
             holder.favBtn.setVisibility(View.VISIBLE);
             holder.unfavBtn.setVisibility(View.GONE);
@@ -121,70 +125,73 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.favBtn.setVisibility(View.GONE);
         }
 
-        holder.favBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserActivityController uaController = new UserActivityController(v.getContext());
-                uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+        holder.favBtn.setOnClickListener(v -> {
+            UserActivityController uaController = new UserActivityController(v.getContext());
+            uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
 
-                    @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                @Override
+                public void onResponse(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
 
-                    @Override
-                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                @Override
+                public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
-                    @Override
-                    public void onResponseFav() {
+                @Override
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
-                    }
+                @Override
+                public void onResponseFav() {
 
-                });
-                activitats.get(position).toggleFavorite();
-                holder.favBtn.setVisibility(View.GONE);
-                holder.unfavBtn.setVisibility(View.VISIBLE);
-            }
+                }
+
+            });
+            activitats.get(position).toggleFavorite();
+            holder.favBtn.setVisibility(View.GONE);
+            holder.unfavBtn.setVisibility(View.VISIBLE);
         });
 
-        holder.unfavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserActivityController uaController = new UserActivityController(v.getContext());
-                uaController.unfavorite(activityID, new UserActivityController.VolleyResponseListener() {
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+        holder.unfavBtn.setOnClickListener(v -> {
+            UserActivityController uaController = new UserActivityController(v.getContext());
+            uaController.unfavorite(activityID, new UserActivityController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
 
-                    @Override
-                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                @Override
+                public void onResponse(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
 
-                    @Override
-                    public void onResponseFav() {
+                @Override
+                public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
-                    }
+                @Override
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
-                });
-                activitats.get(position).toggleFavorite();
-                holder.favBtn.setVisibility(View.VISIBLE);
-                holder.unfavBtn.setVisibility(View.GONE);
-            }
+                }
+
+                @Override
+                public void onResponseFav() {
+
+                }
+
+            });
+            activitats.get(position).toggleFavorite();
+            holder.favBtn.setVisibility(View.VISIBLE);
+            holder.unfavBtn.setVisibility(View.GONE);
         });
-    }
+    
 
     public void updateFavs(@NonNull ViewHolder holder, int position){
         Integer activityID = activitats.get(position).getId();
-        Boolean favorite =  activitats.get(position).isFavorite();
+        boolean favorite =  activitats.get(position).isFavorite();
         if(!favorite) {
             holder.favBtn.setVisibility(View.VISIBLE);
             holder.unfavBtn.setVisibility(View.GONE);

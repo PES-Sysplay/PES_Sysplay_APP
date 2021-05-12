@@ -8,15 +8,14 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_baseline_calendar_today_24"
-        android:title="@string/title_dashboard" />
-
-
-    <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_baseline_location_on_24"
         android:title="@string/title_notifications" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_baseline_calendar_today_24"
+        android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/navigation_profile"

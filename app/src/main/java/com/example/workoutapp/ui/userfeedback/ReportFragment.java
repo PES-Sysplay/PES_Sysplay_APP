@@ -99,7 +99,9 @@ public class ReportFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponseFav() {
+                        public void onResponseFav() {}
+                        
+                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
                         }
                     });

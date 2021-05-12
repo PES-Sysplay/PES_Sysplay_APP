@@ -63,8 +63,8 @@ public class ActivityController {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No s'han trobat activitats", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No s'han trobat activitats");
+                        Toast.makeText(ctx, "No se han encontrado actividades", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado actividades");
                     }
                 }) {
             @Override
@@ -141,7 +141,6 @@ public class ActivityController {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 vrl.onResponseJoinActivity();
             }
         }, new Response.ErrorListener() {

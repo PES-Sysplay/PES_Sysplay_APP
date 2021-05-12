@@ -48,8 +48,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos, clientsJoin;
     ImageView photo, people_photo;
     TextView activity,organization, time, place,price, member_price,description,people_activity;
-    Boolean favorite, is_old;
-    MenuItem favBtn, unfavBtn, moreBtn;
+    Boolean favorite, is_old, checked_in, joined;
+    MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
@@ -93,8 +93,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         favBtn = menu.findItem(R.id.action_fav);
         unfavBtn = menu.findItem(R.id.action_unfav);
         moreBtn = menu.findItem(R.id.action_more);
+        qrBtn = menu.findItem(R.id.action_qr);
         favorite =  activity_list.get(pos).isFavorite();
         is_old = activity_list.get(pos).isOld();
+        checked_in = activity_list.get(pos).isChecked_in();
+        joined = activity_list.get(pos).isJoined();
 
         if(!favorite){
             favBtn.setVisible(true);
@@ -105,11 +108,19 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        if(!is_old) {
+        if(!joined || !checked_in || !is_old) {
             moreBtn.setVisible(false);
         }
         else {
             moreBtn.setVisible(true);
+        }
+
+        if (!joined) {
+            qrBtn.setVisible(false);
+        }
+
+        else {
+            qrBtn.setVisible(true);
         }
         return true;
     }
@@ -139,6 +150,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseFav() {
                         item.setVisible(false);
                         unfavBtn.setVisible(true);
+
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
                     }
 
                 });
@@ -163,12 +177,24 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                         item.setVisible(false);
                         favBtn.setVisible(true);
                     }
+
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
+
                 });
 
                 return true;
 
             case R.id.action_more:
                 showPopup(findViewById(R.id.action_more));
+                return true;
+
+            case R.id.action_qr:
+                Intent intent = new Intent(this, QRActivity.class);
+                intent.putExtra("Position recycler", pos);
+                intent.putExtra("Updated Token", activity_list.get(pos).getToken());
+                this.startActivity(intent);
                 return true;
 
             case android.R.id.home:
@@ -251,7 +277,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         people_activity.setText(people);
         if(activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
             people_activity.setTextColor(Color.parseColor("#A41E01"));
-            people_photo.setColorFilter(Color.parseColor("#A41E01"));
+            if(activity_list.get(pos).getNumberParticipants() - clientsJoin == 0)
+                people_photo.setColorFilter(Color.parseColor("#A41E01"));
+            else{
+                people_photo.setColorFilter(Color.BLACK);
+            }
         }
         else{
             people_activity.setTextColor(Color.BLACK);
@@ -267,7 +297,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
 
         organization.setText((activity_list.get(pos).getOrganizerName()));
-        time.setText(activity_list.get(pos).getDate_time());
+
+        String[] date_time_beg = activity_list.get(pos).getDate_time().split(", ");
+        String[] date_time_end = activity_list.get(pos).getDateTimeFinish().split(", ");
+        String Date;
+        if((date_time_beg[0].split(" "))[1].equals((date_time_end[0].split(" "))[1])){
+           Date = activity_list.get(pos).getDate_time() +" - "+date_time_end[2];
+        }
+        else{
+            Date = activity_list.get(pos).getDate_time() +" - "+activity_list.get(pos).getDateTimeFinish();
+        }
+
+
+        time.setText(Date);
+        time.setText(Date);
         Integer activity_ID = activity_list.get(pos).getId();
         boolean joined = activity_list.get(pos).isJoined();
         ActivityController activityController = new ActivityController(this);
@@ -318,6 +361,28 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("ME DESAPUNTO");
                         updatePeople(1);
+                        activityController.getActivitats(new ActivityController.VolleyResponseListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponseActivity(ArrayList<Activitat> ret) {
+                                activity_list = ret;
+                            }
+
+                            @Override
+                            public void onResponseType(ArrayList<String> ret) {
+
+                            }
+
+                            @Override
+                            public void onResponseJoinActivity() {
+
+                            }
+                        });
+                        qrBtn.setVisible(true);
                     }
 
                 });
@@ -345,6 +410,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("¡ME APUNTO!");
                         updatePeople(-1);
+                        qrBtn.setVisible(false);
                     }
                 });
 
