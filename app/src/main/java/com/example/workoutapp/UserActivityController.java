@@ -13,7 +13,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -41,6 +40,8 @@ public class UserActivityController {
 
         void onResponseFavorites(ArrayList<Activitat> ret);
 
+        void onResponseFav();
+        
         void onResponseJoinedActivites(ArrayList<Activitat> ret);
     }
 
@@ -55,6 +56,7 @@ public class UserActivityController {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("VOLLEY", response.toString());
+                vrl.onResponseFav();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -92,6 +94,7 @@ public class UserActivityController {
             @Override
             public void onResponse(String response) {
                 Log.i("VOLLEY", response.toString());
+                vrl.onResponseFav();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -263,6 +266,49 @@ public class UserActivityController {
                 }
 
             };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+
+    }
+
+    public void sendReview(Integer activityID, String comment, Float stars, UserActivityController.VolleyResponseListener vrl) {
+        String reviewURL = URL + "/api/review/";
+        Map<String, Object> params = new HashMap<>();
+        params.put("activity_id", activityID.toString());
+        params.put("comment", comment);
+        params.put("stars", stars);
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("Review enviada");
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al enviar la review");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
 

@@ -144,12 +144,17 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 @Override
                 public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
+                @Override
+                public void onResponseFav() {
+
                 }
+
             });
             activitats.get(position).toggleFavorite();
             holder.favBtn.setVisibility(View.GONE);
             holder.unfavBtn.setVisibility(View.VISIBLE);
         });
+
 
         holder.unfavBtn.setOnClickListener(v -> {
             UserActivityController uaController = new UserActivityController(v.getContext());
@@ -172,12 +177,17 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
                 }
 
+                @Override
+                public void onResponseFav() {
+
+                }
+
             });
             activitats.get(position).toggleFavorite();
             holder.favBtn.setVisibility(View.VISIBLE);
             holder.unfavBtn.setVisibility(View.GONE);
         });
-    }
+    
 
     public void updateFavs(@NonNull ViewHolder holder, int position){
         Integer activityID = activitats.get(position).getId();

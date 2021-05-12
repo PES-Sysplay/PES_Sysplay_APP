@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userfeedback.ReportActivity">
+    tools:context=".ui.userfeedback.ReviewActivity">
 
     <FrameLayout
-        android:id="@+id/reportContainer"
+        android:id="@+id/reviewContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="81dp"

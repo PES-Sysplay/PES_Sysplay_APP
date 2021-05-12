@@ -22,6 +22,7 @@ public class Activitat {
     float clients_joined;
     boolean checked_in;
     boolean reported;
+    boolean reviewed;
     String token;
     String date_time_finish;
   
@@ -141,6 +142,10 @@ public class Activitat {
     public void toggleReported() { this.reported = !this.reported; }
 
     public boolean isReported() { return reported; }
+
+    public void toggleReviewed() { this.reviewed = !this.reviewed; }
+
+    public boolean isReviewed() { return reviewed; }
 
     public String getActivity_type_id() {
         return activity_type_id;

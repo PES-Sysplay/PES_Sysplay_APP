@@ -1,8 +1,10 @@
-package com.example.workoutapp.ui.home;
+package com.example.workoutapp.ui.userfeedback;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.workoutapp.R;
 
 public class ReportActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class ReportActivity extends AppCompatActivity {
         switch(id) {
             case android.R.id.home:
                 onBackPressed();
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
