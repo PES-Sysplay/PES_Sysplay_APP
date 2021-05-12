@@ -1,33 +1,32 @@
-package com.example.workoutapp.ui.home;
+package com.example.workoutapp.ui.userfeedback;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ReportFragment extends Fragment {
+public class ReviewFragment extends Fragment {
 
-    Spinner reportSpinner;
-    Button reportBtn;
-    TextView descriptionTextView;
+    Button reviewBtn;
+    TextView commentText;
+    RatingBar stars;
     List<Activitat> activity_list = new ArrayList<>();
     int pos;
 
@@ -40,7 +39,7 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report, container, false);
+        return inflater.inflate(R.layout.fragment_review, container, false);
     }
 
     @Override
@@ -51,35 +50,18 @@ public class ReportFragment extends Fragment {
 
         pos = getActivity().getIntent().getIntExtra("Position recycler",0);
 
-        reportSpinner = view.findViewById(R.id.ReportType);
+        reviewBtn = view.findViewById(R.id.sendReviewBt);
+        commentText = view.findViewById(R.id.commentText);
+        stars = view.findViewById(R.id.simpleRatingBar);
 
-        ArrayList<String> elements = new ArrayList<>();
-
-        elements.add("Incumplimiento normativa COVID-19");
-        elements.add("Publicidad engañosa");
-        elements.add("Problemas con la organización");
-        elements.add("Otro motivo");
-
-        ArrayAdapter adp = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_dropdown_item, elements);
-
-        reportSpinner.setAdapter(adp);
-
-        reportBtn = view.findViewById(R.id.sendReportBt);
-        descriptionTextView = view.findViewById(R.id.descriptionEditText);
-
-        reportBtn.setOnClickListener(new View.OnClickListener() {
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String description = descriptionTextView.getText().toString();
-                String text = reportSpinner.getSelectedItem().toString();
-
-                if (description.matches("")) {
-                    Toast.makeText(view.getContext(),  "Añade una descripción detallando el problema", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String comment = text + ": " + description;
+                String comment = commentText.getText().toString();
+                Float userStars = stars.getRating();
+                if(checkCorrect(userStars)) {
                     UserActivityController UAController = new UserActivityController(view.getContext());
-                    UAController.sendReport(activity_list.get(pos).getId(), comment, new UserActivityController.VolleyResponseListener() {
+                    UAController.sendReview(activity_list.get(pos).getId(), comment, userStars, new UserActivityController.VolleyResponseListener() {
 
                         @Override
                         public void onError(String message) {
@@ -89,8 +71,8 @@ public class ReportFragment extends Fragment {
                         @Override
                         public void onResponse(String message) {
                             Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                            activity_list.get(pos).toggleReported();
-                            ((ReportActivity)getActivity()).goToSecondFragment();
+                            activity_list.get(pos).toggleReviewed();
+                            ((ReviewActivity) getActivity()).goToConfirmedFragment();
                         }
 
                         @Override
@@ -99,14 +81,23 @@ public class ReportFragment extends Fragment {
                         }
 
                         @Override
+                        public void onResponseFav() {
+
+                        }
+
+                        @Override
                         public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
                         }
                     });
-
                 }
             }
         });
 
+    }
+
+    public boolean checkCorrect(Float stars){
+        if(stars >= 0 && stars <= 5) return true;
+        else return false;
     }
 }

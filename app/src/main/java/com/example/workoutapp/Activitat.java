@@ -22,8 +22,10 @@ public class Activitat {
     float clients_joined;
     boolean checked_in;
     boolean reported;
+    boolean reviewed;
+    String token;
     String date_time_finish;
-
+  
     //empty constructor
     public Activitat() {
     }
@@ -104,6 +106,8 @@ public class Activitat {
         return location;
     }
 
+    public String getToken() { return token; }
+
     public boolean isOnlySoci() {
         return only_member;
     }
@@ -127,6 +131,8 @@ public class Activitat {
 
     public boolean isJoined() { return joined; }
 
+    public boolean isChecked_in() {return checked_in; }
+
     public void toggleJoined() { this.joined = !this.joined; }
 
     public boolean isFavorite() { return favorite; }
@@ -136,6 +142,10 @@ public class Activitat {
     public void toggleReported() { this.reported = !this.reported; }
 
     public boolean isReported() { return reported; }
+
+    public void toggleReviewed() { this.reviewed = !this.reviewed; }
+
+    public boolean isReviewed() { return reviewed; }
 
     public String getActivity_type_id() {
         return activity_type_id;

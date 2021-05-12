@@ -7,40 +7,33 @@ import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-
-import com.example.workoutapp.Activitat;
-import com.example.workoutapp.ActivityController;
-import com.example.workoutapp.MainActivity;
-import com.example.workoutapp.UserActivityController;
-import com.example.workoutapp.UserController;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
 import android.view.Menu;
-
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.userfeedback.ReportActivity;
+import com.example.workoutapp.ui.userfeedback.ReviewActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,8 +48,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos, clientsJoin;
     ImageView photo, people_photo;
     TextView activity,organization, time, place,price, member_price,description,people_activity;
-    Boolean favorite, is_old;
-    MenuItem favBtn, unfavBtn, moreBtn;
+    Boolean favorite, is_old, checked_in, joined;
+    MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
@@ -100,9 +93,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         favBtn = menu.findItem(R.id.action_fav);
         unfavBtn = menu.findItem(R.id.action_unfav);
         moreBtn = menu.findItem(R.id.action_more);
+        qrBtn = menu.findItem(R.id.action_qr);
         favorite =  activity_list.get(pos).isFavorite();
         is_old = activity_list.get(pos).isOld();
-
+        checked_in = activity_list.get(pos).isChecked_in();
+        joined = activity_list.get(pos).isJoined();
 
         if(!favorite){
             favBtn.setVisible(true);
@@ -113,14 +108,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        if(!is_old) {
+        if(!joined || !checked_in || !is_old) {
             moreBtn.setVisible(false);
         }
         else {
             moreBtn.setVisible(true);
         }
 
+        if (!joined) {
+            qrBtn.setVisible(false);
+        }
 
+        else {
+            qrBtn.setVisible(true);
+        }
         return true;
     }
 
@@ -140,22 +141,22 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onResponse(String message) {}
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                     @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-
+                    public void onResponseFav() {
+                        item.setVisible(false);
+                        unfavBtn.setVisible(true);
                     }
 
-                });
-                activity_list.get(pos).toggleFavorite();
-                item.setVisible(false);
-                unfavBtn.setVisible(true);
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+
+                    });
+
                 return true;
 
             case R.id.action_unfav:
@@ -166,12 +167,16 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponse(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                    public void onResponse(String message) {}
 
                     @Override
                     public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                    @Override
+                    public void onResponseFav() {
+                        item.setVisible(false);
+                        favBtn.setVisible(true);
+                    }
 
                     @Override
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
@@ -179,13 +184,18 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                 });
-                activity_list.get(pos).toggleFavorite();
-                item.setVisible(false);
-                favBtn.setVisible(true);
+
                 return true;
 
             case R.id.action_more:
                 showPopup(findViewById(R.id.action_more));
+                return true;
+
+            case R.id.action_qr:
+                Intent intent = new Intent(this, QRActivity.class);
+                intent.putExtra("Position recycler", pos);
+                intent.putExtra("Updated Token", activity_list.get(pos).getToken());
+                this.startActivity(intent);
                 return true;
 
             case android.R.id.home:
@@ -210,9 +220,17 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         if (activity_list.get(pos).isReported()) {
             reportBt.setVisible(false);
         }
-
         else {
             reportBt.setVisible(true);
+        }
+
+        MenuItem reviewBt = popup.getMenu().findItem(R.id.reviewBt);
+
+        if (activity_list.get(pos).isReviewed()) {
+            reviewBt.setVisible(false);
+        }
+        else {
+            reviewBt.setVisible(true);
         }
 
         popup.show();
@@ -227,6 +245,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 this.startActivity(intent);
                 break;
             case R.id.reviewBt:
+                Intent review = new Intent(this, ReviewActivity.class);
+                review.putExtra("Position recycler", pos);
+                this.startActivity(review);
                 break;
             default:
                 return super.onContextItemSelected(item);
@@ -341,6 +362,28 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("ME DESAPUNTO");
                         updatePeople(1);
+                        activityController.getActivitats(new ActivityController.VolleyResponseListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponseActivity(ArrayList<Activitat> ret) {
+                                activity_list = ret;
+                            }
+
+                            @Override
+                            public void onResponseType(ArrayList<String> ret) {
+
+                            }
+
+                            @Override
+                            public void onResponseJoinActivity() {
+
+                            }
+                        });
+                        qrBtn.setVisible(true);
                     }
 
                 });
@@ -368,6 +411,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseJoinActivity() {
                         buttonJoin.setText("¡ME APUNTO!");
                         updatePeople(-1);
+                        qrBtn.setVisible(false);
                     }
                 });
 
