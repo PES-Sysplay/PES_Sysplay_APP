@@ -59,7 +59,7 @@
             android:theme="@style/Theme.WorkOut.NoActionBar" />
 
         <activity
-            android:name=".ui.home.ReportActivity"
+            android:name=".ui.userfeedback.ReportActivity"
             android:parentActivityName=".MainActivity" />
 
 
