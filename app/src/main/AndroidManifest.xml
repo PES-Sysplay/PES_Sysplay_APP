@@ -54,12 +54,12 @@
         </activity>
         <activity
             android:name=".ui.profile.ChangePasswordActivity"
-            android:label="@string/title_activity_change_password"
+            android:label="@string/title_activity_changepass"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.WorkOut.NoActionBar" />
 
         <activity
-            android:name=".ui.home.ReportActivity"
+            android:name=".ui.userfeedback.ReportActivity"
             android:parentActivityName=".MainActivity" />
 
 
