@@ -20,7 +20,8 @@
         <activity
             android:name=".ui.home.QRActivity"
             android:label="@string/title_activity_qr"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".ui.favorites.ActivityFavorites" />
         <activity
             android:name=".ui.profile.SettingsActivity"
@@ -57,15 +58,17 @@
         </activity>
         <activity
             android:name=".ui.profile.ChangePasswordActivity"
-            android:label="@string/title_activity_change_password"
+            android:label="@string/title_activity_changepass"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.WorkOut.NoActionBar" />
 
         <activity
             android:name=".ui.userfeedback.ReportActivity"
+            android:label="@string/title_activity_report"
             android:parentActivityName=".MainActivity" />
 
         <activity android:name=".ui.userfeedback.ReviewActivity"
+            android:label="@string/title_activity_review"
             android:parentActivityName=".MainActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"

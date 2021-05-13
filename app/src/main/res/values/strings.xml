@@ -19,7 +19,6 @@
     <string name="logout">Cerrar sesión</string>
     <string name="myevents">Mis eventos</string>
     <string name="myfavs">Mis favoritos</string>
-    <string name="title_activity_change_password">Cambiar_Contraseña</string>
     <string name="join">¡ME APUNTO!</string>
     <string name="leave">ME DESAPUNTO</string>
     <!-- Strings used for fragments for navigation -->
@@ -54,5 +53,8 @@
     <string name="title_activity_my_activities2">MyActivitiesActivity2</string>
     <string name="month_name">Nombre del mes</string>
     <string name="no_tienes_ninguna_actividad">No tienes ninguna actividad</string>
+    <string name="title_activity_changepass">Cambiar contraseña</string>
+    <string name="title_activity_report">Reportar actividad</string>
+    <string name="title_activity_review">Valorar actividad</string>
     <string name="title_activity_qr">Tu entrada</string>
 </resources>
