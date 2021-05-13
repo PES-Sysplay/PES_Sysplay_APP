@@ -1,6 +1,5 @@
 package com.example.workoutapp.ui.profile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
+
+import java.util.ArrayList;
 
 public class ChangePasswordFragment extends Fragment {
 
@@ -58,11 +58,18 @@ public class ChangePasswordFragment extends Fragment {
                 @Override
                 public void onResponse(String message) {
                     Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+
+                    NavHostFragment.findNavController(ChangePasswordFragment.this)
+                            .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {
+
                 }
                 });
 
-                NavHostFragment.findNavController(ChangePasswordFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+
             }
         });
 
@@ -72,7 +79,7 @@ public class ChangePasswordFragment extends Fragment {
     private boolean checkCorrectFields(String oldpass, String pass, String pass2, View root) {
 
 
-        if (oldpass.matches("") || pass.matches("") || pass.matches("")){
+        if (oldpass.matches("") || pass.matches("") || pass2.matches("")){
             Toast.makeText(root.getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
 
             return false;

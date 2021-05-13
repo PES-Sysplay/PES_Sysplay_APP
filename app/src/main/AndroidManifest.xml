@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo_app"
+
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkOut">
         <activity
@@ -18,12 +18,17 @@
             android:label="@string/title_activity_my_activities2"
             android:theme="@style/Theme.WorkOut.NoActionBar"></activity>
         <activity
+            android:name=".ui.home.QRActivity"
+            android:label="@string/title_activity_qr"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ui.favorites.ActivityFavorites" />
+        <activity
             android:name=".ui.profile.SettingsActivity"
             android:label="@string/title_activity_settings" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/API_KEY_GM" />
 
         <activity
             android:name=".MainActivity"
@@ -42,7 +47,7 @@
         <activity
             android:name=".LoginRegisterActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.WorkOut"
+            android:theme="@style/Theme.WorkOut.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,10 +60,13 @@
             android:label="@string/title_activity_change_password"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Theme.WorkOut.NoActionBar" />
+
         <activity
-            android:name=".ui.home.ReportActivity"
+            android:name=".ui.userfeedback.ReportActivity"
             android:parentActivityName=".MainActivity" />
 
+        <activity android:name=".ui.userfeedback.ReviewActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

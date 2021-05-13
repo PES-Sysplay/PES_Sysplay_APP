@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.usermanage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
 import com.example.workoutapp.UserSingleton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.shobhitpuri.custombuttons.GoogleSignInButton;
+
+import java.util.ArrayList;
 
 public class RegisterTabFragment extends Fragment {
 
     AppCompatButton register_bt;
+    GoogleSignInButton google_bt;
     EditText email_et, username_et, password_et, password_check_et;
 
     @Override
@@ -34,13 +46,21 @@ public class RegisterTabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.register_tab_fragment, container, false);
-        UserController userController = new UserController(getContext());
 
+
+        setLayout(root);
+
+        return root;
+    }
+
+    private void setLayout(View root) {
         email_et = root.findViewById(R.id.email);
         username_et = root.findViewById(R.id.username);
         password_et = root.findViewById(R.id.password);
         password_check_et = root.findViewById(R.id.passwordcheck);
         register_bt = root.findViewById(R.id.registerbutton);
+        google_bt = root.findViewById(R.id.signupgoogle);
+        UserController userController = new UserController(getContext());
 
         register_bt.setOnClickListener(v -> {
             String emailu = email_et.getText().toString();
@@ -60,17 +80,24 @@ public class RegisterTabFragment extends Fragment {
                     public void onResponse(String message) {
                         Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
+                        ((LoginRegisterActivity) getActivity()).setTabLayoutAfterRegister();
+                    }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
                     }
                 });
             }
 
         });
 
-        return root;
+        google_bt.setOnClickListener(v -> {
+            ((LoginRegisterActivity)getActivity()).signIn();
+        });
+
     }
+
 
     private boolean checkCorrectFields(String email, String uname, String pwd, String pwd2, View root) {
 
@@ -88,4 +115,5 @@ public class RegisterTabFragment extends Fragment {
         }
         return true;
     }
+
 }

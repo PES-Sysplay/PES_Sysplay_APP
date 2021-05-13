@@ -105,6 +105,8 @@ public class ProfileFragment extends Fragment {
     private void updateList(View root) {
         TextView username = root.findViewById(R.id.textView);
         TextView email = root.findViewById(R.id.textView2);
+        TextView favorites = root.findViewById(R.id.textView3);
+        TextView events = root.findViewById(R.id.textView5);
 
         username.append(UserSingleton.getInstance().getUsername());
         String test = UserSingleton.getInstance().getUsername();
@@ -119,6 +121,12 @@ public class ProfileFragment extends Fragment {
             public void onResponse(String message) {
                 email.append(message);
             }
+
+            @Override
+            public void onResponseProfile(ArrayList<String> ret) {
+                email.append(ret.get(0));
+                favorites.append(ret.get(1));
+            }
         });
     }
 
@@ -126,6 +134,9 @@ public class ProfileFragment extends Fragment {
         SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
 
         String user_act = pref_ctrl.loadUserAct();
+        UserSingleton userSingleton = UserSingleton.getInstance();
+        userSingleton.destroy();
+
 
         pref_ctrl.deletePreferences(user_act);
     }

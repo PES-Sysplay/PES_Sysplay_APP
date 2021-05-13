@@ -63,8 +63,8 @@ public class ActivityController {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No s'han trobat activitats", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No s'han trobat activitats");
+                        Toast.makeText(ctx, "No se han encontrado actividades", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado actividades");
                     }
                 }) {
             @Override
@@ -141,8 +141,7 @@ public class ActivityController {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //Log.i("VOLLEY", response.toString());
-                //vrl.onResponseJoinedOrLeft("Te has unido a la actividad");
+                vrl.onResponseJoinActivity();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -177,8 +176,8 @@ public class ActivityController {
         StringRequest request = new StringRequest(Request.Method.DELETE, leaveActURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Log.i("VOLLEY", response.toString());
-                //vrl.onResponseJoinedOrLeft("Te has desapuntado de la actividad");
+                vrl.onResponseJoinActivity();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -208,12 +207,66 @@ public class ActivityController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(request);
     }
 
+    public void dummyCall(ActivityController.VolleyResponseListener vrl) {
+        String url = "https://dev-pes-workout.herokuapp.com/api/activitytype"; //TODO quitar esto cuando hagamos el merge a master
+        JSONObject jsonBody = new JSONObject();
+        final String requestBody = jsonBody.toString();
+        ArrayList<String> ret = new ArrayList<String>();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response.toString());
+                if (response.equals("200")) {
+                    ret.add("success");
+                }
+                vrl.onResponseType(ret);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Verifica tu correo eléctronico");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+    }
+
+
+
     public interface VolleyResponseListener {
         void onError(String message);
 
         void onResponseActivity(ArrayList<Activitat> ret);
 
         void onResponseType(ArrayList<String> ret);
+
+        void onResponseJoinActivity();
     }
 
 }

@@ -7,17 +7,18 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.workoutapp.LoginRegisterActivity;
-import com.example.workoutapp.MainActivity;
-import com.example.workoutapp.R;
-import com.example.workoutapp.UserController;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+
+import com.example.workoutapp.LoginRegisterActivity;
+import com.example.workoutapp.R;
+import com.example.workoutapp.UserController;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -35,14 +36,24 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case android.R.id.home:
+                onBackPressed();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
@@ -72,14 +83,18 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onResponse(String message) {
-                                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                            ProfileFragment pf = new ProfileFragment();
+                                            pf.logOut(getContext());
+                                            Context context = getContext();
+                                            Intent intent = new Intent(context, LoginRegisterActivity.class);
+                                            context.startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void onResponseProfile(ArrayList<String> ret) {
+
                                         }
                                     });
-                                    ProfileFragment pf = new ProfileFragment();
-                                    pf.logOut(getContext());
-                                    Context context = getContext();
-                                    Intent intent = new Intent(context, LoginRegisterActivity.class);
-                                    context.startActivity(intent);
                                 }
                             });
                     builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

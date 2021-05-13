@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -20,13 +21,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserController;
+import com.example.workoutapp.ui.profile.ChangePasswordFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +44,9 @@ public class HomeFragment extends Fragment {
     private ActivityListAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
+    private LayoutInflater privInflater;
+    private ViewGroup privContainer;
+    private Bundle privInstanceState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        privInflater = inflater;
+        privContainer = container;
+        privInstanceState = savedInstanceState;
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerview);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
@@ -128,7 +139,18 @@ public class HomeFragment extends Fragment {
             public void onResponseType(ArrayList<String> ret) {
             }
 
+            @Override
+            public void onResponseJoinActivity() {
+
+            }
+
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        onCreateView(privInflater, privContainer, privInstanceState);
     }
 
     @Override
@@ -146,7 +168,9 @@ public class HomeFragment extends Fragment {
         final View inflator = linf.inflate(R.layout.advanced_search_dialog, null);
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
 
-        dialog.setTitle("Advanced Search");
+        final String anySport = "Cualquier deporte";
+
+        dialog.setTitle("Busqueda Avanzada");
         dialog.setView(inflator);
 
         final EditText title = inflator.findViewById(R.id.advanced_title);
@@ -154,24 +178,25 @@ public class HomeFragment extends Fragment {
         final Spinner sport = inflator.findViewById(R.id.advanced_sport);
 
         ArrayList<String> types = adapter.getActivity_id_list();
-        types.add(0, "Any sport");
+        if(!types.get(0).equals(anySport)) types.add(0, anySport);
+
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, types);
         sport.setAdapter(stringAdapter);
 
-        dialog.setPositiveButton("Search!", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Buscar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String sTitle = title.getText().toString();
                 String sOrg = organization.getText().toString();
                 String sSport = sport.getSelectedItem().toString();
 
-                if (sSport.equals("Any sport")) sSport = "";
+                if (sSport.equals(anySport)) sSport = "";
 
                 adapter.getFilter().filter(transformQueryFormat(sTitle, sOrg, sSport));
                 //searchView.setIconified(true);
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 searchView.setQuery("", true);
                 searchView.clearFocus();
@@ -207,6 +232,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponseType(ArrayList<String> ret) {
                 adapter.setActivity_id_list(ret);
+            }
+
+            @Override
+            public void onResponseJoinActivity() {
+
             }
 
         });
