@@ -1,4 +1,4 @@
-package com.example.workoutapp.ui.profile;
+package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 

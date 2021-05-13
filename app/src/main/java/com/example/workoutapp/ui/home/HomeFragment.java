@@ -40,13 +40,17 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ActivityListAdapter adapter;
+    public RecyclerView recyclerView;
+    public ActivityListAdapter adapter;
+    public ActivityListAdapter adapterHome;
+    public ActivityListAdapter adapterOld;
+    public ActivityListAdapter adapterFuture;
     private Boolean advancedSearch = false;
     private SearchView searchView;
-    private LayoutInflater privInflater;
-    private ViewGroup privContainer;
-    private Bundle privInstanceState;
+    public LayoutInflater privInflater;
+    public ViewGroup privContainer;
+    public Bundle privInstanceState;
+    public View root;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class HomeFragment extends Fragment {
         privInflater = inflater;
         privContainer = container;
         privInstanceState = savedInstanceState;
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerview);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
@@ -69,7 +73,12 @@ public class HomeFragment extends Fragment {
         updateList(root);
         updateType(root);
 
-        adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterHome = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterOld = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterFuture = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+
+        adapter = adapterHome;
+
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -119,7 +128,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateList(View root) {
+    public void updateList(View root) {
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivitats(new ActivityController.VolleyResponseListener() {
@@ -216,7 +225,7 @@ public class HomeFragment extends Fragment {
                 "StartSport" + sport + "EndSport";
     }
 
-    private void updateType(View root) {
+    public void updateType(View root) {
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivityTypes(new ActivityController.VolleyResponseListener() {
