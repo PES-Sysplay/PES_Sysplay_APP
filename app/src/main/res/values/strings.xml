@@ -54,4 +54,8 @@
     <string name="no_tienes_ninguna_actividad">No tienes ninguna actividad</string>
 
     <string name="title_activity_changepass">Cambiar contraseña</string>
+    <string name="title_activity_report">Reportar actividad</string>
+    <string name="title_activity_review">Valorar actividad</string>
+    <string name="title_activity_qr">Tu entrada</string>
+
 </resources>
