@@ -87,6 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
                                             pf.logOut(getContext());
                                             Context context = getContext();
                                             Intent intent = new Intent(context, LoginRegisterActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                             context.startActivity(intent);
                                         }
 
