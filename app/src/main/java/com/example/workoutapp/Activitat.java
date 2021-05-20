@@ -151,5 +151,5 @@ public class Activitat {
         return activity_type_id;
     }
 
-    public boolean isOld() { return timestamp*1000L<System.currentTimeMillis(); }
+    public boolean isOld() { return (timestamp+(60*duration))*1000L<System.currentTimeMillis(); }
 }
