@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.squareup.picasso.Picasso;
 
@@ -146,6 +147,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
+                public void onResponseReviewList(ArrayList<Review> ret) {
+
+                }
+
+                @Override
                 public void onResponseFav() {
 
                 }
@@ -176,6 +182,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
                 @Override
                 public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                }
+
+                @Override
+                public void onResponseReviewList(ArrayList<Review> ret) {
 
                 }
 

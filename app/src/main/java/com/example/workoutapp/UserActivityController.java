@@ -43,6 +43,8 @@ public class UserActivityController {
         void onResponseFav();
         
         void onResponseJoinedActivites(ArrayList<Activitat> ret);
+
+        void onResponseReviewList(ArrayList<Review> ret);
     }
 
     public void favorite(Integer activityId, UserActivityController.VolleyResponseListener vrl) {
@@ -314,4 +316,52 @@ public class UserActivityController {
 
     }
 
+    public void getReviews(String organization, UserActivityController.VolleyResponseListener vrl) {
+        String reviewURL = URL + "/api/activity/?organization=" + organization;
+        ArrayList<Review> ret = new ArrayList<Review>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, reviewURL, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Review review = gson.fromJson(jsonact.toString(), Review.class);
+                                ret.add(review);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseReviewList(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se han encontrado reseñas", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado reseñas");
+                    }
+                }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
 }

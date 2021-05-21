@@ -64,6 +64,10 @@
             android:label="@string/title_activity_report"
             android:parentActivityName=".MainActivity" />
 
+        <activity
+            android:name=".ui.organization.OrganizationActivity"
+            android:label="Perfil Organizacion"
+            android:parentActivityName=".MainActivity" />
 
         <activity android:name=".ui.userfeedback.ReviewActivity"
             android:label="@string/title_activity_review"

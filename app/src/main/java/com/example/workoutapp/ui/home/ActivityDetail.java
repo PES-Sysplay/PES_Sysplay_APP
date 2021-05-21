@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -23,7 +24,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.organization.OrganizationActivity;
 import com.example.workoutapp.ui.userfeedback.ReportActivity;
 import com.example.workoutapp.ui.userfeedback.ReviewActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,7 +50,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
     int pos, clientsJoin;
     ImageView photo, people_photo;
-    TextView activity,organization, time, place,price, member_price,description,people_activity;
+    Button organization;
+    TextView activity, time, place,price, member_price,description,people_activity;
     Boolean favorite, is_old, checked_in, joined;
     MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
@@ -155,7 +159,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
-                    });
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
+
+                    }
+
+                });
 
                 return true;
 
@@ -180,6 +189,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
 
                     }
 
@@ -259,7 +273,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     void init_values(){
 
         activity = findViewById(R.id.activitat_text);
-        organization = findViewById(R.id.organization_text);
+        organization = findViewById(R.id.organization_button);
         time = findViewById(R.id.timehour_text);
         place = findViewById(R.id.place_text);
         price = findViewById(R.id.price_text);
@@ -269,6 +283,14 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         photo = findViewById(R.id.imageView);
         people_photo = findViewById(R.id.people_drawable);
         buttonJoin = findViewById(R.id.meapunto);
+
+        organization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityIntent = new Intent(getApplicationContext(), OrganizationActivity.class);
+                startActivity(activityIntent);
+            }
+        });
 
     }
     void updatePeople(int join){

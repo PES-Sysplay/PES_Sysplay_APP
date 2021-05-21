@@ -22,7 +22,7 @@
             android:layout_marginStart="32dp"
             android:text="ORGANIZACIÓN"
             android:textColor="#808080"
-            app:layout_constraintBottom_toTopOf="@+id/organization_text"
+            app:layout_constraintBottom_toTopOf="@+id/organization_button"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -131,8 +131,8 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <TextView
-            android:id="@+id/organization_text"
+        <Button
+            android:id="@+id/organization_button"
             android:layout_width="159dp"
             android:layout_height="31dp"
             android:layout_marginStart="32dp"
