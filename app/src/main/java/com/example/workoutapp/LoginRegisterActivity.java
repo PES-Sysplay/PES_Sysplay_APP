@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginRegisterActivity extends AppCompatActivity {
 
@@ -31,11 +33,15 @@ public class LoginRegisterActivity extends AppCompatActivity {
     ViewPager viewPager;
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
+    Uri uri =null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        uri = getIntent().getData();
+
+
         setContentView(R.layout.activity_login_register);
 
         setLayout();
@@ -176,7 +182,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
             UserSingleton us = UserSingleton.setInstance(user_act, token,LoginRegisterActivity.this);
 
             if (!us.getId().equals("") && !us.getUsername().equals("")) {
+                String param = null;
                 Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+
+                if(uri != null){
+                    List<String> parameters = uri.getPathSegments();
+                    param = parameters.get(parameters.size() - 1);
+                    intent.putExtra("Link", Integer.valueOf(param));
+                    intent.putExtra("intents", 1);
+                    uri = null;
+                }
                 startActivity(intent);
                 finish();
             }

@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,24 +48,23 @@ import java.util.Locale;
 public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     int pos, clientsJoin;
-    ImageView photo, people_photo;
+    ImageView photo, people_photo,superhost;
     TextView activity,organization, time, place,price, member_price,description,people_activity;
-    Boolean favorite, is_old, checked_in, joined;
+    Boolean favorite, is_old, checked_in, joined,host;
     MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
     private GoogleMap mMap;
-    //public static final String API_KEY = "AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0";
-
+    Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-        pos = getIntent().getIntExtra("Position recycler",0);
+        pos = getIntent().getIntExtra("Position recycler", 0);
         invalidateOptionsMenu();
 
-        Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -84,6 +85,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // ATTENTION: This was auto-generated to handle app links.
+
     }
 
     @Override
@@ -198,6 +201,15 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 this.startActivity(intent);
                 return true;
 
+            case R.id.sharewith:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share");
+                startActivity(shareIntent);
+                return true;
+
             case android.R.id.home:
                 onBackPressed();
                 finish();
@@ -269,6 +281,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         photo = findViewById(R.id.imageView);
         people_photo = findViewById(R.id.people_drawable);
         buttonJoin = findViewById(R.id.meapunto);
+        superhost = findViewById(R.id.suphost_detail);
 
     }
     void updatePeople(int join){
@@ -308,8 +321,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         else{
             Date = activity_list.get(pos).getDate_time() +" - "+activity_list.get(pos).getDateTimeFinish();
         }
-
-
+        host = true; //activity_list.get(pos).isSuperHost()
+        if(host){
+            superhost.setVisibility(View.VISIBLE);
+        }
+        else{
+            superhost.setVisibility(View.GONE);
+        }
         time.setText(Date);
         time.setText(Date);
         Integer activity_ID = activity_list.get(pos).getId();
