@@ -101,7 +101,7 @@
 
     <com.shobhitpuri.custombuttons.GoogleSignInButton
         android:id="@+id/signupgoogle"
-        android:layout_width="115dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:background="@drawable/google_button_bg"
