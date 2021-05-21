@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import com.example.workoutapp.ui.profile.ChangePasswordFragment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -47,16 +49,22 @@ public class HomeFragment extends Fragment {
     private LayoutInflater privInflater;
     private ViewGroup privContainer;
     private Bundle privInstanceState;
+    Uri uri;
+    int intents = 0, poss = -33;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        intents = getActivity().getIntent().getIntExtra("intents", 0);
+        poss = getActivity().getIntent().getIntExtra("Link", -33);
+
     }
 
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
 
         privInflater = inflater;
         privContainer = container;
@@ -79,6 +87,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        uri = getActivity().getIntent().getData();
 
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -130,6 +139,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
+
+                if(poss != -33 && intents == 1){
+
+                    adapter.setLink(poss);
+                    intents = 0;
+                }
                 adapter.setList(ret);
                 Log.d("STATE", ret.get(0).getDate_time());
                 // do things

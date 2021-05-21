@@ -183,7 +183,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             Context context = v.getContext();
                             Intent intent = new Intent(context, ActivityDetail.class);
                             intent.putExtra("Position recycler", j);
-                            intent.putExtra("From", "map");
                             context.startActivity(intent);
                         }
                     });
@@ -253,8 +252,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     if (ContextCompat.checkSelfPermission(getContext(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
-
                         location = true;
                     }
 
