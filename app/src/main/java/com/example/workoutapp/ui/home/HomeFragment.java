@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment {
     private LayoutInflater privInflater;
     private ViewGroup privContainer;
     private Bundle privInstanceState;
-    Uri uri;
     int intents = 0, poss = -33;
 
     @Override
@@ -58,7 +57,6 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         intents = getActivity().getIntent().getIntExtra("intents", 0);
         poss = getActivity().getIntent().getIntExtra("Link", -33);
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -87,7 +85,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        uri = getActivity().getIntent().getData();
 
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -146,7 +143,7 @@ public class HomeFragment extends Fragment {
                     intents = 0;
                 }
                 adapter.setList(ret);
-                Log.d("STATE", ret.get(0).getDate_time());
+                Log.d("ACTIVITIES", ret.get(0).getDate_time());
                 // do things
             }
 

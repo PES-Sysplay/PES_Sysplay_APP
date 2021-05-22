@@ -206,7 +206,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setType("text/plain");
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
-                Intent shareIntent = Intent.createChooser(sendIntent, "Share");
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share Activity");
                 startActivity(shareIntent);
                 return true;
 
@@ -321,7 +321,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         else{
             Date = activity_list.get(pos).getDate_time() +" - "+activity_list.get(pos).getDateTimeFinish();
         }
-        host = true; //activity_list.get(pos).isSuperHost()
+
+        host = activity_list.get(pos).isSuperHost();
         if(host){
             superhost.setVisibility(View.VISIBLE);
         }

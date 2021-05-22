@@ -31,6 +31,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
     int link = -33;
+    boolean secure = true;
 
     private final Filter exampleFilter = new Filter() {
         @Override
@@ -109,7 +110,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         holder.dateTime.setText(activitats.get(position).getDateTimeString());
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
 
-        boolean shost = true; //activitats.get(position).isSuperHost();
+        boolean shost = activitats.get(position).isSuperHost();
         if(shost){
             holder.superhost.setVisibility(View.VISIBLE);
         }
@@ -117,12 +118,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.superhost.setVisibility(View.GONE);
 
         }
-        if(link != -33){
+        if(link != -33 && secure){
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", link);
             context.startActivity(intent);
             link = -33;
+            secure = false;
         }
         holder.itemView.setOnClickListener((View v) -> {
             Context context = v.getContext();
