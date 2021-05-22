@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -22,17 +21,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
-import com.example.workoutapp.UserController;
-import com.example.workoutapp.ui.profile.ChangePasswordFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -143,7 +139,11 @@ public class HomeFragment extends Fragment {
                     intents = 0;
                 }
                 adapter.setList(ret);
-                Log.d("ACTIVITIES", ret.get(0).getDate_time());
+
+
+                Log.d("STATE", ret.get(0).getDate_time());
+                MainActivity.response = true;
+
                 // do things
             }
 
@@ -155,7 +155,6 @@ public class HomeFragment extends Fragment {
             public void onResponseJoinActivity() {
 
             }
-
         });
     }
 
