@@ -12,11 +12,13 @@ import com.example.workoutapp.ui.usermanage.NotificationsManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static Boolean response = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_WorkOut);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -32,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu ( Menu menu ) {
         NotificationsManager notificationsMgr = new NotificationsManager();
-        notificationsMgr.checkActivities();
+        notificationsMgr.checkJoinedActivities();
+        notificationsMgr.checkFavsActivities();
         return true;
     }
 

@@ -23,7 +23,6 @@ public class Activitat {
     boolean checked_in;
     boolean reported;
     boolean reviewed;
-    boolean notified;
     String token;
     String date_time_finish;
   
@@ -154,7 +153,4 @@ public class Activitat {
 
     public boolean isOld() { return timestamp*1000L<System.currentTimeMillis(); }
 
-    public void setNotified() { this.notified = true; }
-
-    public boolean isNotified() { return notified; }
 }

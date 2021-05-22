@@ -22,7 +22,8 @@
         <activity android:name=".ui.favorites.ActivityFavorites" />
         <activity
             android:name=".ui.profile.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -31,7 +32,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.WorkOut"
+            android:theme="@style/SplashTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +46,7 @@
         <activity
             android:name=".LoginRegisterActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.WorkOut.NoActionBar"
+            android:theme="@style/SplashTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
