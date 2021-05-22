@@ -152,4 +152,5 @@ public class Activitat {
     }
 
     public boolean isOld() { return timestamp*1000L<System.currentTimeMillis(); }
+
 }

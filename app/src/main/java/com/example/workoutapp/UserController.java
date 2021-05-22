@@ -224,6 +224,10 @@ public class UserController {
                     ret.add(email);
                     String favs = response.getString("favorites");
                     ret.add(favs);
+                    String joined = response.getString("joined");
+                    ret.add(joined);
+                    String notifs = response.getString("notifications");
+                    ret.add(notifs);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -301,6 +305,44 @@ public class UserController {
         };
 
         RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
+    }
+
+    public void putNofications(String email, VolleyResponseListener vrl) {
+        String notifsURL = URL + "/api/me/";
+        Map<String, String> params = new HashMap<>();
+        params.put("email_notifications", email);
+        JSONObject jsonBody = new JSONObject(params);
+        final String requestBody = jsonBody.toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, notifsURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                vrl.onResponse("Notificaciones actualizadas");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al cambiar los ajustes de notificaciones");
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
 }
 
