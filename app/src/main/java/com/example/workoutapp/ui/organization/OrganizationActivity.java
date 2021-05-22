@@ -1,6 +1,7 @@
 package com.example.workoutapp.ui.organization;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ public class OrganizationActivity extends AppCompatActivity {
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(adapter);
 
+        rating.setIsIndicator(true);
+
         setOrganization();
         setReviews();
     }
@@ -59,6 +62,15 @@ public class OrganizationActivity extends AppCompatActivity {
         //Picasso.get().load(imageURI).into(orgImage);
         Picasso.get().load("https://pbs.twimg.com/profile_images/1142612147945582593/RHeNlcg5_400x400.jpg").into(orgImage);
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setReviews() {
@@ -92,11 +104,11 @@ public class OrganizationActivity extends AppCompatActivity {
             @Override
             public void onResponseReviewList(ArrayList<Review> ret) {
                 reviews = ret;
-               //adapter.setReviews(reviews);
+                //adapter.setReviews(reviews);
 
                 Review aux = new Review(4.5f, "tonto quien lo lea", null, null);
                 List<Review> asdasda = new ArrayList<Review>();
-                for(int i = 0; i < 10; ++i) asdasda.add(aux);
+                for (int i = 0; i < 10; ++i) asdasda.add(aux);
                 adapter.setReviews(asdasda);
             }
         });

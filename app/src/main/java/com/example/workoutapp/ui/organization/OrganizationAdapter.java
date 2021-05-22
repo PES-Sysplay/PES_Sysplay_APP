@@ -1,13 +1,11 @@
 package com.example.workoutapp.ui.organization;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +17,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.ViewHolder>{
+public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.ViewHolder> {
 
     private static OrganizationAdapter INSTANCE;
     LayoutInflater inflater;
     List<Review> reviews;
+
+    public OrganizationAdapter(Context ctx, List<Review> reviews) {
+        this.inflater = LayoutInflater.from(ctx);
+        this.reviews = reviews;
+    }
+
+    public static OrganizationAdapter getInstance(Context ctx, List<Review> reviews) {
+        if (INSTANCE == null) INSTANCE = new OrganizationAdapter(ctx, reviews);
+        return INSTANCE;
+    }
 
     @NonNull
     @NotNull
@@ -40,6 +48,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         //holder.date.setText(reviews.get(position).getDate());
         holder.rating.setRating(reviews.get(position).getRating());
 
+        holder.rating.setIsIndicator(true);
 
         holder.username.setText("Benito");
         holder.date.setText("05/04/20");
@@ -50,17 +59,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         return reviews.size();
     }
 
-    public static OrganizationAdapter getInstance(Context ctx, List<Review> reviews){
-        if (INSTANCE == null) INSTANCE = new OrganizationAdapter(ctx, reviews);
-        return INSTANCE;
-    }
-
-    public OrganizationAdapter(Context ctx, List<Review> reviews){
-        this.inflater = LayoutInflater.from(ctx);
-        this.reviews = reviews;
-    }
-
-    void setReviews(List<Review> reviews){
+    void setReviews(List<Review> reviews) {
         this.reviews = reviews;
         notifyDataSetChanged();
     }
