@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -200,6 +201,11 @@ public class CalendarFragment extends Fragment {
                 activitatsUsuari = ret;
                 setUpEvents();
                 displayActivitiesByDate(Calendar.getInstance().getTime());
+            }
+
+            @Override
+            public void onResponseChat(ArrayList<Chat> ret) {
+
             }
         });
     }

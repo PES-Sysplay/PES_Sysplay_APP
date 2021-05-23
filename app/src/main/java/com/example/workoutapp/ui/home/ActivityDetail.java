@@ -24,8 +24,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.chat.ChatActivity;
 import com.example.workoutapp.ui.userfeedback.ReportActivity;
 import com.example.workoutapp.ui.userfeedback.ReviewActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -98,9 +100,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         moreBtn = menu.findItem(R.id.action_more);
         qrBtn = menu.findItem(R.id.action_qr);
         favorite =  activity_list.get(pos).isFavorite();
+        joined = activity_list.get(pos).isJoined();
         is_old = activity_list.get(pos).isOld();
         checked_in = activity_list.get(pos).isChecked_in();
-        joined = activity_list.get(pos).isJoined();
 
         if(!favorite){
             favBtn.setVisible(true);
@@ -111,19 +113,19 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        if(!joined || !checked_in || !is_old) {
-            moreBtn.setVisible(false);
-        }
-        else {
-            moreBtn.setVisible(true);
-        }
-
         if (!joined) {
             qrBtn.setVisible(false);
         }
 
         else {
             qrBtn.setVisible(true);
+        }
+
+        if (is_old && !checked_in) {
+            moreBtn.setVisible(false);
+        }
+        else {
+            moreBtn.setVisible(true);
         }
         return true;
     }
@@ -158,7 +160,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
-                    });
+                    @Override
+                    public void onResponseChat(ArrayList<Chat> ret) {}
+
+                });
 
                 return true;
 
@@ -182,9 +187,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) { }
 
-                    }
+                    @Override
+                    public void onResponseChat(ArrayList<Chat> ret) {}
 
                 });
 
@@ -228,21 +234,29 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         popup.inflate(R.menu.scrolling_options_menu);
 
         MenuItem reportBt = popup.getMenu().findItem(R.id.reportBt);
-
-        if (activity_list.get(pos).isReported()) {
-            reportBt.setVisible(false);
-        }
-        else {
-            reportBt.setVisible(true);
-        }
-
         MenuItem reviewBt = popup.getMenu().findItem(R.id.reviewBt);
+        MenuItem questionBt = popup.getMenu().findItem(R.id.questionBt);
+        is_old = activity_list.get(pos).isOld();
+        checked_in = activity_list.get(pos).isChecked_in();
 
-        if (activity_list.get(pos).isReviewed()) {
-            reviewBt.setVisible(false);
+        //ini a false
+        reportBt.setVisible(false);
+        reviewBt.setVisible(false);
+        questionBt.setVisible(false);
+
+        if (is_old && checked_in) {
+
+            if (!activity_list.get(pos).isReported()) {
+                reportBt.setVisible(true);
+            }
+
+            if (!activity_list.get(pos).isReviewed()) {
+                reviewBt.setVisible(true);
+            }
         }
-        else {
-            reviewBt.setVisible(true);
+
+        else if (!is_old) { //not old
+            questionBt.setVisible(true);
         }
 
         popup.show();
@@ -261,6 +275,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 review.putExtra("Position recycler", pos);
                 this.startActivity(review);
                 break;
+            case R.id.questionBt:
+                Intent question = new Intent(this, ChatActivity.class);
+                question.putExtra("Position recycler", pos);
+                this.startActivity(question);
+
             default:
                 return super.onContextItemSelected(item);
 
