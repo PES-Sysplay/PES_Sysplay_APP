@@ -25,13 +25,13 @@ public class Activitat {
     boolean reviewed;
     String token;
     String date_time_finish;
-  
+    boolean superhost;
     //empty constructor
     public Activitat() {
     }
 
     //constructor with all parameters
-    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float number_participants, String status, String location, boolean only_member, String organization, Long timestamp, String date_time_finish) {
+    public Activitat(String name, String description, String photo_url, String activity_type_id, String date_time, float duration, float normal_price, float member_price, float number_participants, String status, String location, boolean only_member, String organization, Long timestamp, String date_time_finish, boolean superhost) {
         this.name = name;
         this.description = description;
         this.photo_url = photo_url;
@@ -47,6 +47,7 @@ public class Activitat {
         this.organization = organization;
         this.timestamp = timestamp;
         this.date_time_finish = date_time_finish;
+        this.superhost = superhost;
     }
 
     //constructor with the paramters we will most likely use
@@ -151,5 +152,10 @@ public class Activitat {
         return activity_type_id;
     }
 
+
     public boolean isOld() { return (timestamp+(60*duration))*1000L<System.currentTimeMillis(); }
+
+    public boolean isSuperHost(){
+        return superhost;
+    }
 }

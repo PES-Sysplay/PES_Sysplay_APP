@@ -27,6 +27,7 @@ import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
+    private static String emailNotif;
     private ProfileViewModel mViewModel;
 
     public static ProfileFragment newInstance() {
@@ -109,6 +110,8 @@ public class ProfileFragment extends Fragment {
             public void onResponseProfile(ArrayList<String> ret) {
                 email.append(ret.get(0));
                 favorites.append(ret.get(1));
+                events.append(ret.get(2));
+                emailNotif = ret.get(3);
             }
         });
     }
@@ -124,4 +127,7 @@ public class ProfileFragment extends Fragment {
         pref_ctrl.deletePreferences(user_act);
     }
 
+    public static Boolean getEmailNotif(){
+        return emailNotif == "true";
+    }
 }
