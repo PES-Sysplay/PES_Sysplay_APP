@@ -3,12 +3,17 @@ package com.example.workoutapp;
 public class Message {
 
     String text;
-    String user_token;
+
+    String username;
+    int id;
+    float date_timestamp; //secs
 
     public Message(String text, String user) {
         this.text = text;
-        this.user_token = user;
+        this.username = user;
     }
+
+    public String getUsername() { return username; }
 
     public String getText() {
         return text;
@@ -19,10 +24,12 @@ public class Message {
     }
 
     public String getUserId() {
-        return user_token;
+        return username;
     }
 
     public void setUser(String user) {
-        this.user_token = user;
+        this.username = user;
     }
+
+    public float getDate_timestamp() { return date_timestamp; }
 }

@@ -12,7 +12,7 @@
         android:background="@drawable/me_bubble"
         android:layout_alignParentEnd="true"
         android:padding="16dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 </RelativeLayout>

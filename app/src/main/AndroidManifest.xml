@@ -14,7 +14,6 @@
         android:theme="@style/Theme.WorkOut">
         <activity
             android:name=".ui.chat.ChatActivity"
-            android:label="@string/title_activity_chat"
             android:parentActivityName=".MainActivity"/>
 
         <activity

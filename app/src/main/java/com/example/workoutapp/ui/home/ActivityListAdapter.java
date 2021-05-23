@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
 import com.squareup.picasso.Picasso;
@@ -146,9 +147,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
-                public void onResponseFav() {
+                public void onResponseChat(ArrayList<Chat> ret) {}
 
-                }
+                @Override
+                public void onResponseFav() {}
 
             });
             activitats.get(position).toggleFavorite();
@@ -171,18 +173,16 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
-                public void onResponseFavorites(ArrayList<Activitat> ret) {
-                }
+                public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-
-                }
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseFav() {
+                public void onResponseChat(ArrayList<Chat> ret) {}
 
-                }
+                @Override
+                public void onResponseFav() {}
 
             });
             activitats.get(position).toggleFavorite();
