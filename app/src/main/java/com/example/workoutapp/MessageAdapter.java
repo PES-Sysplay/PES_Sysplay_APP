@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +28,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
 
     List<Message> Messages;
     Context context;
-    class CustomViewHolder extends RecyclerView.ViewHolder{
+    static class CustomViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -52,6 +54,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
         return Messages.size();
     }
 
+    @NotNull
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CustomViewHolder(LayoutInflater.from(parent.getContext())
@@ -72,7 +75,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
 
         float x = Messages.get(position).getDate_timestamp();
         long lx = (long) x;
-        long ctm = System.currentTimeMillis();
         Timestamp stamp = new Timestamp(lx*1000L);
         Date date = new Date(stamp.getTime());
         DateFormat dateFormat = new SimpleDateFormat("d MMM HH:mm");
@@ -89,7 +91,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
             holder.textView.append(orgText);
         }
         holder.textView.append(text);
-        if (text.length()<10) holder.textView.append("     ");
         holder.textView.append("\n");
         holder.textView.append(time);
     }

@@ -21,15 +21,15 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        app:showAsAction="always"
-        android:title="More" />
-
-    <item
         android:id="@+id/sharewith"
         android:icon="@drawable/share"
         app:showAsAction="always"
         android:title="Share" />
+
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_baseline_more_vert_24"
+        app:showAsAction="always"
+        android:title="More" />
 
 </menu>
