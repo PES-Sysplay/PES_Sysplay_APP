@@ -8,9 +8,10 @@ public class Message {
     int id;
     float date_timestamp; //secs
 
-    public Message(String text, String user) {
+    public Message(String text, String user, Long date_timestamp) {
         this.text = text;
         this.username = user;
+        this.date_timestamp = date_timestamp;
     }
 
     public String getUsername() { return username; }

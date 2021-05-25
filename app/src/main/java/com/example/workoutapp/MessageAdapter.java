@@ -75,9 +75,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
 
         float x = Messages.get(position).getDate_timestamp();
         long lx = (long) x;
-        Timestamp stamp = new Timestamp(lx*1000L);
+        Timestamp stamp = new Timestamp(lx*1000);
         Date date = new Date(stamp.getTime());
-        DateFormat dateFormat = new SimpleDateFormat("d MMM HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("d MMM, HH:mm");
         String strTime = dateFormat.format(date);
         Spannable time = new SpannableString(strTime);
         time.setSpan(new ForegroundColorSpan(Color.GRAY), 0, time.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

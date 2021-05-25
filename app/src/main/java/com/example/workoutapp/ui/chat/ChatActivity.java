@@ -142,7 +142,7 @@ public class ChatActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND){
                     String text = userInput.getText().toString();
-                    Message mess = new Message(text, UserSingleton.getInstance().getUsername());
+                    Message mess = new Message(text, UserSingleton.getInstance().getUsername(), System.currentTimeMillis()/1000);
                     uac.sendMessage(act.getId(), text, new UserActivityController.VolleyResponseListener() {
                         @Override
                         public void onError(String message) {
