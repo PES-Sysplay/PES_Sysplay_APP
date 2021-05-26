@@ -28,6 +28,7 @@ import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
+    private static String emailNotif;
     private ProfileViewModel mViewModel;
 
     public static ProfileFragment newInstance() {
@@ -65,6 +66,7 @@ public class ProfileFragment extends Fragment {
                 Context context = view.getContext();
                 logOut(context);
                 Intent intent = new Intent(context, LoginRegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -120,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 email.append(ret.get(0));
                 favorites.append(ret.get(1));
                 events.append(ret.get(2));
+                emailNotif = ret.get(3);
             }
         });
     }
@@ -135,4 +138,7 @@ public class ProfileFragment extends Fragment {
         pref_ctrl.deletePreferences(user_act);
     }
 
+    public static Boolean getEmailNotif(){
+        return emailNotif == "true";
+    }
 }

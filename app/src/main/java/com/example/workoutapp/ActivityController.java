@@ -20,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +29,14 @@ public class ActivityController {
 
     public static final String BASE_URL = "https://dev-pes-workout.herokuapp.com";
 
-    Context ctx;
+    private static Context ctx;
 
     public ActivityController(Context context) {
         this.ctx = context;
+    }
+
+    public static Context getContext(){
+        return ctx;
     }
 
     public void getActivitats(VolleyResponseListener vrl) {
