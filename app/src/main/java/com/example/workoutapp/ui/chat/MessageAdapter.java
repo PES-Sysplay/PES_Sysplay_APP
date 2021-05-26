@@ -1,4 +1,4 @@
-package com.example.workoutapp;
+package com.example.workoutapp.ui.chat;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.workoutapp.Message;
+import com.example.workoutapp.R;
+import com.example.workoutapp.UserSingleton;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -4,27 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannedString;
-import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.Message;
-import com.example.workoutapp.MessageAdapter;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.UserSingleton;
@@ -39,7 +31,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Message> MessageList;
     MessageAdapter messageAdapter;
-    int pos;
+    int activity_id;
     Activitat act;
     Chat chat;
 
@@ -50,10 +42,11 @@ public class ChatActivity extends AppCompatActivity {
 
         Context ctx = this;
 
-        pos = getIntent().getIntExtra("Position recycler",0);
-        act = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo().get(pos);
+        activity_id = getIntent().getIntExtra("Id recycler",0);
+        //act = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo().get(pos);
+        act = get_activity();
 
-        setTitle(act.getOrganizerName());
+        setTitle(act.getOrganizerName() + " - " + act.getName());
 
         userInput = findViewById(R.id.userInput);
         recyclerView = findViewById(R.id.conversation);
@@ -128,6 +121,9 @@ public class ChatActivity extends AppCompatActivity {
                                 MessageList.add(chat.getMessageList().get(i));
                                 updateMessages();
                             }
+                            if(!isVisible()) {
+                                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
+                            }
                         }
                     });
                 }
@@ -153,6 +149,9 @@ public class ChatActivity extends AppCompatActivity {
                         public void onResponse(String message) {
                             MessageList.add(mess);
                             updateMessages();
+                            if(!isVisible()) {
+                                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
+                            }
                             userInput.clearComposingText();
                             userInput.getText().clear();
                         }
@@ -183,12 +182,16 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private Activitat get_activity() {
+        List<Activitat> al = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+        for (int i=0; i<al.size(); i++) {
+            if (al.get(i).getId()==activity_id) return al.get(i);
+        }
+        return null;
+    }
+
     private void updateMessages() {
         messageAdapter.notifyDataSetChanged();
-
-        if(!isVisible()) {
-            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
-        }
     }
 
     public boolean isVisible(){
