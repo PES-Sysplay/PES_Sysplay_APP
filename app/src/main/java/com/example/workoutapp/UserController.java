@@ -224,6 +224,8 @@ public class UserController {
                     ret.add(email);
                     String favs = response.getString("favorites");
                     ret.add(favs);
+                    String events = response.getString("joined");
+                    ret.add(events);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

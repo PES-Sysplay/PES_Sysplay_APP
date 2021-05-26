@@ -125,6 +125,7 @@ public class ProfileFragment extends Fragment {
             public void onResponseProfile(ArrayList<String> ret) {
                 email.append(ret.get(0));
                 favorites.append(ret.get(1));
+                events.append(ret.get(2));
             }
         });
     }
