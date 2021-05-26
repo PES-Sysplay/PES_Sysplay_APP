@@ -81,7 +81,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button3"
+            android:id="@+id/my_activities"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/button_transparent"
@@ -175,10 +175,10 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/button3"
-            app:layout_constraintEnd_toEndOf="@+id/button3"
-            app:layout_constraintStart_toStartOf="@+id/button3"
-            app:layout_constraintTop_toTopOf="@+id/button3"
+            app:layout_constraintBottom_toBottomOf="@+id/my_activities"
+            app:layout_constraintEnd_toEndOf="@+id/my_activities"
+            app:layout_constraintStart_toStartOf="@+id/my_activities"
+            app:layout_constraintTop_toTopOf="@+id/my_activities"
             app:layout_constraintVertical_bias="0.3" />
 
 

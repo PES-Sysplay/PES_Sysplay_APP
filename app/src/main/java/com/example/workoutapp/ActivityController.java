@@ -87,6 +87,101 @@ public class ActivityController {
         };
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
+    public void getActivitatFut(VolleyResponseListener vrl) {
+        String url = BASE_URL + "/api/activity/?joined=true";
+        ArrayList<Activitat> ret = new ArrayList<>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
+                                ret.add(act);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseActivity(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se han encontrado actividades", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado actividades");
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public void getActivitatOld(VolleyResponseListener vrl) {
+        String url = BASE_URL + "/api/activity";
+        ArrayList<Activitat> ret = new ArrayList<>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                            try {
+                                JSONObject jsonact = response.getJSONObject(3);
+                                Gson gson = new Gson();
+                                Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
+                                ret.add(act);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        vrl.onResponseActivity(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se han encontrado actividades", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado actividades");
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
 
     public void getActivityTypes(VolleyResponseListener vrl) {
         String url = BASE_URL + "/api/activitytype";
