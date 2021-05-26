@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,9 +84,12 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.my_activities).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, MyActivitiesActivity.class);
-                context.startActivity(intent);
+//                Context context = view.getContext();
+//                Intent intent = new Intent(context, MyActivitiesActivity.class);
+//                context.startActivity(intent);
+                NavHostFragment.findNavController(ProfileFragment.this)
+                        .navigate(R.id.action_navigation_profile_to_my_activities_fragment);
+
             }
         });
 

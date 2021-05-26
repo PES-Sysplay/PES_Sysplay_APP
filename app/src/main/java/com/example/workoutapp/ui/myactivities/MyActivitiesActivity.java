@@ -8,6 +8,7 @@ import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -20,40 +21,46 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.workoutapp.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MyActivitiesActivity extends AppCompatActivity {
+public class MyActivitiesActivity extends Fragment {
 
     TabLayout tabLayout;
-    ViewPager viewPager;
-
+    ViewPager2 viewPager;
+    ViewGroup root;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_activities);
+        setHasOptionsMenu(true);
+    }
 
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        root = (ViewGroup) inflater.inflate(R.layout.activity_my_activities, container, false);
+        tabLayout = root.findViewById(R.id.tab_layout_act);
+        viewPager = root.findViewById(R.id.view_pager_act);
 
-        tabLayout.addTab(tabLayout.newTab().setText("PENDIENTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("ANTIGUAS"));
-        tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
-        final MyActivitiesFragmentManager fragManager = new MyActivitiesFragmentManager(getSupportFragmentManager(), this, tabLayout.getTabCount());
-
-        viewPager.setAdapter(fragManager);
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        FragmentStateAdapter adapter = new MyActivitiesFragmentManager(this);
+        viewPager.setAdapter(adapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -63,18 +70,33 @@ public class MyActivitiesActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                //escribe(tab.getPosition());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu ( Menu menu ) {
-        return true;
+        String [] tabTtiles={"PENDIENTES","ANTIGUAS"};
+        new TabLayoutMediator(tabLayout, viewPager,
+                (myTabLayout, position) ->
+                myTabLayout.setText(tabTtiles[position])
+        ).attach();
+//        tabLayout.addTab(tabLayout.newTab().setText("PENDIENTES"));
+//        tabLayout.addTab(tabLayout.newTab().setText("ANTIGUAS"));
+//        tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
+        //final MyActivitiesFragmentManager fragManager = new MyActivitiesFragmentManager(getSupportFragment());
+
+
+        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        return root;
     }
+    
+
+    /*public void escribe(int pos){
+        Toast.makeText(this, pos, Toast.LENGTH_SHORT).show();
+    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -85,8 +107,9 @@ public class MyActivitiesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
+    
     public void onBackPressed() {
-        super.onBackPressed();
+        super.onDestroy();
     }
 }

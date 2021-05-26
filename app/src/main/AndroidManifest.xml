@@ -13,10 +13,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkOut">
-        <activity
-            android:name=".ui.myactivities.MyActivitiesActivity"
-            android:label="@string/title_activity_my_activities2"
-            android:parentActivityName=".MainActivity"/>
+<!--        <activity-->
+<!--            android:name=".ui.myactivities.MyActivitiesActivity"-->
+<!--            android:label="@string/title_activity_my_activities2"-->
+<!--            android:parentActivityName=".MainActivity"/>-->
         <activity
             android:name=".ui.home.QRActivity"
             android:label="@string/title_activity_qr"

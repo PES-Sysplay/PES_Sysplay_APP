@@ -85,7 +85,7 @@ public class ActivityController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
     public void getActivitatFut(VolleyResponseListener vrl) {
-        String url = BASE_URL + "/api/activity";
+        String url = BASE_URL + "/api/activity/?joined=true";
         ArrayList<Activitat> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
@@ -94,15 +94,17 @@ public class ActivityController {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        try {
-                            JSONObject jsonact = response.getJSONObject(5);
-                            Gson gson = new Gson();
-                            Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
-                            ret.add(act);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
+                                ret.add(act);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
+                        }
                         vrl.onResponseActivity(ret);
                     }
                 }, new Response.ErrorListener() {
@@ -131,7 +133,7 @@ public class ActivityController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
     }
 
-    public void getActivitat(VolleyResponseListener vrl) {
+    public void getActivitatOld(VolleyResponseListener vrl) {
         String url = BASE_URL + "/api/activity";
         ArrayList<Activitat> ret = new ArrayList<>();
 

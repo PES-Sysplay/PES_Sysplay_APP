@@ -4,82 +4,136 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.example.workoutapp.ui.home.HomeFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class OldTabFragment extends HomeFragment {
+
+    ViewGroup root;
+    ArrayList<Activitat> oldActivities;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //super.onCreateView(inflater, container, savedInstanceState);
+        privInflater = inflater;
 
-        View root = inflater.inflate(R.layout.fragment_act_old, container, false);
-        recyclerView = root.findViewById(R.id.recyclerview);
+        root = (ViewGroup) inflater.inflate(R.layout.fragment_act_old, container, false);
+
+        recyclerView = root.findViewById(R.id.recyclerviewold);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
 
-        updateList(root);
         super.updateType(root);
 
-        adapterOld = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setAdapter(adapterOld);
+        recyclerView.setAdapter(adapter);
 
         return root;
     }
-
-    @Override
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onCreateView(privInflater, privContainer, savedInstanceState);
+    }*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
     }
 
-    @Override
-    public void updateList(View root) {
-        //super.updateList(root);
-        adapter = adapterOld;
-        recyclerView.setAdapter(adapterOld);
-        ActivityController dc = new ActivityController(getContext());
+    private void updateList() {
+        UserActivityController uc = new UserActivityController(getContext());
 
-        dc.getActivitat(new ActivityController.VolleyResponseListener() {
+        uc.getJoinedActivities(new UserActivityController.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void onResponseActivity(ArrayList<Activitat> ret) {
-                adapterOld.setList(ret);
-                Log.d("STATE", ret.get(0).getDate_time());
-                // do things
+            public void onResponse(String message) {
+
             }
 
             @Override
-            public void onResponseType(ArrayList<String> ret) {
+            public void onResponseFavorites(ArrayList<Activitat> ret) {
+
             }
 
             @Override
-            public void onResponseJoinActivity() {
+            public void onResponseFav() {
 
             }
 
+            @Override
+            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                oldActivities = ret;
+                //setUpEvents();
+                displayOldAct();
+            }
         });
     }
+
+    private void displayOldAct() {
+        ArrayList<Activitat> oldAux = new ArrayList<>();
+
+        Date date = Calendar.getInstance().getTime();
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTime(date);
+
+        currentTime.set(Calendar.HOUR_OF_DAY, 0);
+        currentTime.set(Calendar.MINUTE, 0);
+        currentTime.set(Calendar.SECOND, 0);
+
+        if (oldActivities != null){
+            for (Activitat act : oldActivities) {
+
+                Calendar dateAux = Calendar.getInstance();
+                dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
+                dateAux.set(Calendar.HOUR_OF_DAY, 0);
+                dateAux.set(Calendar.MINUTE, 0);
+                dateAux.set(Calendar.SECOND, 0);
+                if (dateAux.before(currentTime)) oldAux.add(act);
+                adapter.setList(oldAux);
+                //recyclerView.setAdapter(adapter);
+            }
+        }
+    }
+
+
 }

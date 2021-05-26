@@ -2,37 +2,44 @@ package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import org.jetbrains.annotations.NotNull;
 
 
-public class MyActivitiesFragmentManager extends FragmentPagerAdapter {
+public class MyActivitiesFragmentManager extends FragmentStateAdapter {
     private Context context;
-    int totalTabs;
+    private static final int totalTabs = 2;
 
-    public MyActivitiesFragmentManager (FragmentManager fm, Context ctx, int totaltabs) {
-        super(fm);
+    public MyActivitiesFragmentManager (Fragment frag) {
+        super(frag);
 
-        this.context = ctx;
-        this.totalTabs = totaltabs;
+        //this.context = ctx;
+        //this.totalTabs = totaltabs;
     }
 
+    @NonNull
+    @NotNull
     @Override
-    public int getCount() {
-        return totalTabs;
-    }
-
-    public Fragment getItem(int position){
-        switch (position){
+    public Fragment createFragment(int position) {
+        switch (position) {
             case 0:
-                FutureTabFragment futureTabFragment = new FutureTabFragment();
-                return futureTabFragment;
+                return new FutureTabFragment();
             case 1:
-                OldTabFragment oldTabFragment = new OldTabFragment();
-                return oldTabFragment;
+                return new OldTabFragment();
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return totalTabs;
     }
 }

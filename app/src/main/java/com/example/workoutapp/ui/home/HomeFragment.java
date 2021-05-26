@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -21,17 +20,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.R;
-import com.example.workoutapp.UserController;
-import com.example.workoutapp.ui.profile.ChangePasswordFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,15 +37,12 @@ public class HomeFragment extends Fragment {
 
     public RecyclerView recyclerView;
     public ActivityListAdapter adapter;
-    public ActivityListAdapter adapterHome;
-    public ActivityListAdapter adapterOld;
-    public ActivityListAdapter adapterFuture;
     private Boolean advancedSearch = false;
     private SearchView searchView;
     public LayoutInflater privInflater;
-    public ViewGroup privContainer;
-    public Bundle privInstanceState;
-    public View root;
+    private ViewGroup privContainer;
+    private Bundle privInstanceState;
+    private View root;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +65,11 @@ public class HomeFragment extends Fragment {
         updateList(root);
         updateType(root);
 
-        adapterHome = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+       /* adapterHome = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
         adapterOld = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
-        adapterFuture = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterFuture = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());*/
 
-        adapter = adapterHome;
+        adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
