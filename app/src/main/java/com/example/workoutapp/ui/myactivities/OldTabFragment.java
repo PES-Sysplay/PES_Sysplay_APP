@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
@@ -45,7 +46,6 @@ public class OldTabFragment extends HomeFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //super.onCreateView(inflater, container, savedInstanceState);
         privInflater = inflater;
 
         root = (ViewGroup) inflater.inflate(R.layout.fragment_act_old, container, false);
@@ -62,14 +62,11 @@ public class OldTabFragment extends HomeFragment {
 
         return root;
     }
+
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        onCreateView(privInflater, privContainer, savedInstanceState);
-    }*/
+
     @Override
     public void onResume() {
         super.onResume();
@@ -103,8 +100,12 @@ public class OldTabFragment extends HomeFragment {
             @Override
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
                 oldActivities = ret;
-                //setUpEvents();
                 displayOldAct();
+            }
+
+            @Override
+            public void onResponseChat(ArrayList<Chat> ret) {
+
             }
         });
     }
@@ -130,10 +131,7 @@ public class OldTabFragment extends HomeFragment {
                 dateAux.set(Calendar.SECOND, 0);
                 if (dateAux.before(currentTime)) oldAux.add(act);
                 adapter.setList(oldAux);
-                //recyclerView.setAdapter(adapter);
             }
         }
     }
-
-
 }
