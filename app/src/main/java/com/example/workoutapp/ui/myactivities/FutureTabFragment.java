@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
@@ -41,16 +42,10 @@ public class FutureTabFragment extends HomeFragment {
         setHasOptionsMenu(true);
     }
 
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-        @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //super.onCreateView(inflater, container, savedInstanceState);
-        //Toast.makeText(getContext(), "FUTURE ONCREATEVIEW", Toast.LENGTH_SHORT).show();
         privInflater = inflater;
 
         root = (ViewGroup) inflater.inflate(R.layout.fragment_act_future, container, false);
@@ -68,28 +63,15 @@ public class FutureTabFragment extends HomeFragment {
         return root;
     }
 
+    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         updateList();
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Toast.makeText(getContext(), "onStop!!", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        onCreateView(privInflater, privContainer, savedInstanceState);
-    }*/
 
     private void updateList() {
         UserActivityController uc = new UserActivityController(getContext());
@@ -118,8 +100,12 @@ public class FutureTabFragment extends HomeFragment {
             @Override
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
                 futActivities = ret;
-                //setUpEvents();
                 displayFutAct();
+            }
+
+            @Override
+            public void onResponseChat(ArrayList<Chat> ret) {
+
             }
         });
     }
@@ -145,19 +131,7 @@ public class FutureTabFragment extends HomeFragment {
                 dateAux.set(Calendar.SECOND, 0);
                 if (dateAux.after(currentTime)) futAux.add(act);
                 adapter.setList(futAux);
-                //recyclerView.setAdapter(adapter);
             }
         }
     }
-    /*@Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
-            updateList();
-            Toast.makeText(getContext(), "setuservisible", Toast.LENGTH_SHORT).show();
-
-        } else {
-
-        }
-    }*/
 }
