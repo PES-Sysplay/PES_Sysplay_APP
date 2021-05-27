@@ -1,7 +1,7 @@
 package com.example.workoutapp;
 
 public class Review {
-    float rating;
+    float stars;
     String comment;
     //String username;
     //String date;
@@ -10,14 +10,14 @@ public class Review {
     }
 
     public Review(float rating, String comment, String username, String date) {
-        this.rating = rating;
+        this.stars = rating;
         this.comment = comment;
         //this.username = username;
         //this.date = date;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setRating(float rating) {
+        this.stars = rating;
     }
 
     public void setComment(String comment) {
@@ -25,7 +25,7 @@ public class Review {
     }
 
     public float getRating() {
-        return rating;
+        return stars;
     }
 
     public String getComment() {

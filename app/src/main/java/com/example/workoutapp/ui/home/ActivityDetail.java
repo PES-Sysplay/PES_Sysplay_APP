@@ -23,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
@@ -164,6 +165,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     }
 
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                    }
+
                 });
 
                 return true;
@@ -194,6 +200,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseReviewList(ArrayList<Review> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
 
                     }
 
@@ -288,6 +299,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 Intent activityIntent = new Intent(getApplicationContext(), OrganizationActivity.class);
+                activityIntent.putExtra("orgName", organization.getText().toString());
                 startActivity(activityIntent);
             }
         });

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
@@ -93,6 +94,11 @@ public class ReviewFragment extends Fragment {
 
                         @Override
                         public void onResponseReviewList(ArrayList<Review> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
 
                         }
                     });
