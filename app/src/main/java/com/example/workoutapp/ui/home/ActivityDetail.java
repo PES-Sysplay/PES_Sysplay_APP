@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -24,9 +25,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.organization.OrganizationActivity;
 import com.example.workoutapp.ui.chat.ChatActivity;
 import com.example.workoutapp.ui.userfeedback.ReportActivity;
 import com.example.workoutapp.ui.userfeedback.ReviewActivity;
@@ -51,8 +55,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
     int pos, clientsJoin;
     ImageView photo, people_photo,superhost;
-    TextView activity,organization, time, place,price, member_price,description,people_activity;
+    TextView activity, time, place,price, member_price,description,people_activity;
     Boolean favorite, is_old, checked_in, joined,host;
+    Button organization;
     MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
     ExtendedFloatingActionButton buttonLeave;
@@ -163,9 +168,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
                     @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                    }
+
+                    @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
 
                 });
+
 
                 return true;
 
@@ -193,6 +209,16 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
+
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
+
+                    }
+
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                    }
 
                 });
 
@@ -292,7 +318,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     void init_values(){
 
         activity = findViewById(R.id.activitat_text);
-        organization = findViewById(R.id.organization_text);
+        organization = findViewById(R.id.organization_button);
         time = findViewById(R.id.timehour_text);
         place = findViewById(R.id.place_text);
         price = findViewById(R.id.price_text);
@@ -303,6 +329,15 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         people_photo = findViewById(R.id.people_drawable);
         buttonJoin = findViewById(R.id.meapunto);
         superhost = findViewById(R.id.suphost_detail);
+
+        organization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityIntent = new Intent(getApplicationContext(), OrganizationActivity.class);
+                activityIntent.putExtra("orgName", organization.getText().toString());
+                startActivity(activityIntent);
+            }
+        });
 
     }
     void updatePeople(int join){

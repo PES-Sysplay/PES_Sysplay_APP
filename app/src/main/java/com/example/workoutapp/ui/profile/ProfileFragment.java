@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
@@ -88,6 +89,16 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+      
+        view.findViewById(R.id.my_activities).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ProfileFragment.this)
+                        .navigate(R.id.action_navigation_profile_to_my_activities_fragment);
+
+            }
+        });
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

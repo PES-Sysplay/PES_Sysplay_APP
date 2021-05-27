@@ -90,6 +90,12 @@
             android:name=".ui.userfeedback.ReportActivity"
             android:label="@string/title_activity_report"
             android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.organization.OrganizationActivity"
+            android:label="Organizacion"
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".ui.userfeedback.ReviewActivity"
             android:label="@string/title_activity_review"

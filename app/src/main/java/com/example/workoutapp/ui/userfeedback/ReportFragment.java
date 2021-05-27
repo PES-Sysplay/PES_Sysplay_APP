@@ -15,8 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 
@@ -95,14 +97,19 @@ public class ReportFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponseFavorites(ArrayList<Activitat> ret) {
-
-                        }
+                        public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                         @Override
                         public void onResponseFav() {}
-                        
+
+                        @Override
                         public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+
+                        @Override
+                        public void onResponseReviewList(ArrayList<Review> ret) {}
+
+                        @Override
+                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
 
                         @Override
                         public void onResponseChat(ArrayList<Chat> ret) {}
