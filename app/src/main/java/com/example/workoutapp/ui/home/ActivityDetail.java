@@ -177,11 +177,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     }
 
-                });
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
 
                 });
+
 
                 return true;
 

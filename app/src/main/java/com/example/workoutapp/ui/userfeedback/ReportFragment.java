@@ -97,26 +97,20 @@ public class ReportFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponseFavorites(ArrayList<Activitat> ret) {
-
-                        }
+                        public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                         @Override
                         public void onResponseFav() {}
-                        
+
+                        @Override
                         public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
-                        }
+                        @Override
+                        public void onResponseReviewList(ArrayList<Review> ret) {}
 
                         @Override
-                        public void onResponseReviewList(ArrayList<Review> ret) {
+                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
 
-                        }
-
-                        @Override
-                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
-
-                        }
                         @Override
                         public void onResponseChat(ArrayList<Chat> ret) {}
                     });

@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.example.workoutapp.ui.home.HomeFragment;
@@ -101,6 +103,16 @@ public class OldTabFragment extends HomeFragment {
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
                 oldActivities = ret;
                 displayOldAct();
+            }
+
+            @Override
+            public void onResponseReviewList(ArrayList<Review> ret) {
+
+            }
+
+            @Override
+            public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
             }
 
             @Override
