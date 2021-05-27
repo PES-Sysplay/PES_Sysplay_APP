@@ -6,9 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,6 +45,17 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getWindow().setBackgroundDrawableResource(R.drawable.ivinini8);
+
+        setKeyboardListener(new OnKeyboardVisibilityListener() { //cuando se abre/cierra el teclado, scrollea la vista para que se vean los mensajes
+                                @Override
+                                public void onVisibilityChanged(boolean visible) {
+                                    if (MessageList.size()!=0) {
+                                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                                    }
+                                }
+                            });
 
         Context ctx = this;
 
@@ -223,5 +240,45 @@ public class ChatActivity extends AppCompatActivity {
             if (chatList.get(i).getActivity_id() == act.getId()) return i;
         }
         return -1;
+    }
+
+    public interface OnKeyboardVisibilityListener {
+
+
+        void onVisibilityChanged(boolean visible);
+    }
+
+    public final void setKeyboardListener(final OnKeyboardVisibilityListener listener) {
+        final View activityRootView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            private boolean wasOpened;
+
+            private final int DefaultKeyboardDP = 100;
+
+            private final int EstimatedKeyboardDP = DefaultKeyboardDP + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 48 : 0);
+
+            private final Rect r = new Rect();
+
+            @Override
+            public void onGlobalLayout() {
+                // Convert the dp to pixels.
+                int estimatedKeyboardHeight = (int) TypedValue
+                        .applyDimension(TypedValue.COMPLEX_UNIT_DIP, EstimatedKeyboardDP, activityRootView.getResources().getDisplayMetrics());
+
+                // Conclude whether the keyboard is shown or not.
+                activityRootView.getWindowVisibleDisplayFrame(r);
+                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                boolean isShown = heightDiff >= estimatedKeyboardHeight;
+
+                if (isShown == wasOpened) {
+                    return;
+                }
+
+                wasOpened = isShown;
+                listener.onVisibilityChanged(isShown);
+            }
+        });
     }
 }
