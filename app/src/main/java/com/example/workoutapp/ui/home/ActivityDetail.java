@@ -305,7 +305,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 break;
             case R.id.questionBt:
                 Intent question = new Intent(this, ChatActivity.class);
-                question.putExtra("Position recycler", pos);
+                question.putExtra("Id recycler", activity_list.get(pos).getId());
                 this.startActivity(question);
 
             default:

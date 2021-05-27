@@ -21,6 +21,7 @@ import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
 import com.example.workoutapp.UserSingleton;
+import com.example.workoutapp.ui.chat.ChatListActivity;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 
 import java.util.ArrayList;
@@ -80,6 +81,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.appCompatButton3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ChatListActivity.class);
+                context.startActivity(intent);
+            }
+        });
+      
         view.findViewById(R.id.my_activities).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

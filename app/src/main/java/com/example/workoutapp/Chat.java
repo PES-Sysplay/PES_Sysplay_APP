@@ -11,6 +11,8 @@ public class Chat {
     int id;
     Boolean is_new;
 
+    String organization_photo;
+
     public Chat(List<Message> messageList, String username, int activity_id, String activity_name, String organization, int id, Boolean is_new) {
         this.messages = messageList;
         this.username = username;
@@ -75,5 +77,21 @@ public class Chat {
 
     public void setIs_new(Boolean is_new) {
         this.is_new = is_new;
+    }
+
+    public float getLastMessageTimestamp() {
+        return messages.get(messages.size()-1).getDate_timestamp();
+    }
+
+    public String getLastMessageText() {
+        return messages.get(messages.size()-1).getText();
+    }
+
+    public String getOrganization_photo() {
+        return organization_photo;
+    }
+
+    public void setOrganization_photo(String organization_photo) {
+        this.organization_photo = organization_photo;
     }
 }
