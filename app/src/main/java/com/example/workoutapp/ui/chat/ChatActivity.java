@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.Message;
-import com.example.workoutapp.MessageAdapter;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
