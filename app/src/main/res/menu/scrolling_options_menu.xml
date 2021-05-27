@@ -7,4 +7,7 @@
     <item
         android:id="@+id/reviewBt"
         android:title="Valorar actividad..."></item>
+    <item
+        android:id="@+id/questionBt"
+        android:title="Contactar con la organización"></item>
 </menu>

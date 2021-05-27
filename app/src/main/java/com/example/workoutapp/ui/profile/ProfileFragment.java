@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.R;
@@ -27,6 +28,7 @@ import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
+    private static String emailNotif;
     private ProfileViewModel mViewModel;
 
     public static ProfileFragment newInstance() {
@@ -77,6 +79,16 @@ public class ProfileFragment extends Fragment {
                 context.startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.my_activities).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ProfileFragment.this)
+                        .navigate(R.id.action_navigation_profile_to_my_activities_fragment);
+
+            }
+        });
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -109,6 +121,8 @@ public class ProfileFragment extends Fragment {
             public void onResponseProfile(ArrayList<String> ret) {
                 email.append(ret.get(0));
                 favorites.append(ret.get(1));
+                events.append(ret.get(2));
+                emailNotif = ret.get(3);
             }
         });
     }
@@ -124,4 +138,7 @@ public class ProfileFragment extends Fragment {
         pref_ctrl.deletePreferences(user_act);
     }
 
+    public static Boolean getEmailNotif(){
+        return emailNotif == "true";
+    }
 }
