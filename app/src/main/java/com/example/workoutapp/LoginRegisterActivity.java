@@ -86,7 +86,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private void setGoogle(){
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.google_maps_key))
+                .requestIdToken(getString(R.string.google_client))
                 .requestEmail()
                 .build();
 
