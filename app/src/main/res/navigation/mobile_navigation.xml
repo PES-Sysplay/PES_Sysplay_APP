@@ -27,9 +27,17 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.workoutapp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_navigation_profile_to_my_activities_fragment"
+            app:destination="@id/my_activities_fragment" />
+    </fragment>
 
-
+    <fragment
+        android:id="@+id/my_activities_fragment"
+        android:name="com.example.workoutapp.ui.myactivities.MyActivitiesActivity"
+        android:label="misactividades"
+        tools:layout="@layout/activity_my_activities" />
 
 
 </navigation>

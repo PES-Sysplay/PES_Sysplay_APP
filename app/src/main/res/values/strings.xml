@@ -42,20 +42,22 @@
     <string name="account_header">Perfil</string>
 
     <!-- Preferences -->
-    <string name="sync_email">Permitir notificaciones por email</string>
+    <string name="sync_email">Notificaciones por email</string>
     <string name="sync_push">Permitir alertas push</string>
     <string name="delete_button">Eliminar cuenta</string>
     <string name="favorite">Alertas de favoritos</string>
     <string name="favorite_desc">Notificar cuando queden pocas plazas de un evento que tengo en favoritos</string>
     <string name="activity">Alertas de mis actividades</string>
-    <string name="activity_desc">Notificar cuando queden menos de 24h para que se realice un evento al que estoy apuntado</string>
+    <string name="activity_desc">Notificar cuando queden menos de 48h para que se realice un evento al que estoy apuntado</string>
     <string name="title_activity_settings">Ajustes</string>
+    <string name="title_activity_my_activities2">Mis actividades</string>
     <string name="month_name">Nombre del mes</string>
     <string name="no_tienes_ninguna_actividad">No tienes ninguna actividad</string>
-
     <string name="title_activity_changepass">Cambiar contraseña</string>
     <string name="title_activity_report">Reportar actividad</string>
     <string name="title_activity_review">Valorar actividad</string>
     <string name="title_activity_qr">Tu entrada</string>
+    <string name="title_activity_chat">Mis chats</string>
+    <string name="gochat">Mis chats</string>
 
 </resources>
