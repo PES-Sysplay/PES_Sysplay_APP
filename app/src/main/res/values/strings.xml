@@ -59,5 +59,6 @@
     <string name="title_activity_qr">Tu entrada</string>
     <string name="title_activity_chat">Mis chats</string>
     <string name="gochat">Mis chats</string>
+    <string name="nochat">No tienes ningún chat activo</string>
 
 </resources>

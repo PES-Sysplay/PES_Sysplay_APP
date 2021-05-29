@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.workoutapp.Activitat;
@@ -15,6 +16,7 @@ import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,12 +27,16 @@ public class ChatListActivity extends AppCompatActivity {
 
     private List<Chat> chatList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private TextView noChat_tv;
     Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+        noChat_tv = findViewById(R.id.nochat_vt);
+        noChat_tv.setEnabled(false);
 
         recyclerView = findViewById(R.id.recyclerchatlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
@@ -79,9 +85,12 @@ public class ChatListActivity extends AppCompatActivity {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
-                chatList = ret;
-                sortChatList();
-                recyclerView.setAdapter(new ChatListAdapter(chatList, ctx));
+                if (ret.size()==0) noChat_tv.setEnabled(true);
+                else {
+                    chatList = ret;
+                    sortChatList();
+                    recyclerView.setAdapter(new ChatListAdapter(chatList, ctx));
+                }
             }
         });
     }

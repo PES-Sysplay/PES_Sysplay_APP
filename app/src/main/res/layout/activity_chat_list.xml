@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.chat.ChatListActivity">
 
+    <TextView
+        android:id="@+id/nochat_vt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nochat"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerchatlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerchatlist"
         android:layout_marginTop="10dp"
