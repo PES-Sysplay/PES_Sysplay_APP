@@ -3,6 +3,7 @@ package com.example.workoutapp.ui.profile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,15 @@ public class ProfileFragment extends Fragment {
                 NavHostFragment.findNavController(ProfileFragment.this)
                         .navigate(R.id.action_navigation_profile_to_my_activities_fragment);
 
+            }
+        });
+
+        view.findViewById(R.id.covid_gencat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://web.gencat.cat/es/activem/restriccions-territorials/catalunya/";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(Intent.createChooser(intent, "Browse with"));
             }
         });
 
