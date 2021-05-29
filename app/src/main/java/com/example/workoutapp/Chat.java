@@ -10,7 +10,7 @@ public class Chat {
     String organization;
     int id;
     Boolean is_new;
-
+    Message last_message;
     String organization_photo;
 
     public Chat(List<Message> messageList, String username, int activity_id, String activity_name, String organization, int id, Boolean is_new) {
@@ -79,19 +79,15 @@ public class Chat {
         this.is_new = is_new;
     }
 
-    public float getLastMessageTimestamp() {
-        return messages.get(messages.size()-1).getDate_timestamp();
-    }
-
-    public String getLastMessageText() {
-        return messages.get(messages.size()-1).getText();
-    }
-
     public String getOrganization_photo() {
         return organization_photo;
     }
 
     public void setOrganization_photo(String organization_photo) {
         this.organization_photo = organization_photo;
+    }
+
+    public Message getLast_message() {
+        return last_message;
     }
 }

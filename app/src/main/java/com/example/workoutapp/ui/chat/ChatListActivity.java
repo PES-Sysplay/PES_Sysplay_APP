@@ -17,6 +17,8 @@ import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ChatListActivity extends AppCompatActivity {
@@ -78,9 +80,15 @@ public class ChatListActivity extends AppCompatActivity {
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
                 chatList = ret;
+                sortChatList();
                 recyclerView.setAdapter(new ChatListAdapter(chatList, ctx));
             }
         });
+    }
+
+    private void sortChatList() {
+        chatList.sort(Comparator.comparing(Chat -> Chat.getLast_message().getDate_timestamp()));
+        Collections.reverse(chatList);
     }
 
     @Override
