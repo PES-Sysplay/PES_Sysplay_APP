@@ -2,6 +2,7 @@
 *.apk
 .gradle
 /local.properties
+./.idea
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -17,3 +18,7 @@
 local.properties
 /app/src/main/res/values/token.xml
 /app/release/output-metadata.json
+# Keystore files
+# Uncomment the following lines if you do not want to check your keystore files in.
+*.jks
+*.keystore
