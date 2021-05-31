@@ -118,15 +118,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        qrBtn.setVisible(false); //de momento, hasta solucionar bug de detail de muchos botones
-
-        /*if (!joined) {
+        if (!joined) {
             qrBtn.setVisible(false);
         }
 
         else {
             qrBtn.setVisible(true);
-        }*/
+        }
 
         if (is_old && !checked_in) {
             moreBtn.setVisible(false);

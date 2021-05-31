@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class ChatListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_list);
 
         noChat_tv = findViewById(R.id.nochat_vt);
-        noChat_tv.setEnabled(false);
+        noChat_tv.setVisibility(View.INVISIBLE);
 
         recyclerView = findViewById(R.id.recyclerchatlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
@@ -85,7 +86,7 @@ public class ChatListActivity extends AppCompatActivity {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
-                if (ret.size()==0) noChat_tv.setEnabled(true);
+                if (ret.size()==0) noChat_tv.setVisibility(View.VISIBLE);
                 else {
                     chatList = ret;
                     sortChatList();
