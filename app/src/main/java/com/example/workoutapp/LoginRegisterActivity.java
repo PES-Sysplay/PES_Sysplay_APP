@@ -2,6 +2,7 @@ package com.example.workoutapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginRegisterActivity extends AppCompatActivity {
 
@@ -30,12 +32,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
     ViewPager viewPager;
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 0;
+    Uri uri =null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_WorkOut_NoActionBar);
         super.onCreate(savedInstanceState);
+        uri = getIntent().getData();
+
+
         setContentView(R.layout.activity_login_register);
 
         setLayout();
@@ -80,7 +86,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
     private void setGoogle(){
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.google_maps_key))
+                .requestIdToken(getString(R.string.google_client))
                 .requestEmail()
                 .build();
 
@@ -91,6 +97,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
 
     public void signIn(){
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -176,7 +183,16 @@ public class LoginRegisterActivity extends AppCompatActivity {
             UserSingleton us = UserSingleton.setInstance(user_act, token,LoginRegisterActivity.this);
 
             if (!us.getId().equals("") && !us.getUsername().equals("")) {
+                String param = null;
                 Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+
+                if(uri != null){
+                    List<String> parameters = uri.getPathSegments();
+                    param = parameters.get(parameters.size() - 1);
+                    intent.putExtra("Link", Integer.valueOf(param));
+                    intent.putExtra("intents", 1);
+                    uri = null;
+                }
                 startActivity(intent);
                 finish();
             }

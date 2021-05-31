@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.calendar;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
+import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
+import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -201,6 +205,21 @@ public class CalendarFragment extends Fragment {
                 setUpEvents();
                 displayActivitiesByDate(Calendar.getInstance().getTime());
             }
+
+            @Override
+            public void onResponseReviewList(ArrayList<Review> ret) {
+
+            }
+
+            @Override
+            public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+            }
+
+            @Override
+            public void onResponseChat(ArrayList<Chat> ret) {
+
+            }
         });
     }
 
@@ -235,5 +254,6 @@ public class CalendarFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateList();
+
     }
 }

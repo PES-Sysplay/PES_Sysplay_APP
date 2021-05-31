@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,32 +33,38 @@ import com.example.workoutapp.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ActivityListAdapter adapter;
+    public RecyclerView recyclerView;
+    public ActivityListAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
-    private LayoutInflater privInflater;
+    public LayoutInflater privInflater;
     private ViewGroup privContainer;
     private Bundle privInstanceState;
+    private View root;
+    int intents = 0, poss = -33;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        intents = getActivity().getIntent().getIntExtra("intents", 0);
+        poss = getActivity().getIntent().getIntExtra("Link", -33);
     }
 
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+
         privInflater = inflater;
         privContainer = container;
         privInstanceState = savedInstanceState;
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerview);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
@@ -65,7 +72,12 @@ public class HomeFragment extends Fragment {
         updateList(root);
         updateType(root);
 
+       /* adapterHome = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterOld = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        adapterFuture = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());*/
+
         adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -115,7 +127,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateList(View root) {
+    public void updateList(View root) {
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivitats(new ActivityController.VolleyResponseListener() {
@@ -126,7 +138,15 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
+
+                if(poss != -33 && intents == 1){
+
+                    adapter.setLink(poss);
+                    intents = 0;
+                }
                 adapter.setList(ret);
+
+
                 Log.d("STATE", ret.get(0).getDate_time());
                 MainActivity.response = true;
 
@@ -213,7 +233,7 @@ public class HomeFragment extends Fragment {
                 "StartSport" + sport + "EndSport";
     }
 
-    private void updateType(View root) {
+    public void updateType(View root) {
         ActivityController dc = new ActivityController(getContext());
 
         dc.getActivityTypes(new ActivityController.VolleyResponseListener() {
