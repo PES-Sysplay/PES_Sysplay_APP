@@ -33,7 +33,9 @@ public class ProfileFragment extends Fragment {
 
     private static String emailNotif;
     private ProfileViewModel mViewModel;
+    private Context ctx = getContext();
     Fragment listaFavoritos;
+
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -171,5 +173,10 @@ public class ProfileFragment extends Fragment {
 
     public static Boolean getEmailNotif(){
         return emailNotif == "true";
+    }
+
+    public static void changeEmailNotif(){
+        if(emailNotif == "true") emailNotif = "false";
+        else emailNotif = "true";
     }
 }

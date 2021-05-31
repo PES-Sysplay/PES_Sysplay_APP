@@ -226,8 +226,9 @@ public class UserController {
                     ret.add(favs);
                     String joined = response.getString("joined");
                     ret.add(joined);
-                    String notifs = response.getString("notifications");
-                    ret.add(notifs);
+                    Boolean hasNotif = response.getBoolean("notifications");
+                    String notif = Boolean.toString(hasNotif);
+                    ret.add(notif);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -307,9 +308,9 @@ public class UserController {
         RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
     }
 
-    public void putNofications(String email, VolleyResponseListener vrl) {
+    public void putNofications(Boolean email, VolleyResponseListener vrl) {
         String notifsURL = URL + "/api/me/";
-        Map<String, String> params = new HashMap<>();
+        Map<String, Boolean> params = new HashMap<>();
         params.put("email_notifications", email);
         JSONObject jsonBody = new JSONObject(params);
         final String requestBody = jsonBody.toString();

@@ -43,8 +43,8 @@
     <string name="account_header">Perfil</string>
 
     <!-- Preferences -->
-    <string name="sync_email">Notificaciones por email</string>
-    <string name="sync_push">Permitir alertas push</string>
+    <string name="sync_email">Permitir mensajes por correo</string>
+    <string name="sync_push">Permitir notificaciones</string>
     <string name="delete_button">Eliminar cuenta</string>
     <string name="favorite">Alertas de favoritos</string>
     <string name="favorite_desc">Notificar cuando queden pocas plazas de un evento que tengo en favoritos</string>
