@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,12 @@ public class UserActivityController {
         void onResponseFav();
         
         void onResponseJoinedActivites(ArrayList<Activitat> ret);
+
+        void onResponseReviewList(ArrayList<Review> ret);
+
+        void onResponseOrganizationList(ArrayList<Organizer> ret);
+
+        void onResponseChat(ArrayList<Chat> ret);
     }
 
     public void favorite(Integer activityId, UserActivityController.VolleyResponseListener vrl) {
@@ -235,7 +242,6 @@ public class UserActivityController {
         params.put("activity_id", activityID.toString());
         params.put("comment", comment);
         JSONObject jsonBody = new JSONObject(params);
-        final String requestBody = jsonBody.toString();
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reportURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
@@ -278,7 +284,6 @@ public class UserActivityController {
         params.put("comment", comment);
         params.put("stars", stars);
         JSONObject jsonBody = new JSONObject(params);
-        final String requestBody = jsonBody.toString();
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, new Response.Listener<JSONObject>() {
             @Override
@@ -314,4 +319,241 @@ public class UserActivityController {
 
     }
 
+    public void getReviews(String organization, UserActivityController.VolleyResponseListener vrl) {
+        String reviewURL = URL + "/api/review/?organization=" + organization;
+        ArrayList<Review> ret = new ArrayList<Review>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, reviewURL, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Review review = gson.fromJson(jsonact.toString(), Review.class);
+                                //review.setRating((float)jsonact.get("stars"));
+                                ret.add(review);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseReviewList(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se han encontrado reseñas", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado reseñas");
+                    }
+                }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public void getOrganizers(UserActivityController.VolleyResponseListener vrl) {
+        String reviewURL = URL + "/api/organization/";
+        ArrayList<Organizer> ret = new ArrayList<Organizer>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, reviewURL, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        Log.d("JSON", String.valueOf(response.length()));
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+
+                                Log.d("JSON", jsonact.toString());
+
+                                Gson gson = new Gson();
+                                Organizer org = gson.fromJson(jsonact.toString(), Organizer.class);
+                                ret.add(org);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseOrganizationList(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se han encontrado organizers", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado organizers");
+                        Log.d("ERROR", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+
+    }
+
+    public void sendMessage(Integer activityID, String text, UserActivityController.VolleyResponseListener vrl) {
+        String reviewURL = URL + "/api/message/";
+        Map<String, Object> params = new HashMap<>();
+        params.put("activity_id", activityID.toString());
+        params.put("text", text);
+        JSONObject jsonBody = new JSONObject(params);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("VOLLEY", response.toString());
+                vrl.onResponse("Mensaje enviado");
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+                vrl.onError("Error al enviar la mensaje");
+            }
+        }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+
+    }
+
+    public void getChats(UserActivityController.VolleyResponseListener vrl) {
+        String chatURL = URL + "/api/chat";
+        ArrayList<Chat> ret = new ArrayList<Chat>();
+
+        JsonArrayRequest req = new JsonArrayRequest
+                (Request.Method.GET, chatURL, null, new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonact = response.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Chat chat = gson.fromJson(jsonact.toString(), Chat.class);
+                                ret.add(chat);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        vrl.onResponseChat(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ctx, "No se ha encontrado el chat", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se ha encontrado el chat");
+                    }
+                }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public void getChatMessages(int chat_id, UserActivityController.VolleyResponseListener vrl) {
+        String messagesURL = URL + "/api/chat/" + chat_id + "/";
+        ArrayList<Chat> ret = new ArrayList<Chat>();
+
+        JsonObjectRequest req = new JsonObjectRequest
+                (Request.Method.GET, messagesURL, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gson gson = new Gson();
+                        Chat chat = gson.fromJson(response.toString(), Chat.class);
+                        ret.add(chat);
+
+                        vrl.onResponseChat(ret);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.print(error.getMessage());
+                        Toast.makeText(ctx, "No se han encontrado los mensajes", Toast.LENGTH_SHORT).show();
+                        vrl.onError("No se han encontrado los mensajes");
+                    }
+                }) {
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
 }

@@ -26,10 +26,4 @@
         app:showAsAction="always"
         android:title="More" />
 
-    <item
-        android:id="@+id/sharewith"
-        android:icon="@drawable/share"
-        app:showAsAction="always"
-        android:title="Share" />
-
 </menu>

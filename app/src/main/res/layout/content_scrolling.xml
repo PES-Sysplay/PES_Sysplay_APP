@@ -22,7 +22,7 @@
             android:layout_marginStart="32dp"
             android:text="ORGANIZACIÓN"
             android:textColor="#808080"
-            app:layout_constraintBottom_toTopOf="@+id/organization_text"
+            app:layout_constraintBottom_toTopOf="@+id/organization_button"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -130,15 +130,19 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-         <TextView
-            android:id="@+id/organization_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/organization_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="158dp"
+            android:layout_height="31dp"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginBottom="22dp"
+            android:gravity="start"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="0dp"
             android:text="TextView"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/timehour_title"
             app:layout_constraintStart_toStartOf="parent" />
@@ -223,7 +227,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="22dp"
             app:layout_constraintBottom_toTopOf="@+id/timehour_title"
-            app:layout_constraintStart_toEndOf="@+id/organization_text"
+            app:layout_constraintStart_toEndOf="@+id/organization_button"
             app:srcCompat="@drawable/crown" />
 
 
