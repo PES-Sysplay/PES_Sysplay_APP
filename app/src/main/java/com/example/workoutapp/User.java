@@ -1,7 +1,5 @@
 package com.example.workoutapp;
 
-import android.media.Image;
-
 public class User {
 
     private String token;

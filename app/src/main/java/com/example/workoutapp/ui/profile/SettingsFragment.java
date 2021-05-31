@@ -72,20 +72,21 @@ public class SettingsFragment extends Fragment {
 
                 UserController userController = new UserController(getContext());
                 String checked;
-                if(isChecked) checked = "true";
-                else checked = "false";
-                userController.putNofications(checked, new UserController.VolleyResponseListener() {
+                userController.putNofications(isChecked, new UserController.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {}
 
                     @Override
-                    public void onResponse(String message) {}
+                    public void onResponse(String message) {
+                        ProfileFragment.changeEmailNotif();
+                        spc.setEmail();
+                        email.setChecked(isChecked);
+                    }
 
                     @Override
                     public void onResponseProfile(ArrayList<String> ret) {}
                 });
-                spc.setEmail();
-                email.setChecked(isChecked);
+
             }
         });
 
