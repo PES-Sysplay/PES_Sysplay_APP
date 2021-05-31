@@ -337,9 +337,18 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
-        place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+        try {
+            List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
+
+            if(null!=addresses&&addresses.size()>0){
+                place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            place.setText("Localización no disponible");
+
+        }
 
         if (activity_list.get(pos).getPreu().equals("0.0")) {
             price.setText("GRATIS");
