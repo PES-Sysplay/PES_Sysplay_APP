@@ -53,8 +53,7 @@ public class OldTabFragment extends HomeFragment {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_act_old, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerviewold);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+
 
         super.updateType(root);
 

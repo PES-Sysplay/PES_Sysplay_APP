@@ -25,7 +25,7 @@ import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
-    AppCompatButton delete;
+    AppCompatButton delete, change_pw;
     Switch email, push, favs, joins;
 
     @Override
@@ -59,6 +59,16 @@ public class SettingsFragment extends Fragment {
         }
 
         delete = view.findViewById(R.id.eliminar);
+        change_pw = view.findViewById(R.id.change);
+
+        change_pw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ChangePasswordActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override

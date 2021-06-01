@@ -15,11 +15,13 @@
         android:textAlignment="textStart"
         tools:context=".ui.profile.ProfileFragment">
 
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/appCompatButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/border_bottom"
             android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
@@ -27,29 +29,9 @@
             android:text="@string/settings"
             android:textAlignment="textStart"
             app:flow_horizontalAlign="center"
-            app:layout_constraintBottom_toTopOf="@+id/covid_gencat_button"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatButton2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/border_bottom"
-            android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
-            android:paddingHorizontal="8dp"
-            android:text="@string/changepwd"
-            android:textAlignment="textStart"
-            app:flow_horizontalAlign="center"
-            app:layout_constraintBottom_toTopOf="@+id/appCompatButton"
             app:layout_constraintTop_toBottomOf="@+id/appCompatButton3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -57,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/border_bottom"
             android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
@@ -64,36 +47,35 @@
             android:text="@string/gochat"
             android:textAlignment="textStart"
             app:flow_horizontalAlign="center"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintBottom_toTopOf="@+id/appCompatButton2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/covid_gencat_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
             android:background="@drawable/border_bottom"
             android:drawableEnd="@drawable/ic_browser_open"
             android:paddingHorizontal="8dp"
             android:text="@string/covid_gencat"
             android:textAlignment="textStart"
             app:flow_horizontalAlign="center"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatButton"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatButton"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button2"
             android:layout_width="362dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="174dp"
             android:background="@drawable/button_bg"
             android:text="@string/logout"
             android:textAlignment="center"
@@ -101,7 +83,6 @@
             app:flow_verticalAlign="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/covid_gencat_button" />
 
