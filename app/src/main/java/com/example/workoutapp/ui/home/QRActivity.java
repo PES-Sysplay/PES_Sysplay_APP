@@ -46,7 +46,7 @@ public class QRActivity extends AppCompatActivity {
         activity_place=findViewById(R.id.activity_place);
 
         activity_name.setText(activity.getName() + " (" + activity.getOrganizerName() + ")");
-        activity_date.append(activity.getDateTimeString());
+        activity_date.append(" " + activity.getDateTimeString());
 
         String[] locations = activity.getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -57,7 +57,7 @@ public class QRActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        activity_place.append(String.valueOf(addresses.get(0).getAddressLine(0)));
+        activity_place.append(" " + String.valueOf(addresses.get(0).getAddressLine(0)));
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
