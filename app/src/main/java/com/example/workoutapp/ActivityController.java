@@ -245,7 +245,7 @@ public class ActivityController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al unirse a la actividad");
+                vrl.onError(String.valueOf(error.networkResponse.statusCode));
             }
         }) {
             @Override
