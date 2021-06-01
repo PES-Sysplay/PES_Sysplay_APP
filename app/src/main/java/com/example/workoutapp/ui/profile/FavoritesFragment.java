@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,18 +10,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FavoritesFragment extends Fragment {
 
@@ -33,6 +39,9 @@ public class FavoritesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        this.requireActivity().setTitle("Mis favoritos");
+
     }
 
     @Nullable
@@ -41,7 +50,6 @@ public class FavoritesFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_favorites, container, false);
 
         activityListView = root.findViewById(R.id.recycler_view_fav);
-        title = root.findViewById(R.id.title_favorite);
 
         adapter = FavoriteAdapter.getInstance(root.getContext(), new ArrayList<>());
         activityListView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -52,6 +60,19 @@ public class FavoritesFragment extends Fragment {
         activityListView.setVisibility(View.VISIBLE);
 
         return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+                NavHostFragment.findNavController(FavoritesFragment.this)
+                        .navigate(R.id.action_favorites_fragment_to_navigation_profile);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getFaveActivities() {
