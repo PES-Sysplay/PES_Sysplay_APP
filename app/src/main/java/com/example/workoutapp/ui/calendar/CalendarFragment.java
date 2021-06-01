@@ -209,7 +209,12 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-                activitatsUsuari = ret;
+                activitatsUsuari = new ArrayList<Activitat>();
+
+                for(Activitat act : ret)
+                    if(act.getTimestamp() * 1000L >= Calendar.getInstance().getTimeInMillis())
+                        activitatsUsuari.add(act);
+
                 setUpEvents();
                 displayActivitiesByDate();
             }
