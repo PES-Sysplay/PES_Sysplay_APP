@@ -142,20 +142,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        if (!joined) {
-            qrBtn.setVisible(false);
-        }
+        qrBtn.setVisible(joined && !is_old);
 
-        else {
-            qrBtn.setVisible(true);
-        }
+        moreBtn.setVisible(!is_old || checked_in);
 
-        if (is_old && !checked_in) {
-            moreBtn.setVisible(false);
-        }
-        else {
-            moreBtn.setVisible(true);
-        }
         return true;
     }
 
@@ -262,8 +252,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
             case R.id.action_qr:
                 Intent intent = new Intent(this, QRActivity.class);
-                intent.putExtra("Position recycler", pos);
-                intent.putExtra("Updated Token", activity_list.get(pos).getToken());
+                ActivityListAdapter ala = ActivityListAdapter.getInstance(null, null);
+                int pos2 = ala.getActivityIndex(activity_list.get(pos).getName());
+                List<Activitat> aux = ala.activitats;
+                intent.putExtra("Updated Token", aux.get(pos2).getToken());
+                intent.putExtra("Position recycler", pos2);
                 this.startActivity(intent);
                 return true;
 
@@ -322,6 +315,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             case R.id.reportBt:
                 Intent intent = new Intent(this, ReportActivity.class);
                 intent.putExtra("Position recycler", pos);
+                intent.putExtra("adapter",1);
+
                 this.startActivity(intent);
                 break;
             case R.id.reviewBt:

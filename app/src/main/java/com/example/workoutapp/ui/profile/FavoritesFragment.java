@@ -75,6 +75,11 @@ public class FavoritesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFaveActivities();
+    }
     private void getFaveActivities() {
         UserActivityController dc = new UserActivityController(getContext());
 

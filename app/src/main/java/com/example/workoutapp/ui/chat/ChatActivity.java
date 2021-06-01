@@ -60,8 +60,7 @@ public class ChatActivity extends AppCompatActivity {
         //act = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo().get(pos);
         act = get_activity();
 
-        assert act != null;
-        setTitle(act.getOrganizerName() + " - " + act.getName());
+        setTitle(Objects.requireNonNull(act).getOrganizerName() + " - " + act.getName());
 
         userInput = findViewById(R.id.userInput);
         recyclerView = findViewById(R.id.conversation);

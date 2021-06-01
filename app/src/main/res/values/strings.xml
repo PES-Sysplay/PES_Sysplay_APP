@@ -68,8 +68,8 @@
     <string name="enviar_mensaje">Enviar mensaje…</string>
     <string name="datetime">dateTime</string>
     <string name="activitytitle">activityTitle</string>
-    <string name="fecha">Fecha:</string>
-    <string name="lugar">Lugar:</string>
+    <string name="fecha">Fecha: </string>
+    <string name="lugar">Lugar: </string>
     <string name="codigo">Enseña este código QR el día de la actividad al organizador responsable. No compartas este código con otras personas.</string>
     <string name="titol">Título</string>
     <string name="organizacion">Organización</string>

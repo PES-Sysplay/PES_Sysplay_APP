@@ -96,7 +96,6 @@ public class UserController {
 
                 String response_token = response.getString("token");
 
-
                 SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
                 pref_ctrl.storePreferences(userName, response_token);
 
