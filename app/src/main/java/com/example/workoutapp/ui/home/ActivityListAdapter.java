@@ -182,6 +182,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 public void onResponseChat(ArrayList<Chat> ret) {}
 
                 @Override
+                public void onResponseReportReview() {
+
+                }
+
+                @Override
                 public void onResponseFav() {}
 
             });
@@ -212,6 +217,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}
+
+                @Override
+                public void onResponseReportReview() {
+
+                }
 
                 @Override
                 public void onResponseReviewList(ArrayList<Review> ret) {

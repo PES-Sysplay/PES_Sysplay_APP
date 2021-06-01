@@ -180,6 +180,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
 
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
+
                 });
 
 
@@ -209,6 +214,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
+
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
 
                     @Override
                     public void onResponseReviewList(ArrayList<Review> ret) {

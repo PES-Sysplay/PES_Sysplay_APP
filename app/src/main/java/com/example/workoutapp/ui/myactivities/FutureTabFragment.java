@@ -119,6 +119,11 @@ public class FutureTabFragment extends HomeFragment {
             public void onResponseChat(ArrayList<Chat> ret) {
 
             }
+
+            @Override
+            public void onResponseReportReview() {
+
+            }
         });
     }
 

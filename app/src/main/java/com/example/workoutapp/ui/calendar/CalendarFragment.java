@@ -220,6 +220,11 @@ public class CalendarFragment extends Fragment {
             public void onResponseChat(ArrayList<Chat> ret) {
 
             }
+
+            @Override
+            public void onResponseReportReview() {
+
+            }
         });
     }
 

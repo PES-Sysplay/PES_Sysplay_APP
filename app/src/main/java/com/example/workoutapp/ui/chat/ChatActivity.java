@@ -139,8 +139,18 @@ public class ChatActivity extends AppCompatActivity {
                                 updateMessages();
                             }
                         }
+
+                        @Override
+                        public void onResponseReportReview() {
+
+                        }
                     });
                 }
+
+            }
+
+            @Override
+            public void onResponseReportReview() {
 
             }
         });
@@ -194,6 +204,11 @@ public class ChatActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponseChat(ArrayList<Chat> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseReportReview() {
 
                         }
                     });

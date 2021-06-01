@@ -105,6 +105,11 @@ public class ReviewFragment extends Fragment {
 
                         @Override
                         public void onResponseChat(ArrayList<Chat> ret) {}
+
+                        @Override
+                        public void onResponseReportReview() {
+
+                        }
                     });
                 }
             }
