@@ -174,6 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             Context context = v.getContext();
                             Intent intent = new Intent(context, ActivityDetail.class);
                             intent.putExtra("Position recycler", j);
+                            intent.putExtra("adapter",1);
                             context.startActivity(intent);
                         }
                     });

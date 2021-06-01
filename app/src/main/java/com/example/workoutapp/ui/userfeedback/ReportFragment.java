@@ -21,6 +21,8 @@ import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
+import com.example.workoutapp.ui.myactivities.FutureActAdapter;
+import com.example.workoutapp.ui.myactivities.OldActAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class ReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        activity_list = ActivityListAdapter.getInstance(view.getContext(), new ArrayList<>()).copyInfo();
+        activity_list = OldActAdapter.getInstance(view.getContext(), new ArrayList<>()).copyInfo();
 
         pos = getActivity().getIntent().getIntExtra("Position recycler",0);
 
