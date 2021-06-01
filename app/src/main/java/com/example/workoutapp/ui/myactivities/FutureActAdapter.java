@@ -163,25 +163,22 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
                 }
 
                 @Override
-                public void onResponseFavorites(ArrayList<Activitat> ret) {
-                }
+                public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-                }
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseReviewList(ArrayList<Review> ret) {
-
-                }
+                public void onResponseReviewList(ArrayList<Review> ret) {}
 
                 @Override
-                public void onResponseOrganizationList(ArrayList<Organizer> ret) {
-
-                }
+                public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}
+
+                @Override
+                public void onResponseReportReview() {}
 
                 @Override
                 public void onResponseFav() {}
@@ -216,14 +213,13 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
                 public void onResponseChat(ArrayList<Chat> ret) {}
 
                 @Override
-                public void onResponseReviewList(ArrayList<Review> ret) {
-
-                }
+                public void onResponseReportReview() {}
 
                 @Override
-                public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+                public void onResponseReviewList(ArrayList<Review> ret) {}
 
-                }
+                @Override
+                public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
 
                 @Override
                 public void onResponseFav() {}

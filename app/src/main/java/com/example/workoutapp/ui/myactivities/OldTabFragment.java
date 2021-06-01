@@ -15,19 +15,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
-import com.example.workoutapp.ui.home.HomeFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,10 +40,6 @@ public class OldTabFragment extends Fragment {
     private OldActAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
-    //private LayoutInflater privInflater;
-    //private ViewGroup privContainer;
-    //private Bundle privInstanceState;
-    //private View root;
     int intents = 0, poss = -33;
 
     ViewGroup root;
