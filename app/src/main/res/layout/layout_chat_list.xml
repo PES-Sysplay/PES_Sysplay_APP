@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="0dp"
@@ -41,14 +42,14 @@
                 android:textColor="@android:color/black"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Username"/>
+                android:text="@string/username_chat"/>
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#2E2E2E"
-                android:text="15/04/2020"/>
+                android:text="@string/date_chat"/>
 
         </LinearLayout>
 
@@ -60,15 +61,16 @@
             android:textColor="#2E2E2E"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Description.."/>
+            android:text="@string/description_caht"/>
 
         <ImageView
             android:id="@+id/chatline"
             android:layout_width="match_parent"
             android:layout_marginTop="17dp"
-            android:layout_height="3dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/linechat" />
+            app:srcCompat="@drawable/linechat"
+            tools:ignore="ContentDescription,NestedWeights" />
 
     </LinearLayout>
 

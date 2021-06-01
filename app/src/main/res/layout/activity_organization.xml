@@ -30,7 +30,8 @@
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toEndOf="@+id/org_name"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/crown" />
+            app:srcCompat="@drawable/crown"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/incono_org"
@@ -41,7 +42,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/org_name"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="ContentDescription" />
 
         <RatingBar
             android:id="@+id/org_ratingBar"
