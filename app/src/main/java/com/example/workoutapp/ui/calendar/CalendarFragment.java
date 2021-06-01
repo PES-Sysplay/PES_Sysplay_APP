@@ -45,6 +45,7 @@ public class CalendarFragment extends Fragment {
     List<Activitat> activitatsUsuari;
     DateFormatSymbols mesesEnEsp;
     ArrayList<String> activityTypesList;
+    Date selectedDate;
 
 
     @Override
@@ -65,6 +66,8 @@ public class CalendarFragment extends Fragment {
         mesesEnEsp.setMonths(new String[]{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"});
         mesesEnEsp.setShortMonths(new String[]{"Ene", "Feb", "Mar", "May", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"});
 
+        selectedDate = Calendar.getInstance().getTime();
+
         calendar = root.findViewById(R.id.calendar);
         activityListView = root.findViewById(R.id.calendarActivity);
         emptyView = root.findViewById(R.id.empty_view);
@@ -82,13 +85,16 @@ public class CalendarFragment extends Fragment {
         calendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                displayActivitiesByDate(dateClicked);
+                selectedDate = dateClicked;
+                displayActivitiesByDate();
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 String a = new SimpleDateFormat("MMMM - yyyy", mesesEnEsp).format(firstDayOfNewMonth);
                 monthText.setText(a);
+                selectedDate = firstDayOfNewMonth;
+                displayActivitiesByDate();
             }
         });
 
@@ -118,11 +124,14 @@ public class CalendarFragment extends Fragment {
     }
 
     //date tiene la hora 00:00
-    private void displayActivitiesByDate(Date date) {
+    private void displayActivitiesByDate() {
+
+        if(activitatsUsuari == null) return;
+
         ArrayList<Activitat> listaAux = new ArrayList<>();
 
         Calendar dateToBeCompared = Calendar.getInstance();
-        dateToBeCompared.setTime(date);
+        dateToBeCompared.setTime(selectedDate);
 
         dateToBeCompared.set(Calendar.HOUR_OF_DAY, 0);
         dateToBeCompared.set(Calendar.MINUTE, 0);
@@ -203,7 +212,7 @@ public class CalendarFragment extends Fragment {
             public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
                 activitatsUsuari = ret;
                 setUpEvents();
-                displayActivitiesByDate(Calendar.getInstance().getTime());
+                displayActivitiesByDate();
             }
 
             @Override
@@ -257,8 +266,8 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
-        updateList();
-
+       super.onResume();
+       displayActivitiesByDate();
+       updateList();
     }
 }
