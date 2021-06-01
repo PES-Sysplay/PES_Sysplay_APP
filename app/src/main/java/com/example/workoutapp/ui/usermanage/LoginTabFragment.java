@@ -20,6 +20,7 @@ import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
+import com.example.workoutapp.UserSingleton;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 import java.util.ArrayList;
@@ -59,7 +60,21 @@ public class LoginTabFragment extends Fragment {
 
                 @Override
                 public void onResponse(String message) {
-                    provaActivitat(root.getContext());
+                    SharedPreferencesController pref_ctrl = new SharedPreferencesController(root.getContext());
+
+                    String user_act = pref_ctrl.loadUserAct();
+                    if (!user_act.equals("")){
+                        String token;
+                        token = pref_ctrl.loadUserToken(user_act);
+
+
+                        UserSingleton us = UserSingleton.setInstance(user_act, token);
+
+                        if (!us.getId().equals("") && !us.getUsername().equals("")) {
+                            provaActivitat(root.getContext());
+                        }
+                    }
+
                 }
 
                 @Override
