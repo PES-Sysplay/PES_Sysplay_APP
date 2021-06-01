@@ -149,15 +149,7 @@ public class OldTabFragment extends HomeFragment {
                 dateAux.set(Calendar.MINUTE, 0);
                 dateAux.set(Calendar.SECOND, 0);
                 if (dateAux.before(currentTime)) oldAux.add(act);
-            }
-            if (oldAux.isEmpty()) {
-                recyclerView.setVisibility(View.GONE);
-                emptyView.setVisibility(View.VISIBLE);
-            }
-            else {
                 adapter.setList(oldAux);
-                recyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
             }
         }
     }
