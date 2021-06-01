@@ -116,6 +116,11 @@ public class FavoritesFragment extends Fragment {
             public void onResponseChat(ArrayList<Chat> ret) {
 
             }
+
+            @Override
+            public void onResponseReportReview() {
+
+            }
         });
     }
 
