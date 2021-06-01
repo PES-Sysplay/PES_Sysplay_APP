@@ -22,7 +22,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintVertical_bias=".2"
-        app:layout_constraintWidth_percent=".8" />
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/log_password"
@@ -41,7 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/log_username"
-        app:layout_constraintWidth_percent=".8" />
+        app:layout_constraintWidth_percent=".8"
+        tools:ignore="Autofill" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginbutton"
@@ -64,7 +66,7 @@
         android:id="@+id/signingoogle"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/loginbutton"

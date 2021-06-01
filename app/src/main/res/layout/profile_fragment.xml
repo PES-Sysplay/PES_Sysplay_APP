@@ -91,14 +91,15 @@
             android:layout_width="398dp"
             android:layout_height="263dp"
             android:layout_marginBottom="10dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             android:scaleType="centerCrop"
             android:src="@drawable/bg1"
             app:layout_constraintBottom_toTopOf="@+id/appCompatButton3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".27"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/my_activities"
@@ -169,12 +170,13 @@
             android:layout_width="0.5dp"
             android:layout_height="150dp"
             android:background="@color/lightGray"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             android:src="?attr/dividerVertical"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/textView3"

@@ -1,13 +1,11 @@
 package com.example.workoutapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -19,7 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
@@ -58,9 +55,9 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText("INICIAR SESIÓN"));
         tabLayout.addTab(tabLayout.newTab().setText("REGISTRAR"));
-        tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final LoginRegisterFragmentManager fragManager = new LoginRegisterFragmentManager(getSupportFragmentManager(), this, tabLayout.getTabCount());
+        final LoginRegisterFragmentManager fragManager = new LoginRegisterFragmentManager(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(fragManager);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -112,12 +109,12 @@ public class LoginRegisterActivity extends AppCompatActivity {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task, this);
+            handleSignInResult(task);
         }
     }
 
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask, Context ctx) {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
@@ -162,11 +159,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     private void signOut() {
         mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
+                .addOnCompleteListener(this, task -> {
+                    // ...
                 });
     }
 
@@ -180,10 +174,10 @@ public class LoginRegisterActivity extends AppCompatActivity {
             token = pref_ctrl.loadUserToken(user_act);
 
 
-            UserSingleton us = UserSingleton.setInstance(user_act, token,LoginRegisterActivity.this);
+            UserSingleton us = UserSingleton.setInstance(user_act, token);
 
             if (!us.getId().equals("") && !us.getUsername().equals("")) {
-                String param = null;
+                String param;
                 Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
 
                 if(uri != null){

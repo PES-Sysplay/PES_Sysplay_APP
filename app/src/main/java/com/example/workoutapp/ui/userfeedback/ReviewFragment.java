@@ -57,63 +57,64 @@ public class ReviewFragment extends Fragment {
         commentText = view.findViewById(R.id.commentText);
         stars = view.findViewById(R.id.simpleRatingBar);
 
-        reviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment = commentText.getText().toString();
-                Float userStars = stars.getRating();
-                if(checkCorrect(userStars)) {
-                    UserActivityController UAController = new UserActivityController(view.getContext());
-                    UAController.sendReview(activity_list.get(pos).getId(), comment, userStars, new UserActivityController.VolleyResponseListener() {
+        reviewBtn.setOnClickListener(v -> {
+            String comment = commentText.getText().toString();
+            Float userStars = stars.getRating();
+            if(checkCorrect(userStars)) {
+                UserActivityController UAController = new UserActivityController(view.getContext());
+                UAController.sendReview(activity_list.get(pos).getId(), comment, userStars, new UserActivityController.VolleyResponseListener() {
 
-                        @Override
-                        public void onError(String message) {
-                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                        }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-                        @Override
-                        public void onResponse(String message) {
-                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                            activity_list.get(pos).toggleReviewed();
-                            ((ReviewActivity) getActivity()).goToConfirmedFragment();
-                        }
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        activity_list.get(pos).toggleReviewed();
+                        ((ReviewActivity) getActivity()).goToConfirmedFragment();
+                    }
 
-                        @Override
-                        public void onResponseFavorites(ArrayList<Activitat> ret) {
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onResponseFav() {
+                    @Override
+                    public void onResponseFav() {
 
-                        }
+                    }
 
-                        @Override
-                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onResponseReviewList(ArrayList<Review> ret) {
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onResponseChat(ArrayList<Chat> ret) {}
-                    });
-                }
+                    @Override
+                    public void onResponseChat(ArrayList<Chat> ret) {}
+
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
+                });
             }
         });
 
     }
 
     public boolean checkCorrect(Float stars){
-        if(stars >= 0 && stars <= 5) return true;
-        else return false;
+        return stars >= 0 && stars <= 5;
     }
 }

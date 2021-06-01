@@ -15,7 +15,6 @@ public class Activitat {
     String location;
     boolean only_member;
     String organization;
-    String created;
     Long timestamp; //in seconds
     boolean joined;
     boolean favorite;
@@ -80,10 +79,6 @@ public class Activitat {
         return date_time;
     }
 
-    public float getDuration() {
-        return duration;
-    }
-
     public String getPreu() {
         return String.valueOf(normal_price);
     }
@@ -95,12 +90,9 @@ public class Activitat {
     public int getNumberParticipants() {
         return Math.round(number_participants);
     }
+
     public int getClientJoined(){
         return Math.round(clients_joined);
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getLocation() {
@@ -108,10 +100,6 @@ public class Activitat {
     }
 
     public String getToken() { return token; }
-
-    public boolean isOnlySoci() {
-        return only_member;
-    }
 
     public String getOrganizerName() {
         return organization;

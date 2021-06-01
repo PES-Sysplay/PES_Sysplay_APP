@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
@@ -29,13 +28,10 @@ public class PasswordChangedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.paginainicial).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
-            }
+        view.findViewById(R.id.paginainicial).setOnClickListener(view1 -> {
+            Context context = view1.getContext();
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
         });
     }
     @Override

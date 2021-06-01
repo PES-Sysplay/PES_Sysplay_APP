@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,8 +25,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
-import com.example.workoutapp.Organizer;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
@@ -203,6 +202,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
 
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
+
                 });
 
 
@@ -232,6 +236,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
+
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
 
                     @Override
                     public void onResponseReviewList(ArrayList<Review> ret) {
@@ -456,7 +465,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                        if(message.equals("400")){
+                            Toast.makeText(getBaseContext(), "Actividad llena", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+
+                        }
                     }
 
                     @Override

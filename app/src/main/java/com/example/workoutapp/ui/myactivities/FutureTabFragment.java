@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.myactivities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.Organizer;
@@ -36,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class FutureTabFragment extends Fragment {
 
@@ -179,6 +176,11 @@ public class FutureTabFragment extends Fragment {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
+
+            }
+
+            @Override
+            public void onResponseReportReview() {
 
             }
         });

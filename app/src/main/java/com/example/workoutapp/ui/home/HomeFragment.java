@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +32,8 @@ import com.example.workoutapp.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -139,13 +139,29 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
+                ArrayList<Activitat> futAux = new ArrayList<>();
 
-                if(poss != -33 && intents == 1){
+                Date date = Calendar.getInstance().getTime();
+                Calendar currentTime = Calendar.getInstance();
+                currentTime.setTime(date);
 
-                    adapter.setLink(poss);
-                    intents = 0;
+                currentTime.set(Calendar.HOUR_OF_DAY, 0);
+                currentTime.set(Calendar.MINUTE, 0);
+                currentTime.set(Calendar.SECOND, 0);
+                for (Activitat act : ret) {
+                    if (poss != -33 && intents == 1) {
+
+                        adapter.setLink(poss);
+                        intents = 0;
+                    }
+                    Calendar dateAux = Calendar.getInstance();
+                    dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
+                    dateAux.set(Calendar.HOUR_OF_DAY, 0);
+                    dateAux.set(Calendar.MINUTE, 0);
+                    dateAux.set(Calendar.SECOND, 0);
+                    if (dateAux.after(currentTime)) futAux.add(act);
+                    adapter.setList(futAux);
                 }
-                adapter.setList(ret);
 
 
                 Log.d("STATE", ret.get(0).getDate_time());

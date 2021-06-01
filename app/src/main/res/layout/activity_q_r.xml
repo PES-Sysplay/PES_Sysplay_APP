@@ -33,7 +33,7 @@
         android:layout_marginTop="16dp"
         android:gravity="start"
         android:scaleType="fitCenter"
-        android:text="Fecha: "
+        android:text="@string/fecha"
         android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp"
         android:gravity="start"
         android:scaleType="fitCenter"
-        android:text="Lugar: "
+        android:text="@string/lugar"
         android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,8 @@
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_place" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_place"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textviewqr2"
@@ -70,7 +71,7 @@
         android:layout_marginTop="20dp"
         android:gravity="start"
         android:scaleType="fitStart"
-        android:text="Enseña este código QR el día de la actividad al organizador responsable. No compartas este código con otras personas."
+        android:text="@string/codigo"
         android:textAlignment="center"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

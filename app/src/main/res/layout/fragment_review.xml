@@ -35,7 +35,8 @@
         android:textColorLink="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/sendReviewBt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="Autofill,LabelFor" />
 
     <TextView
         android:id="@+id/textView9"
@@ -44,19 +45,19 @@
         android:layout_marginStart="36dp"
         android:layout_marginEnd="204dp"
         android:layout_marginBottom="8dp"
-        android:text="Añade un comentario (opcional)"
+        android:text="@string/anade_comentario"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/commentText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"></TextView>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sendReviewBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="268dp"
-        android:text="Valorar"
+        android:text="@string/valorar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

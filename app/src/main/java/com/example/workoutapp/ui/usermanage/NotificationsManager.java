@@ -105,6 +105,11 @@ public class NotificationsManager{
                     
                 }
 
+                @Override
+                public void onResponseReportReview() {
+
+                }
+
             });
         }
 
@@ -164,6 +169,11 @@ public class NotificationsManager{
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {
+
+                }
+
+                @Override
+                public void onResponseReportReview() {
 
                 }
             });

@@ -2,34 +2,28 @@ package com.example.workoutapp.ui.maps;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
-import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.example.workoutapp.ui.home.ActivityDetail;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -39,16 +33,12 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -89,6 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
     @Override
@@ -121,7 +112,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         GoogleMapOptions options = new GoogleMapOptions();
-        options.mapType(mGoogleMap.MAP_TYPE_SATELLITE)
+        options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
                 .compassEnabled(true)
                 .rotateGesturesEnabled(true)
                 .tiltGesturesEnabled(true);
@@ -176,7 +167,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     Snackbar snackbar = Snackbar.make(rootlayout, activity_list.get(ii).getName(), Snackbar.LENGTH_INDEFINITE).setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     int finalIi = ii;
                     snackbar.setAction("IR A LA ACTIVIDAD", new View.OnClickListener() {
-                        int j = finalIi;
+                        final int j = finalIi;
                         @Override
                         public void onClick(View v) {
 
@@ -241,29 +232,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NotNull String[] permissions, @NotNull int[] grantResults) {
 
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    if (ContextCompat.checkSelfPermission(getContext(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-                        location = true;
-                    }
-
-                } else {
-
-                    location = false;
-                    Toast.makeText(getActivity(), "permission denied", Toast.LENGTH_LONG).show();
-
+                if (ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    location = true;
                 }
-                initMap();
-            }
 
+            } else {
+
+                location = false;
+                Toast.makeText(getActivity(), "permission denied", Toast.LENGTH_LONG).show();
+
+            }
+            initMap();
         }
     }
 

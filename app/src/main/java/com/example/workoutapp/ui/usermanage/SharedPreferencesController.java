@@ -59,16 +59,11 @@ public class SharedPreferencesController {
         return sharedPreferences.getString("t_"+username, "");
     }
 
-    public Boolean getEmail(){
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("email", true);
-    }
-
     public void setEmail(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Boolean alert = sharedPreferences.getBoolean("email", true);
+        boolean alert = sharedPreferences.getBoolean("email", true);
         editor.putBoolean("email", !alert);
         editor.apply();
     }
@@ -82,7 +77,7 @@ public class SharedPreferencesController {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Boolean alert = sharedPreferences.getBoolean("push", true);
+        boolean alert = sharedPreferences.getBoolean("push", true);
         editor.putBoolean("push", !alert);
         editor.apply();
     }
@@ -91,7 +86,7 @@ public class SharedPreferencesController {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Boolean alert = sharedPreferences.getBoolean("alertFavs", true);
+        boolean alert = sharedPreferences.getBoolean("alertFavs", true);
         editor.putBoolean("alertFavs", !alert);
         editor.apply();
     }
@@ -105,7 +100,7 @@ public class SharedPreferencesController {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Boolean alert = sharedPreferences.getBoolean("alertJoins", true);
+        boolean alert = sharedPreferences.getBoolean("alertJoins", true);
         editor.putBoolean("alertJoins", !alert);
         editor.apply();
     }

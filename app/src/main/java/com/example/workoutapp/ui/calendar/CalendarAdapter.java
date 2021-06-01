@@ -10,11 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
+import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
-import com.example.workoutapp.ui.calendar.CalendarAdapter;
+import com.example.workoutapp.Review;
+import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityDetail;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
@@ -43,6 +47,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         holder.dateTime.setText(activitats.get(position).getDateTimeString());
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
 
+        if (!activitats.get(position).isFavorite()) {
+            holder.favBtn.setVisibility(View.VISIBLE);
+            holder.unfavBtn.setVisibility(View.GONE);
+        } else {
+            holder.unfavBtn.setVisibility(View.VISIBLE);
+            holder.favBtn.setVisibility(View.GONE);
+        }
+
+        if(activitats.get(position).isSuperHost()) holder.superhost.setVisibility(View.VISIBLE);
+        else holder.superhost.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener((View v) -> {
             Context context = v.getContext();
@@ -51,6 +65,103 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             intent.putExtra("adapter",2);
             context.startActivity(intent);
         });
+
+        Integer activityID = activitats.get(position).getId();
+        holder.favBtn.setOnClickListener(v -> {
+            UserActivityController uaController = new UserActivityController(v.getContext());
+            uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponse(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponseFavorites(ArrayList<Activitat> ret) {
+                }
+
+                @Override
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                }
+
+                @Override
+                public void onResponseReviewList(ArrayList<Review> ret) {
+
+                }
+
+                @Override
+                public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                }
+
+                @Override
+                public void onResponseChat(ArrayList<Chat> ret) {}
+
+                @Override
+                public void onResponseReportReview() {
+
+                }
+
+                @Override
+                public void onResponseFav() {}
+
+            });
+            activitats.get(position).toggleFavorite();
+            holder.favBtn.setVisibility(View.GONE);
+            holder.unfavBtn.setVisibility(View.VISIBLE);
+        });
+
+
+        holder.unfavBtn.setOnClickListener(v -> {
+            UserActivityController uaController = new UserActivityController(v.getContext());
+            uaController.unfavorite(activityID, new UserActivityController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponse(String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponseFavorites(ArrayList<Activitat> ret) {}
+
+                @Override
+                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+
+                @Override
+                public void onResponseChat(ArrayList<Chat> ret) {}
+
+                @Override
+                public void onResponseReportReview() {
+
+                }
+
+                @Override
+                public void onResponseReviewList(ArrayList<Review> ret) {
+
+                }
+
+                @Override
+                public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                }
+
+                @Override
+                public void onResponseFav() {}
+
+            });
+            activitats.get(position).toggleFavorite();
+            holder.favBtn.setVisibility(View.VISIBLE);
+            holder.unfavBtn.setVisibility(View.GONE);
+        });
+
     }
 
     public List<Activitat> copyInfo(){
@@ -83,7 +194,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView organization, activityTitle, dateTime;
-        ImageView image;
+        AppCompatButton favBtn, unfavBtn;
+        ImageView image, superhost;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,12 +204,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             activityTitle = itemView.findViewById(R.id.activityTitle);
             dateTime = itemView.findViewById(R.id.dateTime);
             image = itemView.findViewById(R.id.coverImage);
+            favBtn = itemView.findViewById(R.id.favButton);
+            unfavBtn = itemView.findViewById(R.id.unfavButton);
+            superhost = itemView.findViewById(R.id.suphost);
 
             // handle onClick
 
             itemView.setOnClickListener(v ->
                     Toast.makeText(v.getContext(), "Do Something With this Click", Toast.LENGTH_SHORT).show()
             );
+        }
+
+        public Context getContext() {
+            return itemView.getContext();
         }
     }
 }
