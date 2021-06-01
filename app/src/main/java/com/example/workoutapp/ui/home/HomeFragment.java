@@ -28,6 +28,7 @@ import com.example.workoutapp.Activitat;
 import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
+import com.example.workoutapp.UserSingleton;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,11 +54,19 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         this.requireActivity().setTitle("Actividades");
+        UserSingleton us = UserSingleton.getInstance();
+        if(us.getLink()){
+            us.setLink(false);
+            poss = getActivity().getIntent().getIntExtra("Link", -33);
+        }
 
-        intents = getActivity().getIntent().getIntExtra("intents", 0);
-        poss = getActivity().getIntent().getIntExtra("Link", -33);
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("edffffffffffffffffffffffgggggggggggggggggggggggggggggggggggg","jjjj");
+    }
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -149,10 +158,12 @@ public class HomeFragment extends Fragment {
                 currentTime.set(Calendar.MINUTE, 0);
                 currentTime.set(Calendar.SECOND, 0);
                 for (Activitat act : ret) {
-                    if (poss != -33 && intents == 1) {
+                    if (poss != -33) {
 
                         adapter.setLink(poss);
-                        intents = 0;
+
+                        //adapter.secureLink();
+                        poss = -33;
                     }
                     Calendar dateAux = Calendar.getInstance();
                     dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms

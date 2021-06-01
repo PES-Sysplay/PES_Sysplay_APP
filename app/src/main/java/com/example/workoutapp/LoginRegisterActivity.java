@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.example.workoutapp.ui.usermanage.LoginRegisterFragmentManager;
 import com.example.workoutapp.ui.usermanage.SharedPreferencesController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,6 +23,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.workoutapp.ActivityController.getContext;
 
 public class LoginRegisterActivity extends AppCompatActivity {
 
@@ -184,8 +187,11 @@ public class LoginRegisterActivity extends AppCompatActivity {
                     List<String> parameters = uri.getPathSegments();
                     param = parameters.get(parameters.size() - 1);
                     intent.putExtra("Link", Integer.valueOf(param));
-                    intent.putExtra("intents", 1);
+                    us.setLink(true);
                     uri = null;
+                }
+                else{
+                    us.setLink(false);
                 }
                 startActivity(intent);
                 finish();

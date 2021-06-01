@@ -5,11 +5,19 @@ public class UserSingleton {
     private String username;
     private String token_id;
     private static UserSingleton instance;
-
+    private boolean link;
 
     public UserSingleton(String username, String id){
         this.username = username;
         this.token_id = id;
+    }
+
+    public void setLink(boolean linkAux){
+        link = linkAux;
+    }
+
+    public boolean getLink(){
+        return link;
     }
 
     public static synchronized UserSingleton setInstance(String username, String id){
