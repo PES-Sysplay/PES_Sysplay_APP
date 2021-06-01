@@ -122,9 +122,11 @@ public class MyActivitiesActivity extends Fragment {
         }
     }
 
-
-    public void onBackPressed() {
+    @Override
+    public void onDestroy(){
+        navBar.setVisibility(View.VISIBLE);
         super.onDestroy();
     }
+
 
 }

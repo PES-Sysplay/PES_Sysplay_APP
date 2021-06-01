@@ -74,7 +74,11 @@ public class FavoritesFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onDestroy(){
+        navBar.setVisibility(View.VISIBLE);
+        super.onDestroy();
+    }
     @Override
     public void onResume() {
         super.onResume();
