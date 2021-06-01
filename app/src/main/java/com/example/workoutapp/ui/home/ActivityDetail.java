@@ -322,6 +322,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             case R.id.reportBt:
                 Intent intent = new Intent(this, ReportActivity.class);
                 intent.putExtra("Position recycler", pos);
+                intent.putExtra("adapter",1);
+
                 this.startActivity(intent);
                 break;
             case R.id.reviewBt:

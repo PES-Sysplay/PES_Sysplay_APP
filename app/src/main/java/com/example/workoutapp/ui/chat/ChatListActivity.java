@@ -17,6 +17,7 @@ import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,9 +86,9 @@ public class ChatListActivity extends AppCompatActivity {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
+                chatList = getCurrentChats(ret);
                 if (ret.size()==0) noChat_tv.setVisibility(View.VISIBLE);
                 else {
-                    chatList = ret;
                     sortChatList();
                     recyclerView.setAdapter(new ChatListAdapter(chatList, ctx));
                 }
@@ -103,6 +104,21 @@ public class ChatListActivity extends AppCompatActivity {
     private void sortChatList() {
         chatList.sort(Comparator.comparing(Chat -> Chat.getLast_message().getDate_timestamp()));
         Collections.reverse(chatList);
+    }
+
+    private ArrayList<Chat> getCurrentChats(ArrayList<Chat> clist) {
+        List<Activitat> al = ActivityListAdapter.getInstance(ctx, new ArrayList<>()).copyInfo();
+        ArrayList<Chat> ret = new ArrayList<>();
+        for (int i=0; i<clist.size(); i++) {
+            boolean found = false;
+            for (int j=0; j<al.size() && !found; j++) {
+                if (clist.get(i).getActivity_id() == al.get(j).getId()) {
+                    found = true;
+                    ret.add(clist.get(i));
+                }
+            }
+        }
+        return ret;
     }
 
     @Override
