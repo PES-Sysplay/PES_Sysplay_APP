@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -335,7 +336,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setType("text/plain");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
+                Log.d("POSicioooooooooooooooooooooooooooooo", String.valueOf(pos));
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + activity_list.get(pos).getId());
                 Intent shareIntent = Intent.createChooser(sendIntent, "Compartir actividad");
                 this.startActivity(shareIntent);
                 break;
