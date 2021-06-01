@@ -32,6 +32,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.workoutapp.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -45,7 +46,7 @@ public class MyActivitiesActivity extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     ViewGroup root;
-
+    BottomNavigationView navBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,10 @@ public class MyActivitiesActivity extends Fragment {
         root = (ViewGroup) inflater.inflate(R.layout.activity_my_activities, container, false);
         tabLayout = root.findViewById(R.id.tab_layout_act);
         viewPager = root.findViewById(R.id.view_pager_act);
+
+        navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.GONE);
+
 
         FragmentStateAdapter adapter = new MyActivitiesFragmentManager(this);
         viewPager.setAdapter(adapter);
@@ -107,9 +112,15 @@ public class MyActivitiesActivity extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+    @Override
+    public void onDestroy(){
+        navBar.setVisibility(View.VISIBLE);
+        super.onDestroy();
+    }
     
     public void onBackPressed() {
+        Log.d("DFDF", "fdds");
+        navBar.setVisibility(View.VISIBLE);
         super.onDestroy();
     }
 }

@@ -19,6 +19,7 @@ import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class FavoritesFragment extends Fragment {
     TextView title;
     FavoriteAdapter adapter;
     ArrayList<Activitat>  activityList;
+    BottomNavigationView navBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class FavoritesFragment extends Fragment {
         getFaveActivities();
 
         activityListView.setVisibility(View.VISIBLE);
+        navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.GONE);
 
         return root;
     }
