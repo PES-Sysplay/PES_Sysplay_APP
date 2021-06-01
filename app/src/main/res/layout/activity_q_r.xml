@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/activity_name"
         android:layout_width="344dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
         android:scaleType="fitStart"
