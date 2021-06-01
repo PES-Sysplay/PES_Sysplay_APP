@@ -38,11 +38,11 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    public RecyclerView recyclerView;
-    public ActivityListAdapter adapter;
+    private RecyclerView recyclerView;
+    private ActivityListAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
-    public LayoutInflater privInflater;
+    private LayoutInflater privInflater;
     private ViewGroup privContainer;
     private Bundle privInstanceState;
     private View root;
@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         privInflater = inflater;
         privContainer = container;

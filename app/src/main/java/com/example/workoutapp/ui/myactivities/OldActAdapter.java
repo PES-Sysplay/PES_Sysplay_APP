@@ -1,7 +1,8 @@
-package com.example.workoutapp.ui.home;
+package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,13 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.Chat;
 import com.example.workoutapp.Organizer;
+import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.home.ActivityDetail;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,8 +30,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder> {
-    private static ActivityListAdapter INSTANCE;
+public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder> {
+    private static OldActAdapter INSTANCE;
     LayoutInflater inflater;
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
@@ -70,19 +73,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     };
     ArrayList<String> activity_id_list;
 
-    public static ActivityListAdapter getInstance(Context ctx, List<Activitat> activitats){
-        if (INSTANCE == null) INSTANCE = new ActivityListAdapter(ctx,activitats);
+    public static OldActAdapter getInstance(Context ctx, List<Activitat> activitats){
+        if (INSTANCE == null) INSTANCE = new OldActAdapter(ctx,activitats);
         return INSTANCE;
     }
-  
-    public ActivityListAdapter(Context ctx, List<Activitat> activitats){
+
+    public OldActAdapter(Context ctx, List<Activitat> activitats){
         this.inflater = LayoutInflater.from(ctx);
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
 
     //for testing purposes
-    public ActivityListAdapter(List<Activitat> activitats) {
+    public OldActAdapter(List<Activitat> activitats) {
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
@@ -124,7 +127,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", link);
-            intent.putExtra("adapter",1);
+            intent.putExtra("adapter",4);
             context.startActivity(intent);
             link = -33;
             secure = false;
@@ -133,10 +136,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             Context context = v.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", position);
-            intent.putExtra("From", "home");
-            intent.putExtra("adapter",1);
+            intent.putExtra("adapter",4);
             context.startActivity(intent);
-
         });
         Integer activityID = activitats.get(position).getId();
         boolean favorite = activitats.get(position).isFavorite();
@@ -183,11 +184,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 public void onResponseChat(ArrayList<Chat> ret) {}
 
                 @Override
-                public void onResponseReportReview() {
-
-                }
-
-                @Override
                 public void onResponseFav() {}
 
             });
@@ -220,11 +216,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 public void onResponseChat(ArrayList<Chat> ret) {}
 
                 @Override
-                public void onResponseReportReview() {
-
-                }
-
-                @Override
                 public void onResponseReviewList(ArrayList<Review> ret) {
 
                 }
@@ -245,9 +236,30 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     }
 
+    public void updateFavs(@NonNull ViewHolder holder, int position){
+        Integer activityID = activitats.get(position).getId();
+        boolean favorite =  activitats.get(position).isFavorite();
+        if(!favorite) {
+            holder.favBtn.setVisibility(View.VISIBLE);
+            holder.unfavBtn.setVisibility(View.GONE);
+        }
+        else{
+            holder.unfavBtn.setVisibility(View.VISIBLE);
+            holder.favBtn.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return activitats.size();
+    }
+
+    public List<Activitat> getActivitats() {
+        return activitats;
+    }
+
+    public List<Activitat> getActivitatsFull() {
+        return activitatsFull;
     }
 
     public Filter getFilter() {
@@ -257,7 +269,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public List<Activitat> copyInfo(){
         return activitats;
     }
-  
+
     public void setList(List<Activitat> aux){
         activitats = new ArrayList<>(aux);
         activitatsFull = new ArrayList<>(aux);
@@ -272,6 +284,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         out.add(StringUtils.substringBetween(query, "StartTitle", "EndTitle"));
         out.add(StringUtils.substringBetween(query, "StartOrganization", "EndOrganization"));
         out.add(StringUtils.substringBetween(query, "StartSport", "EndSport"));
+
+        //TODO que devuelva el codigo del deporte
 
         return out;
     }
@@ -288,6 +302,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         TextView organization, activityTitle, dateTime;
         AppCompatButton favBtn, unfavBtn;
         ImageView image, superhost;
+        Context context = itemView.getContext();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

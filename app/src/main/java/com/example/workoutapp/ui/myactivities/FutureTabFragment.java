@@ -5,21 +5,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
-import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.example.workoutapp.ui.home.HomeFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +35,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class FutureTabFragment extends HomeFragment {
+public class FutureTabFragment extends Fragment {
+
+    private RecyclerView recyclerViewFut;
+    private FutureActAdapter adapter;
+    private Boolean advancedSearch = false;
+    private SearchView searchView;
+    //private LayoutInflater privInflater;
+    //private ViewGroup privContainer;
+    //private Bundle privInstanceState;
+    //private View root;
+    int intents = 0, poss = -33;
 
     ViewGroup root;
     ArrayList<Activitat> futActivities;
     TextView emptyView;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,25 +62,70 @@ public class FutureTabFragment extends HomeFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        privInflater = inflater;
-
         root = (ViewGroup) inflater.inflate(R.layout.fragment_act_future, container, false);
 
-        recyclerView = root.findViewById(R.id.recyclerviewfut);
+        recyclerViewFut = root.findViewById(R.id.recyclerviewfut);
 
-
-        super.updateType(root);
-
-        adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
         emptyView = root.findViewById(R.id.empty_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.setAdapter(adapter);
+
+        updateType(root);
+
+        adapter = FutureActAdapter.getInstance(root.getContext(), new ArrayList<>());
+        recyclerViewFut.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerViewFut.setAdapter(adapter);
 
         return root;
     }
 
+    @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.toolbar_seach_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setIconifiedByDefault(false);
+
+        menu.findItem(R.id.advanced_search).setVisible(advancedSearch); //hides and shows the advanced search button
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(transformQueryFormat(newText, "", ""));
+                return false;
+            }
+        });
+
+        //sets up listeners to detect when to hide and show the advanced search button
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                advancedSearch = true;
+                getActivity().invalidateOptionsMenu();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                advancedSearch = false;
+                getActivity().invalidateOptionsMenu();
+                return true;
+            }
+        });
+    }
+
+    private String transformQueryFormat(String title, String org, String sport) {
+        //String sport es el nombre, no el codigo
+
+        return "StartTitle" + title + "EndTitle" +
+                "StartOrganization" + org + "EndOrganization" +
+                "StartSport" + sport + "EndSport";
     }
 
     @Override
@@ -125,6 +186,32 @@ public class FutureTabFragment extends HomeFragment {
         });
     }
 
+    public void updateType(View root) {
+        ActivityController dc = new ActivityController(getContext());
+
+        dc.getActivityTypes(new ActivityController.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(root.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponseActivity(ArrayList<Activitat> ret) {
+            }
+
+            @Override
+            public void onResponseType(ArrayList<String> ret) {
+                adapter.setActivity_id_list(ret);
+            }
+
+            @Override
+            public void onResponseJoinActivity() {
+
+            }
+
+        });
+    }
+
     private void displayFutAct() {
         ArrayList<Activitat> futAux = new ArrayList<>();
 
@@ -145,8 +232,16 @@ public class FutureTabFragment extends HomeFragment {
                 dateAux.set(Calendar.MINUTE, 0);
                 dateAux.set(Calendar.SECOND, 0);
                 if (dateAux.after(currentTime)) futAux.add(act);
-                adapter.setList(futAux);
             }
+        }
+
+        if (futAux.isEmpty()) {
+            recyclerViewFut.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            adapter.setList(futAux);
+            recyclerViewFut.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
         }
     }
 }

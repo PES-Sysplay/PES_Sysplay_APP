@@ -58,12 +58,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         if(activitats.get(position).isSuperHost()) holder.superhost.setVisibility(View.VISIBLE);
         else holder.superhost.setVisibility(View.GONE);
 
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener((View v) -> {
             Context context = v.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
-            ActivityListAdapter al = ActivityListAdapter.getInstance(null, null); //esto pinta que da errores
-            int aux = al.getActivityIndex(activitats.get(position).getName());
-            intent.putExtra("Position recycler", aux);
+            intent.putExtra("Position recycler", position);
+            intent.putExtra("adapter",2);
             context.startActivity(intent);
         });
 
@@ -163,6 +162,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             holder.unfavBtn.setVisibility(View.GONE);
         });
 
+    }
+
+    public List<Activitat> copyInfo(){
+        return activitats;
     }
 
     @Override
