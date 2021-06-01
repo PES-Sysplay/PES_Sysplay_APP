@@ -150,16 +150,8 @@ public class FutureTabFragment extends HomeFragment {
                 dateAux.set(Calendar.MINUTE, 0);
                 dateAux.set(Calendar.SECOND, 0);
                 if (dateAux.after(currentTime)) futAux.add(act);
+                adapter.setList(futAux);
             }
-        }
-
-        if (futAux.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            adapter.setList(futAux);
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
         }
     }
 }
