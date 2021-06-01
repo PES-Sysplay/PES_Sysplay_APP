@@ -58,5 +58,7 @@
     <string name="title_activity_review">Valorar actividad</string>
     <string name="title_activity_qr">Tu entrada</string>
     <string name="title_activity_chat">Chat</string>
+    <string name="reportar_como_inapropiado">Reportar como inapropiado</string>
+    <string name="org_name">Org Name</string>
 
 </resources>
