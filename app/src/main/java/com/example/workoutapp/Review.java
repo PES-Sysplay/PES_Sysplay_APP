@@ -9,15 +9,11 @@ public class Review {
     public Review() {
     }
 
-    public Review(float rating, String comment, String username, String date) {
+    public Review(float rating, String comment) {
         this.stars = rating;
         this.comment = comment;
         //this.username = username;
         //this.date = date;
-    }
-
-    public void setRating(float rating) {
-        this.stars = rating;
     }
 
     public void setComment(String comment) {

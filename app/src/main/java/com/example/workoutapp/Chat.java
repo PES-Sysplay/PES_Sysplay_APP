@@ -27,10 +27,6 @@ public class Chat {
         return messages;
     }
 
-    public void setMessageList(List<Message> messageList) {
-        this.messages = messageList;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -43,16 +39,8 @@ public class Chat {
         return activity_id;
     }
 
-    public void setActivity_id(int activity_id) {
-        this.activity_id = activity_id;
-    }
-
     public String getActivity_name() {
         return activity_name;
-    }
-
-    public void setActivity_name(String activity_name) {
-        this.activity_name = activity_name;
     }
 
     public String getOrganization() {
@@ -71,20 +59,8 @@ public class Chat {
         this.id = id;
     }
 
-    public Boolean getIs_new() {
-        return is_new;
-    }
-
-    public void setIs_new(Boolean is_new) {
-        this.is_new = is_new;
-    }
-
     public String getOrganization_photo() {
         return organization_photo;
-    }
-
-    public void setOrganization_photo(String organization_photo) {
-        this.organization_photo = organization_photo;
     }
 
     public Message getLast_message() {

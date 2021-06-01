@@ -37,14 +37,6 @@ public class Organizer {
         this.name = name;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public void setRank(Float rank) {
-        this.rank = rank;
-    }
-
     public void setSuperhost(boolean superhost) {
         this.superhost = superhost;
     }

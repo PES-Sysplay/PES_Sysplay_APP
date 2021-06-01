@@ -2,13 +2,11 @@ package com.example.workoutapp.ui.myactivities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.ActivityController;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
