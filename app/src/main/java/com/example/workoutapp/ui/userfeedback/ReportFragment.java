@@ -113,6 +113,11 @@ public class ReportFragment extends Fragment {
 
                         @Override
                         public void onResponseChat(ArrayList<Chat> ret) {}
+
+                        @Override
+                        public void onResponseReportReview() {
+                            
+                        }
                     });
 
                 }

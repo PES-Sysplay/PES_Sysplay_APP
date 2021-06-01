@@ -45,6 +45,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        this.requireActivity().setTitle("Perfil");
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();

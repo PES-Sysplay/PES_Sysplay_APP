@@ -92,6 +92,11 @@ public class ChatListActivity extends AppCompatActivity {
                     recyclerView.setAdapter(new ChatListAdapter(chatList, ctx));
                 }
             }
+
+            @Override
+            public void onResponseReportReview() {
+
+            }
         });
     }
 

@@ -46,6 +46,8 @@ public class UserActivityController {
         void onResponseOrganizationList(ArrayList<Organizer> ret);
 
         void onResponseChat(ArrayList<Chat> ret);
+
+        void onResponseReportReview();
     }
 
     public void favorite(Integer activityId, UserActivityController.VolleyResponseListener vrl) {
@@ -468,5 +470,42 @@ public class UserActivityController {
 
         };
         RequestSingleton.getInstance(ctx).addToRequestQueue(req);
+    }
+
+    public void reportReview(Integer reviewID, UserActivityController.VolleyResponseListener vrl) {
+        String joinActURL = URL + "/api/report_review/";
+        Map<String, Integer> params = new HashMap<>();
+        params.put("review_id", reviewID);
+        JSONObject jsonBody = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, response -> vrl.onResponseReportReview(), error -> {
+            Log.e("VOLLEY", error.toString());
+
+            if(error.networkResponse.statusCode == 400){
+                String errorMsg = new String(error.networkResponse.data);
+                errorMsg = errorMsg.replace("[\"", "");
+                errorMsg = errorMsg.replace("\"]", "");
+
+                if(errorMsg.contains("Already reported")) vrl.onError("La reseña ya esta reportada");
+                else vrl.onError(errorMsg);
+            }
+            else vrl.onError("Error al reportar la reseña");
+        }) {
+            @Override
+            public Map<String,String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String userToken = UserSingleton.getInstance().getId();
+                Log.d("", "");
+                headers.put("Authorization", "Token " + userToken);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        RequestSingleton.getInstance(ctx).addToRequestQueue(jsonObjectRequest);
     }
 }

@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.workoutapp.Activitat;
@@ -27,12 +27,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class FutureTabFragment extends HomeFragment {
 
     ViewGroup root;
     ArrayList<Activitat> futActivities;
+    TextView emptyView;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +51,12 @@ public class FutureTabFragment extends HomeFragment {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_act_future, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerviewfut);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+
 
         super.updateType(root);
 
         adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        emptyView = root.findViewById(R.id.empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -114,6 +115,11 @@ public class FutureTabFragment extends HomeFragment {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
+
+            }
+
+            @Override
+            public void onResponseReportReview() {
 
             }
         });

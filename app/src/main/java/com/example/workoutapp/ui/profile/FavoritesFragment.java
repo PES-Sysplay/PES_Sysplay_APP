@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,7 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,8 +22,12 @@ import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 public class FavoritesFragment extends Fragment {
 
@@ -28,11 +35,15 @@ public class FavoritesFragment extends Fragment {
     TextView title;
     FavoriteAdapter adapter;
     ArrayList<Activitat>  activityList;
+    BottomNavigationView navBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        this.requireActivity().setTitle("Mis favoritos");
+
     }
 
     @Nullable
@@ -41,7 +52,6 @@ public class FavoritesFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_favorites, container, false);
 
         activityListView = root.findViewById(R.id.recycler_view_fav);
-        title = root.findViewById(R.id.title_favorite);
 
         adapter = FavoriteAdapter.getInstance(root.getContext(), new ArrayList<>());
         activityListView.setLayoutManager(new LinearLayoutManager(root.getContext()));
@@ -50,8 +60,24 @@ public class FavoritesFragment extends Fragment {
         getFaveActivities();
 
         activityListView.setVisibility(View.VISIBLE);
+        navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.GONE);
 
         return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+                NavHostFragment.findNavController(FavoritesFragment.this)
+                        .navigate(R.id.action_favorites_fragment_to_navigation_profile);
+                navBar.setVisibility(View.VISIBLE);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getFaveActivities() {
@@ -69,8 +95,24 @@ public class FavoritesFragment extends Fragment {
 
             @Override
             public void onResponseFavorites(ArrayList<Activitat> ret) {
-                activityList = ret;
-                adapter.setActivitatsUsuari(activityList);
+                ArrayList<Activitat> futAux = new ArrayList<>();
+
+                Date date = Calendar.getInstance().getTime();
+                Calendar currentTime = Calendar.getInstance();
+                currentTime.setTime(date);
+
+                currentTime.set(Calendar.HOUR_OF_DAY, 0);
+                currentTime.set(Calendar.MINUTE, 0);
+                currentTime.set(Calendar.SECOND, 0);
+                for (Activitat act : ret) {
+                    Calendar dateAux = Calendar.getInstance();
+                    dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
+                    dateAux.set(Calendar.HOUR_OF_DAY, 0);
+                    dateAux.set(Calendar.MINUTE, 0);
+                    dateAux.set(Calendar.SECOND, 0);
+                    if (dateAux.after(currentTime)) futAux.add(act);
+                }
+                adapter.setActivitatsUsuari(futAux);
             }
 
             @Override
@@ -93,6 +135,11 @@ public class FavoritesFragment extends Fragment {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
+
+            }
+
+            @Override
+            public void onResponseReportReview() {
 
             }
         });

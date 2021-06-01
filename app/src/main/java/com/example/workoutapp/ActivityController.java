@@ -125,7 +125,7 @@ public class ActivityController {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, response -> vrl.onResponseJoinActivity(), error -> {
             Log.e("VOLLEY", error.toString());
-            vrl.onError("Error al unirse a la actividad");
+            vrl.onError(String.valueOf(error.networkResponse.statusCode));
         }) {
             @Override
             public Map<String,String> getHeaders() {
@@ -147,6 +147,7 @@ public class ActivityController {
 
     public void leftActivity(Integer activityID, ActivityController.VolleyResponseListener vrl) {
         String leaveActURL = BASE_URL + "/api/join/"+activityID+"/";
+        //Map<String, String> params = new HashMap<>();
         StringRequest request = new StringRequest(Request.Method.DELETE, leaveActURL, response -> vrl.onResponseJoinActivity(), error -> {
             Log.e("VOLLEY", error.toString());
             vrl.onError("Error al desapuntarse de la actividad");
@@ -176,6 +177,7 @@ public class ActivityController {
     public void dummyCall(ActivityController.VolleyResponseListener vrl) {
         String url = BASE_URL + "/api/activitytype";
         ArrayList<String> ret = new ArrayList<>();
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, response -> {
             Log.i("VOLLEY", response);
@@ -214,6 +216,8 @@ public class ActivityController {
         };
         RequestSingleton.getInstance(ctx).addToRequestQueue(stringRequest);
     }
+
+
 
     public interface VolleyResponseListener {
         void onError(String message);

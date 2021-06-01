@@ -177,6 +177,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
 
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
+
                 });
 
 
@@ -206,6 +211,11 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseChat(ArrayList<Chat> ret) {}
+
+                    @Override
+                    public void onResponseReportReview() {
+
+                    }
 
                     @Override
                     public void onResponseReviewList(ArrayList<Review> ret) {
@@ -430,7 +440,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                        if(message.equals("400")){
+                            Toast.makeText(getBaseContext(), "Actividad llena", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+
+                        }
                     }
 
                     @Override

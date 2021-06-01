@@ -115,6 +115,11 @@ public class OrganizationActivity extends AppCompatActivity {
             public void onResponseChat(ArrayList<Chat> ret) {
 
             }
+
+            @Override
+            public void onResponseReportReview() {
+
+            }
         });
     }
 
@@ -159,6 +164,11 @@ public class OrganizationActivity extends AppCompatActivity {
 
             @Override
             public void onResponseChat(ArrayList<Chat> ret) {
+
+            }
+
+            @Override
+            public void onResponseReportReview() {
 
             }
         });

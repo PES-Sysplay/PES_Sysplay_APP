@@ -61,5 +61,7 @@
     <string name="title_activity_chat">Mis chats</string>
     <string name="gochat">Mis chats</string>
     <string name="nochat">No tienes ningún chat activo</string>
+    <string name="reportar_como_inapropiado">Reportar como inapropiado</string>
+    <string name="org_name">Org Name</string>
 
 </resources>

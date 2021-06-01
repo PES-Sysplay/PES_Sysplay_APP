@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -32,6 +33,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.workoutapp.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.workoutapp.ui.profile.FavoritesFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -45,11 +48,14 @@ public class MyActivitiesActivity extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     ViewGroup root;
-
+    BottomNavigationView navBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        this.requireActivity().setTitle("Mis eventos");
+
     }
 
     @Nullable
@@ -58,6 +64,10 @@ public class MyActivitiesActivity extends Fragment {
         root = (ViewGroup) inflater.inflate(R.layout.activity_my_activities, container, false);
         tabLayout = root.findViewById(R.id.tab_layout_act);
         viewPager = root.findViewById(R.id.view_pager_act);
+
+        navBar = getActivity().findViewById(R.id.nav_view);
+        navBar.setVisibility(View.GONE);
+
 
         FragmentStateAdapter adapter = new MyActivitiesFragmentManager(this);
         viewPager.setAdapter(adapter);
@@ -98,18 +108,23 @@ public class MyActivitiesActivity extends Fragment {
         Toast.makeText(this, pos, Toast.LENGTH_SHORT).show();
     }*/
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch(id) {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+                NavHostFragment.findNavController(MyActivitiesActivity.this)
+                        .navigate(R.id.action_my_activities_fragment_to_navigation_profile);
+                navBar.setVisibility(View.VISIBLE);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
-    
-    
+
+
     public void onBackPressed() {
         super.onDestroy();
     }
+
 }
