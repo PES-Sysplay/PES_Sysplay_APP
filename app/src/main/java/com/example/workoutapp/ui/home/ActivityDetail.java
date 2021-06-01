@@ -118,15 +118,13 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             unfavBtn.setVisible(true);
         }
 
-        qrBtn.setVisible(false); //de momento, hasta solucionar bug de detail de muchos botones
-
-        /*if (!joined) {
+        if (!joined) {
             qrBtn.setVisible(false);
         }
 
         else {
             qrBtn.setVisible(true);
-        }*/
+        }
 
         if (is_old && !checked_in) {
             moreBtn.setVisible(false);
@@ -245,15 +243,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 this.startActivity(intent);
                 return true;
 
-            case R.id.sharewith:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.setType("text/plain");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
-                Intent shareIntent = Intent.createChooser(sendIntent, "Share Activity");
-                startActivity(shareIntent);
-                return true;
-
             case android.R.id.home:
                 onBackPressed();
                 finish();
@@ -274,6 +263,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         MenuItem reportBt = popup.getMenu().findItem(R.id.reportBt);
         MenuItem reviewBt = popup.getMenu().findItem(R.id.reviewBt);
         MenuItem questionBt = popup.getMenu().findItem(R.id.questionBt);
+        MenuItem shareBt = popup.getMenu().findItem(R.id.shareBt);
         is_old = activity_list.get(pos).isOld();
         checked_in = activity_list.get(pos).isChecked_in();
 
@@ -281,6 +271,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         reportBt.setVisible(false);
         reviewBt.setVisible(false);
         questionBt.setVisible(false);
+        shareBt.setVisible(false);
 
         if (is_old && checked_in) {
 
@@ -295,6 +286,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
         else if (!is_old) { //not old
             questionBt.setVisible(true);
+            shareBt.setVisible(true);
         }
 
         popup.show();
@@ -315,8 +307,17 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 break;
             case R.id.questionBt:
                 Intent question = new Intent(this, ChatActivity.class);
-                question.putExtra("Position recycler", pos);
+                question.putExtra("Id recycler", activity_list.get(pos).getId());
                 this.startActivity(question);
+                break;
+            case R.id.shareBt:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
+                Intent shareIntent = Intent.createChooser(sendIntent, "Compartir actividad");
+                this.startActivity(shareIntent);
+                break;
 
             default:
                 return super.onContextItemSelected(item);
@@ -403,9 +404,18 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
-        place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+        try {
+            List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
+
+            if(null!=addresses&&addresses.size()>0){
+                place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            place.setText("Localización no disponible");
+
+        }
 
         if (activity_list.get(pos).getPreu().equals("0.0")) {
             price.setText("GRATIS");

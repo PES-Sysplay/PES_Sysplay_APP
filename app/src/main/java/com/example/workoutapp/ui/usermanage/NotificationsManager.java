@@ -136,15 +136,15 @@ public class NotificationsManager{
                 public void onResponseFavorites(ArrayList<Activitat> ret) {
                     for (int i = 0; i < ret.size(); i++) {
                         int joineds = ret.get(i).getClientJoined();
+                        int participants = ret.get(i).getNumberParticipants();
                         boolean notified = spc.isNotified(ret.get(i).getId(), "favs");
-                        if (!notified && joineds <= 2 && !ret.get(i).isOld()) {
+                        if (!notified && joineds <= 2 && !ret.get(i).isOld() && participants != joineds) {
                             Integer notification_id = ret.get(i).getId() + 200001;
                             spc.setNotified(ret.get(i).getId(),"favs");
                             String organization = ret.get(i).getOrganizerName();
                             String name = ret.get(i).getName();
                             String text = "Quedan menos de 2 plazas para la actividad que tienes en favoritos";
                             notification(notification_id, name + " - " + organization, text);
-
                         }
                     }
                 }

@@ -29,15 +29,32 @@
         android:label="@string/title_profile"
         tools:layout="@layout/profile_fragment" >
         <action
+            android:id="@+id/action_navigation_profile_to_favorites_fragment"
+            app:destination="@id/favorites_fragment" />
+        <action
             android:id="@+id/action_navigation_profile_to_my_activities_fragment"
             app:destination="@id/my_activities_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorites_fragment"
+        android:name="com.example.workoutapp.ui.profile.FavoritesFragment"
+        android:label="favoritos"
+        tools:layout="@layout/activity_favorites" >
+        <action
+            android:id="@+id/action_favorites_fragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 
     <fragment
         android:id="@+id/my_activities_fragment"
         android:name="com.example.workoutapp.ui.myactivities.MyActivitiesActivity"
         android:label="misactividades"
-        tools:layout="@layout/activity_my_activities" />
+        tools:layout="@layout/activity_my_activities" >
+        <action
+            android:id="@+id/action_my_activities_fragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 
 
 </navigation>

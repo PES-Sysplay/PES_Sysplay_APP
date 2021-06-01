@@ -10,6 +10,8 @@ public class Chat {
     String organization;
     int id;
     Boolean is_new;
+    Message last_message;
+    String organization_photo;
 
     public Chat(List<Message> messageList, String username, int activity_id, String activity_name, String organization, int id, Boolean is_new) {
         this.messages = messageList;
@@ -75,5 +77,17 @@ public class Chat {
 
     public void setIs_new(Boolean is_new) {
         this.is_new = is_new;
+    }
+
+    public String getOrganization_photo() {
+        return organization_photo;
+    }
+
+    public void setOrganization_photo(String organization_photo) {
+        this.organization_photo = organization_photo;
+    }
+
+    public Message getLast_message() {
+        return last_message;
     }
 }

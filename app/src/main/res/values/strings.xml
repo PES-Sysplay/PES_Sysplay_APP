@@ -16,6 +16,7 @@
     <string name="username">Nombre de usuario</string>
     <string name="settings">Ajustes</string>
     <string name="changepwd">Cambiar contraseña</string>
+    <string name="covid_gencat">Consultar restricciones COVID-19</string>
     <string name="logout">Cerrar sesión</string>
     <string name="myevents">Mis eventos</string>
     <string name="myfavs">Mis favoritos</string>
@@ -42,8 +43,8 @@
     <string name="account_header">Perfil</string>
 
     <!-- Preferences -->
-    <string name="sync_email">Notificaciones por email</string>
-    <string name="sync_push">Permitir alertas push</string>
+    <string name="sync_email">Permitir mensajes por correo</string>
+    <string name="sync_push">Permitir notificaciones</string>
     <string name="delete_button">Eliminar cuenta</string>
     <string name="favorite">Alertas de favoritos</string>
     <string name="favorite_desc">Notificar cuando queden pocas plazas de un evento que tengo en favoritos</string>
@@ -57,7 +58,9 @@
     <string name="title_activity_report">Reportar actividad</string>
     <string name="title_activity_review">Valorar actividad</string>
     <string name="title_activity_qr">Tu entrada</string>
-    <string name="title_activity_chat">Chat</string>
+    <string name="title_activity_chat">Mis chats</string>
+    <string name="gochat">Mis chats</string>
+    <string name="nochat">No tienes ningún chat activo</string>
     <string name="reportar_como_inapropiado">Reportar como inapropiado</string>
     <string name="org_name">Org Name</string>
 
