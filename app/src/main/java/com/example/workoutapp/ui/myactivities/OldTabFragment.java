@@ -210,23 +210,9 @@ public class OldTabFragment extends Fragment {
     private void displayOldAct() {
         ArrayList<Activitat> oldAux = new ArrayList<>();
 
-        Date date = Calendar.getInstance().getTime();
-        Calendar currentTime = Calendar.getInstance();
-        currentTime.setTime(date);
-
-        currentTime.set(Calendar.HOUR_OF_DAY, 0);
-        currentTime.set(Calendar.MINUTE, 0);
-        currentTime.set(Calendar.SECOND, 0);
-
         if (oldActivities != null){
             for (Activitat act : oldActivities) {
-
-                Calendar dateAux = Calendar.getInstance();
-                dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
-                dateAux.set(Calendar.HOUR_OF_DAY, 0);
-                dateAux.set(Calendar.MINUTE, 0);
-                dateAux.set(Calendar.SECOND, 0);
-                if (dateAux.before(currentTime)) oldAux.add(act);
+                if (act.isOld()) oldAux.add(act);
             }
             if (oldAux.isEmpty()) {
                 recyclerViewOld.setVisibility(View.GONE);

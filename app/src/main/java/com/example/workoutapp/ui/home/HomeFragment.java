@@ -140,29 +140,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponseActivity(ArrayList<Activitat> ret) {
                 ArrayList<Activitat> futAux = new ArrayList<>();
-
-                Date date = Calendar.getInstance().getTime();
-                Calendar currentTime = Calendar.getInstance();
-                currentTime.setTime(date);
-
-                currentTime.set(Calendar.HOUR_OF_DAY, 0);
-                currentTime.set(Calendar.MINUTE, 0);
-                currentTime.set(Calendar.SECOND, 0);
                 for (Activitat act : ret) {
                     if (poss != -33 && intents == 1) {
 
                         adapter.setLink(poss);
                         intents = 0;
                     }
-                    Calendar dateAux = Calendar.getInstance();
-                    dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
-                    dateAux.set(Calendar.HOUR_OF_DAY, 0);
-                    dateAux.set(Calendar.MINUTE, 0);
-                    dateAux.set(Calendar.SECOND, 0);
-                    if (dateAux.after(currentTime)) futAux.add(act);
+                    if (!act.isOld()) futAux.add(act);
                     adapter.setList(futAux);
                 }
-
 
                 Log.d("STATE", ret.get(0).getDate_time());
                 MainActivity.response = true;
