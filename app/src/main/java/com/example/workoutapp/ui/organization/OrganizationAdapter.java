@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.organization;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
@@ -57,74 +56,64 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
         holder.rating.setIsIndicator(true);
 
-        holder.pop_up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(inflater.getContext(), holder.pop_up);
-                popup.inflate(R.menu.organization_pop_up);
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.reportReview:
+        holder.pop_up.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(inflater.getContext(), holder.pop_up);
+            popup.inflate(R.menu.organization_pop_up);
+            popup.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.reportReview) {
+                    UserActivityController uc = new UserActivityController(inflater.getContext());
 
-                                UserActivityController uc = new UserActivityController(inflater.getContext());
-
-                                uc.reportReview(reviews.get(position).getId(), new UserActivityController.VolleyResponseListener() {
-                                    @Override
-                                    public void onError(String message) {
-                                        Toast.makeText(inflater.getContext(), message, Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onResponse(String message) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseFavorites(ArrayList<Activitat> ret) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseFav() {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseReviewList(ArrayList<Review> ret) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseChat(ArrayList<Chat> ret) {
-
-                                    }
-
-                                    @Override
-                                    public void onResponseReportReview() {
-                                        Toast.makeText(inflater.getContext(), "Reseña reportada con exito", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                                break;
+                    uc.reportReview(reviews.get(position).getId(), new UserActivityController.VolleyResponseListener() {
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(inflater.getContext(), message, Toast.LENGTH_SHORT).show();
                         }
-                        return false;
-                    }
-                });
-                //displaying the popup
-                popup.show();
-            }
+
+                        @Override
+                        public void onResponse(String message) {
+
+                        }
+
+                        @Override
+                        public void onResponseFavorites(ArrayList<Activitat> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseFav() {
+
+                        }
+
+                        @Override
+                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseReviewList(ArrayList<Review> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseChat(ArrayList<Chat> ret) {
+
+                        }
+
+                        @Override
+                        public void onResponseReportReview() {
+                            Toast.makeText(inflater.getContext(), "Reseña reportada con exito", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                return false;
+            });
+            //displaying the popup
+            popup.show();
         });
     }
 

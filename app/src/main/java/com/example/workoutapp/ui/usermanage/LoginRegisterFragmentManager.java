@@ -1,20 +1,18 @@
 package com.example.workoutapp.ui.usermanage;
 
-import android.content.Context;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LoginRegisterFragmentManager extends FragmentPagerAdapter {
 
-    private Context context;
     int totalTabs;
 
-    public LoginRegisterFragmentManager (FragmentManager fm, Context ctx, int totaltabs) {
+    public LoginRegisterFragmentManager(FragmentManager fm, int totaltabs) {
         super(fm);
 
-        this.context = ctx;
         this.totalTabs = totaltabs;
     }
 
@@ -23,14 +21,13 @@ public class LoginRegisterFragmentManager extends FragmentPagerAdapter {
         return totalTabs;
     }
 
+    @NotNull
     public Fragment getItem(int position){
         switch (position){
             case 0:
-                LoginTabFragment loginTabFragment = new LoginTabFragment();
-                return loginTabFragment;
+                return new LoginTabFragment();
             case 1:
-                RegisterTabFragment registerTabFragment = new RegisterTabFragment();
-                return registerTabFragment;
+                return new RegisterTabFragment();
             default:
                 return null;
         }

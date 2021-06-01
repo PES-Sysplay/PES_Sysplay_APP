@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
-import com.example.workoutapp.ui.calendar.CalendarAdapter;
 import com.example.workoutapp.ui.home.ActivityDetail;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;

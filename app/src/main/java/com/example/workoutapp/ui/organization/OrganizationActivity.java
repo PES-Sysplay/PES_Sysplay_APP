@@ -2,9 +2,7 @@ package com.example.workoutapp.ui.organization;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -27,7 +25,7 @@ import java.util.List;
 public class OrganizationActivity extends AppCompatActivity {
 
     TextView orgName;
-    ImageView orgImage, crown;
+    ImageView orgImage;
     RatingBar rating;
     OrganizationAdapter adapter;
     List<Review> reviews;

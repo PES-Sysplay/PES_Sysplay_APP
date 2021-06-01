@@ -1,13 +1,11 @@
 package com.example.workoutapp.ui.profile;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -61,70 +59,53 @@ public class SettingsFragment extends Fragment {
         delete = view.findViewById(R.id.eliminar);
         change_pw = view.findViewById(R.id.change);
 
-        change_pw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ChangePasswordActivity.class);
-                context.startActivity(intent);
-            }
+        change_pw.setOnClickListener(v -> {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, ChangePasswordActivity.class);
+            context.startActivity(intent);
         });
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteUser();
-            }
-        });
+        delete.setOnClickListener(view1 -> deleteUser());
 
-        email.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        email.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                UserController userController = new UserController(getContext());
-                String checked;
-                userController.putNofications(isChecked, new UserController.VolleyResponseListener() {
-                    @Override
-                    public void onError(String message) {}
+            UserController userController = new UserController(getContext());
+            userController.putNofications(isChecked, new UserController.VolleyResponseListener() {
+                @Override
+                public void onError(String message) {}
 
-                    @Override
-                    public void onResponse(String message) {
-                        ProfileFragment.changeEmailNotif();
-                        spc.setEmail();
-                        email.setChecked(isChecked);
-                    }
-
-                    @Override
-                    public void onResponseProfile(ArrayList<String> ret) {}
-                });
-
-            }
-        });
-
-        push.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                spc.setPush();
-                if(!isChecked){
-                    disablePush(spc);
+                @Override
+                public void onResponse(String message) {
+                    ProfileFragment.changeEmailNotif();
+                    spc.setEmail();
+                    email.setChecked(isChecked);
                 }
-                else{
-                    favs.setEnabled(true);
-                    joins.setEnabled(true);
-                }
+
+                @Override
+                public void onResponseProfile(ArrayList<String> ret) {}
+            });
+
+        });
+
+        push.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            spc.setPush();
+            if(!isChecked){
+                disablePush(spc);
+            }
+            else{
+                favs.setEnabled(true);
+                joins.setEnabled(true);
             }
         });
 
-        favs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                spc.setAlertFavs();
-                favs.setChecked(isChecked);
-            }
+        favs.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            spc.setAlertFavs();
+            favs.setChecked(isChecked);
         });
 
-        joins.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                spc.setAlertJoins();
-                joins.setChecked(isChecked);
-            }
+        joins.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            spc.setAlertJoins();
+            joins.setChecked(isChecked);
         });
     }
 
@@ -136,37 +117,30 @@ public class SettingsFragment extends Fragment {
         builder.setTitle("Confirmación");
         builder.setMessage("¿Seguro que quiere eliminar este usuario?");
         builder.setPositiveButton("Confirmar",
-                new DialogInterface.OnClickListener() {
+                (dialog, which) -> userController.deleteUser(new UserController.VolleyResponseListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        userController.deleteUser(new UserController.VolleyResponseListener() {
-                            @Override
-                            public void onError(String message) {
-                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onResponse(String message) {
-                                ProfileFragment pf = new ProfileFragment();
-                                pf.logOut(getContext());
-                                Context context = getContext();
-                                Intent intent = new Intent(context, LoginRegisterActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-
-                            @Override
-                            public void onResponseProfile(ArrayList<String> ret) {
-
-                            }
-
-                        });
+                    public void onError(String message) {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }
-                });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+
+                    @Override
+                    public void onResponse(String message) {
+                        ProfileFragment pf = new ProfileFragment();
+                        pf.logOut(getContext());
+                        Context context = getContext();
+                        Intent intent = new Intent(context, LoginRegisterActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        assert context != null;
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onResponseProfile(ArrayList<String> ret) {
+
+                    }
+
+                }));
+        builder.setNegativeButton("Cancelar", (dialog, which) -> {
         });
 
         AlertDialog dialog = builder.create();

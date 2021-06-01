@@ -19,7 +19,6 @@ import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
-import com.example.workoutapp.ui.calendar.CalendarAdapter;
 import com.example.workoutapp.ui.home.ActivityDetail;
 import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
@@ -194,7 +193,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         TextView organization, activityTitle, dateTime;
         AppCompatButton favBtn, unfavBtn;
         ImageView image, superhost;
-        Context context = itemView.getContext();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -70,57 +70,54 @@ public class ReportFragment extends Fragment {
         reportBtn = view.findViewById(R.id.sendReportBt);
         descriptionTextView = view.findViewById(R.id.descriptionEditText);
 
-        reportBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String description = descriptionTextView.getText().toString();
-                String text = reportSpinner.getSelectedItem().toString();
+        reportBtn.setOnClickListener(v -> {
+            String description = descriptionTextView.getText().toString();
+            String text = reportSpinner.getSelectedItem().toString();
 
-                if (description.matches("")) {
-                    Toast.makeText(view.getContext(),  "Añade una descripción detallando el problema", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String comment = text + ": " + description;
-                    UserActivityController UAController = new UserActivityController(view.getContext());
-                    UAController.sendReport(activity_list.get(pos).getId(), comment, new UserActivityController.VolleyResponseListener() {
+            if (description.matches("")) {
+                Toast.makeText(view.getContext(),  "Añade una descripción detallando el problema", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                String comment = text + ": " + description;
+                UserActivityController UAController = new UserActivityController(view.getContext());
+                UAController.sendReport(activity_list.get(pos).getId(), comment, new UserActivityController.VolleyResponseListener() {
 
-                        @Override
-                        public void onError(String message) {
-                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                        }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
 
-                        @Override
-                        public void onResponse(String message) {
-                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                            activity_list.get(pos).toggleReported();
-                            ((ReportActivity)getActivity()).goToSecondFragment();
-                        }
+                    @Override
+                    public void onResponse(String message) {
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        activity_list.get(pos).toggleReported();
+                        ((ReportActivity)getActivity()).goToSecondFragment();
+                    }
 
-                        @Override
-                        public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
-                        @Override
-                        public void onResponseFav() {}
+                    @Override
+                    public void onResponseFav() {}
 
-                        @Override
-                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
 
-                        @Override
-                        public void onResponseReviewList(ArrayList<Review> ret) {}
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {}
 
-                        @Override
-                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {}
 
-                        @Override
-                        public void onResponseChat(ArrayList<Chat> ret) {}
+                    @Override
+                    public void onResponseChat(ArrayList<Chat> ret) {}
 
-                        @Override
-                        public void onResponseReportReview() {
-                            
-                        }
-                    });
+                    @Override
+                    public void onResponseReportReview() {
 
-                }
+                    }
+                });
+
             }
         });
 

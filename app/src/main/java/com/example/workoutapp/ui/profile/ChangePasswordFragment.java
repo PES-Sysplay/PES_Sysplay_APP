@@ -45,7 +45,7 @@ public class ChangePasswordFragment extends Fragment {
             String newpass = newpw_et.getText().toString();
             String newpass2 = newpw2_et.getText().toString();
 
-            Boolean isCorrect = checkCorrectFields(oldpass, newpass, newpass2, root);
+            boolean isCorrect = checkCorrectFields(oldpass, newpass, newpass2, root);
 
             if(isCorrect) {
 
