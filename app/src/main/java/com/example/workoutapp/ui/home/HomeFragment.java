@@ -52,6 +52,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        this.requireActivity().setTitle("Actividades");
+
         intents = getActivity().getIntent().getIntExtra("intents", 0);
         poss = getActivity().getIntent().getIntExtra("Link", -33);
     }
