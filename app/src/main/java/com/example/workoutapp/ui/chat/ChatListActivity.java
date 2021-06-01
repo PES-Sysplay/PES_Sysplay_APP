@@ -1,9 +1,5 @@
 package com.example.workoutapp.ui.chat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,13 +7,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,11 +108,10 @@ public class ChatListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                return true;
+        if (id == android.R.id.home) {
+            onBackPressed();
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

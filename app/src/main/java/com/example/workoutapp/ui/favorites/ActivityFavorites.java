@@ -1,9 +1,10 @@
 package com.example.workoutapp.ui.favorites;
 
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.workoutapp.R;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.workoutapp.R;
 
 public class ActivityFavorites extends AppCompatActivity {
 

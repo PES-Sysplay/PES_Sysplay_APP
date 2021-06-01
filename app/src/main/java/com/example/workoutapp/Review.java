@@ -17,10 +17,6 @@ public class Review {
         this.username = username;
     }
 
-    public void setRating(float rating) {
-        this.stars = rating;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
     }

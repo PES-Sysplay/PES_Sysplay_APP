@@ -4,19 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,23 +55,16 @@ public class UserActivityController {
         Map<String, Integer> params = new HashMap<>();
         params.put("activity_id", activityId);
         JSONObject jsonBody = new JSONObject(params);
-        final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, favURL, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponseFav();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al dar a favoritos");
-            }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, favURL, jsonBody, response -> {
+            Log.i("VOLLEY", response.toString());
+            vrl.onResponseFav();
+        }, error -> {
+            Log.e("VOLLEY", error.toString());
+            vrl.onError("Error al dar a favoritos");
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -95,25 +84,17 @@ public class UserActivityController {
 
     public void unfavorite(Integer activityID, UserActivityController.VolleyResponseListener vrl) {
         String unfavURL = URL + "/api/favorite/"+activityID+"/";
-        JSONObject jsonBody = new JSONObject();
-        final String requestBody = jsonBody.toString();
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, unfavURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponseFav();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al dejar de tener en favoritos");
-            }
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, unfavURL, response -> {
+            Log.i("VOLLEY", response);
+            vrl.onResponseFav();
+        }, error -> {
+            Log.e("VOLLEY", error.toString());
+            vrl.onError("Error al dejar de tener en favoritos");
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -134,6 +115,7 @@ public class UserActivityController {
                     responseString = String.valueOf(response.statusCode);
                     // can get more details such as response.headers
                 }
+                assert response != null;
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
         };
@@ -142,37 +124,29 @@ public class UserActivityController {
 
     public void getFavorites(UserActivityController.VolleyResponseListener vrl) {
         String favsURL = URL + "/api/activity/?favorite=true";
-        ArrayList<Activitat> ret = new ArrayList<Activitat>();
+        ArrayList<Activitat> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
-                (Request.Method.GET, favsURL, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, favsURL, null, response -> {
 
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jsonact = response.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
-                                ret.add(act);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonact = response.getJSONObject(i);
+                            Gson gson = new Gson();
+                            Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
+                            ret.add(act);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        vrl.onResponseFavorites(ret);
-                    }
-                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se han encontrado actividades favoritas");
                     }
+                    vrl.onResponseFavorites(ret);
+                }, error -> {
+                    Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado actividades favoritas");
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -191,37 +165,29 @@ public class UserActivityController {
 
     public void getJoinedActivities(UserActivityController.VolleyResponseListener vrl) {
         String favsURL = URL + "/api/activity/?joined=true";
-        ArrayList<Activitat> ret = new ArrayList<Activitat>();
+        ArrayList<Activitat> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
-                (Request.Method.GET, favsURL, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, favsURL, null, response -> {
 
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jsonact = response.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
-                                ret.add(act);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonact = response.getJSONObject(i);
+                            Gson gson = new Gson();
+                            Activitat act = gson.fromJson(jsonact.toString(), Activitat.class);
+                            ret.add(act);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        vrl.onResponseJoinedActivites(ret);
-                    }
-                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se han encontrado actividades favoritas");
                     }
+                    vrl.onResponseJoinedActivites(ret);
+                }, error -> {
+                    Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado actividades favoritas");
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -245,22 +211,15 @@ public class UserActivityController {
         params.put("comment", comment);
         JSONObject jsonBody = new JSONObject(params);
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reportURL, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponse("Reporte enviado");
-            }
-
-            }, new Response.ErrorListener() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reportURL, jsonBody, response -> {
+            Log.i("VOLLEY", response.toString());
+            vrl.onResponse("Reporte enviado");
+        }, error -> {
+            Log.e("VOLLEY", error.toString());
+            vrl.onError("Error al enviar el reporte");
+        }) {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("VOLLEY", error.toString());
-                    vrl.onError("Error al enviar el reporte");
-                }
-            }) {
-                @Override
-                public Map<String,String> getHeaders() throws AuthFailureError {
+                public Map<String,String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();
                     String userToken = UserSingleton.getInstance().getId();
                     Log.d("", "");
@@ -287,22 +246,15 @@ public class UserActivityController {
         params.put("stars", stars);
         JSONObject jsonBody = new JSONObject(params);
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponse("Review enviada");
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al enviar la review");
-            }
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, response -> {
+            Log.i("VOLLEY", response.toString());
+            vrl.onResponse("Review enviada");
+        }, error -> {
+            Log.e("VOLLEY", error.toString());
+            vrl.onError("Error al enviar la review");
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -323,38 +275,30 @@ public class UserActivityController {
 
     public void getReviews(String organization, UserActivityController.VolleyResponseListener vrl) {
         String reviewURL = URL + "/api/review/?organization=" + organization;
-        ArrayList<Review> ret = new ArrayList<Review>();
+        ArrayList<Review> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
-                (Request.Method.GET, reviewURL, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, reviewURL, null, response -> {
 
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jsonact = response.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Review review = gson.fromJson(jsonact.toString(), Review.class);
-                                //review.setRating((float)jsonact.get("stars"));
-                                ret.add(review);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonact = response.getJSONObject(i);
+                            Gson gson = new Gson();
+                            Review review = gson.fromJson(jsonact.toString(), Review.class);
+                            //review.setRating((float)jsonact.get("stars"));
+                            ret.add(review);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        vrl.onResponseReviewList(ret);
-                    }
-                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No se han encontrado reseñas", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se han encontrado reseñas");
                     }
+                    vrl.onResponseReviewList(ret);
+                }, error -> {
+                    Toast.makeText(ctx, "No se han encontrado reseñas", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado reseñas");
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -373,43 +317,35 @@ public class UserActivityController {
 
     public void getOrganizers(UserActivityController.VolleyResponseListener vrl) {
         String reviewURL = URL + "/api/organization/";
-        ArrayList<Organizer> ret = new ArrayList<Organizer>();
+        ArrayList<Organizer> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
-                (Request.Method.GET, reviewURL, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, reviewURL, null, response -> {
 
-                    @Override
-                    public void onResponse(JSONArray response) {
+                    Log.d("JSON", String.valueOf(response.length()));
 
-                        Log.d("JSON", String.valueOf(response.length()));
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonact = response.getJSONObject(i);
 
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jsonact = response.getJSONObject(i);
+                            Log.d("JSON", jsonact.toString());
 
-                                Log.d("JSON", jsonact.toString());
-
-                                Gson gson = new Gson();
-                                Organizer org = gson.fromJson(jsonact.toString(), Organizer.class);
-                                ret.add(org);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                            Gson gson = new Gson();
+                            Organizer org = gson.fromJson(jsonact.toString(), Organizer.class);
+                            ret.add(org);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        vrl.onResponseOrganizationList(ret);
-                    }
-                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No se han encontrado organizers", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se han encontrado organizers");
-                        Log.d("ERROR", error.toString());
                     }
+                    vrl.onResponseOrganizationList(ret);
+                }, error -> {
+                    Toast.makeText(ctx, "No se han encontrado organizers", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado organizers");
+                    Log.d("ERROR", error.toString());
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -434,22 +370,15 @@ public class UserActivityController {
         params.put("text", text);
         JSONObject jsonBody = new JSONObject(params);
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("VOLLEY", response.toString());
-                vrl.onResponse("Mensaje enviado");
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY", error.toString());
-                vrl.onError("Error al enviar la mensaje");
-            }
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, response -> {
+            Log.i("VOLLEY", response.toString());
+            vrl.onResponse("Mensaje enviado");
+        }, error -> {
+            Log.e("VOLLEY", error.toString());
+            vrl.onError("Error al enviar la mensaje");
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -470,37 +399,29 @@ public class UserActivityController {
 
     public void getChats(UserActivityController.VolleyResponseListener vrl) {
         String chatURL = URL + "/api/chat";
-        ArrayList<Chat> ret = new ArrayList<Chat>();
+        ArrayList<Chat> ret = new ArrayList<>();
 
         JsonArrayRequest req = new JsonArrayRequest
-                (Request.Method.GET, chatURL, null, new Response.Listener<JSONArray>() {
+                (Request.Method.GET, chatURL, null, response -> {
 
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject jsonact = response.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Chat chat = gson.fromJson(jsonact.toString(), Chat.class);
-                                ret.add(chat);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject jsonact = response.getJSONObject(i);
+                            Gson gson = new Gson();
+                            Chat chat = gson.fromJson(jsonact.toString(), Chat.class);
+                            ret.add(chat);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        vrl.onResponseChat(ret);
-                    }
-                }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, "No se ha encontrado el chat", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se ha encontrado el chat");
                     }
+                    vrl.onResponseChat(ret);
+                }, error -> {
+                    Toast.makeText(ctx, "No se ha encontrado el chat", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se ha encontrado el chat");
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -519,30 +440,22 @@ public class UserActivityController {
 
     public void getChatMessages(int chat_id, UserActivityController.VolleyResponseListener vrl) {
         String messagesURL = URL + "/api/chat/" + chat_id + "/";
-        ArrayList<Chat> ret = new ArrayList<Chat>();
+        ArrayList<Chat> ret = new ArrayList<>();
 
         JsonObjectRequest req = new JsonObjectRequest
-                (Request.Method.GET, messagesURL, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, messagesURL, null, response -> {
+                    Gson gson = new Gson();
+                    Chat chat = gson.fromJson(response.toString(), Chat.class);
+                    ret.add(chat);
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new Gson();
-                        Chat chat = gson.fromJson(response.toString(), Chat.class);
-                        ret.add(chat);
-
-                        vrl.onResponseChat(ret);
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.print(error.getMessage());
-                        Toast.makeText(ctx, "No se han encontrado los mensajes", Toast.LENGTH_SHORT).show();
-                        vrl.onError("No se han encontrado los mensajes");
-                    }
+                    vrl.onResponseChat(ret);
+                }, error -> {
+                    System.out.print(error.getMessage());
+                    Toast.makeText(ctx, "No se han encontrado los mensajes", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado los mensajes");
                 }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");
@@ -564,31 +477,22 @@ public class UserActivityController {
         Map<String, Integer> params = new HashMap<>();
         params.put("review_id", reviewID);
         JSONObject jsonBody = new JSONObject(params);
-        final String requestBody = jsonBody.toString();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                vrl.onResponseReportReview();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, response -> vrl.onResponseReportReview(), error -> {
+            Log.e("VOLLEY", error.toString());
+
+            if(error.networkResponse.statusCode == 400){
+                String errorMsg = new String(error.networkResponse.data);
+                errorMsg = errorMsg.replace("[\"", "");
+                errorMsg = errorMsg.replace("\"]", "");
+
+                if(errorMsg.contains("Already reported")) vrl.onError("La reseña ya esta reportada");
+                else vrl.onError(errorMsg);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY", error.toString());
-
-                if(error.networkResponse.statusCode == 400){
-                    String errorMsg = new String(error.networkResponse.data);
-                    errorMsg = errorMsg.replace("[\"", "");
-                    errorMsg = errorMsg.replace("\"]", "");
-
-                    if(errorMsg.contains("Already reported")) vrl.onError("La reseña ya esta reportada");
-                    else vrl.onError(errorMsg);
-                }
-                else vrl.onError("Error al reportar la reseña");
-            }
+            else vrl.onError("Error al reportar la reseña");
         }) {
             @Override
-            public Map<String,String> getHeaders() throws AuthFailureError {
+            public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
                 Log.d("", "");

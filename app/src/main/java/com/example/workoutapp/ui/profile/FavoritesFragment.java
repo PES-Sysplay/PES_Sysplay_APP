@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
-import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
@@ -27,6 +25,8 @@ import com.example.workoutapp.UserActivityController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class FavoritesFragment extends Fragment {
@@ -95,8 +95,24 @@ public class FavoritesFragment extends Fragment {
 
             @Override
             public void onResponseFavorites(ArrayList<Activitat> ret) {
-                activityList = ret;
-                adapter.setActivitatsUsuari(activityList);
+                ArrayList<Activitat> futAux = new ArrayList<>();
+
+                Date date = Calendar.getInstance().getTime();
+                Calendar currentTime = Calendar.getInstance();
+                currentTime.setTime(date);
+
+                currentTime.set(Calendar.HOUR_OF_DAY, 0);
+                currentTime.set(Calendar.MINUTE, 0);
+                currentTime.set(Calendar.SECOND, 0);
+                for (Activitat act : ret) {
+                    Calendar dateAux = Calendar.getInstance();
+                    dateAux.setTimeInMillis(act.getTimestamp() * 1000L); //time in ms
+                    dateAux.set(Calendar.HOUR_OF_DAY, 0);
+                    dateAux.set(Calendar.MINUTE, 0);
+                    dateAux.set(Calendar.SECOND, 0);
+                    if (dateAux.after(currentTime)) futAux.add(act);
+                }
+                adapter.setActivitatsUsuari(futAux);
             }
 
             @Override
