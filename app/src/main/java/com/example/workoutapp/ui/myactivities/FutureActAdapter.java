@@ -1,4 +1,4 @@
-package com.example.workoutapp.ui.home;
+package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,8 @@ import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.home.ActivityDetail;
+import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,8 +30,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder> {
-    private static ActivityListAdapter INSTANCE;
+public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.ViewHolder> {
+    private static FutureActAdapter INSTANCE;
     LayoutInflater inflater;
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
@@ -71,19 +73,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     };
     ArrayList<String> activity_id_list;
 
-    public static ActivityListAdapter getInstance(Context ctx, List<Activitat> activitats){
-        if (INSTANCE == null) INSTANCE = new ActivityListAdapter(ctx,activitats);
+    public static FutureActAdapter getInstance(Context ctx, List<Activitat> activitats){
+        if (INSTANCE == null) INSTANCE = new FutureActAdapter(ctx,activitats);
         return INSTANCE;
     }
-  
-    public ActivityListAdapter(Context ctx, List<Activitat> activitats){
+
+    public FutureActAdapter(Context ctx, List<Activitat> activitats){
         this.inflater = LayoutInflater.from(ctx);
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
 
     //for testing purposes
-    public ActivityListAdapter(List<Activitat> activitats) {
+    public FutureActAdapter(List<Activitat> activitats) {
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
@@ -125,7 +127,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", link);
-            intent.putExtra("adapter",1);
+            intent.putExtra("adapter",3);
             context.startActivity(intent);
             link = -33;
             secure = false;
@@ -134,10 +136,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             Context context = v.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", position);
-            intent.putExtra("From", "home");
-            intent.putExtra("adapter",1);
+            intent.putExtra("adapter",3);
             context.startActivity(intent);
-
         });
         Integer activityID = activitats.get(position).getId();
         boolean favorite = activitats.get(position).isFavorite();
@@ -269,7 +269,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public List<Activitat> copyInfo(){
         return activitats;
     }
-  
+
     public void setList(List<Activitat> aux){
         activitats = new ArrayList<>(aux);
         activitatsFull = new ArrayList<>(aux);

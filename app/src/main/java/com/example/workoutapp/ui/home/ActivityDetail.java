@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -30,8 +31,12 @@ import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
+import com.example.workoutapp.ui.calendar.CalendarAdapter;
+import com.example.workoutapp.ui.myactivities.FutureActAdapter;
+import com.example.workoutapp.ui.myactivities.OldActAdapter;
 import com.example.workoutapp.ui.organization.OrganizationActivity;
 import com.example.workoutapp.ui.chat.ChatActivity;
+import com.example.workoutapp.ui.profile.FavoriteAdapter;
 import com.example.workoutapp.ui.userfeedback.ReportActivity;
 import com.example.workoutapp.ui.userfeedback.ReviewActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,7 +58,7 @@ import java.util.Locale;
 
 public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
-    int pos, clientsJoin;
+    int pos, clientsJoin, adapterNum;
     ImageView photo, people_photo,superhost;
     TextView activity, time, place,price, member_price,description,people_activity;
     Boolean favorite, is_old, checked_in, joined,host;
@@ -83,10 +88,30 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.submap);
         mapFragment.getMapAsync(this);
 
-
+        adapterNum = getIntent().getIntExtra("adapter", 0);
 
         init_values();
-        activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+        switch(adapterNum) {
+            case 1:
+                activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+                break;
+            case 2:
+                activity_list = CalendarAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+                break;
+            case 3:
+                activity_list = FutureActAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+                break;
+            case 4:
+                activity_list = OldActAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+                break;
+            case 5:
+                activity_list = FavoriteAdapter.getInstance(this, new ArrayList<>()).copyInfo();
+                break;
+            default:
+                activity_list = null;
+                break;
+        }
+
         try {
             set_values();
         } catch (IOException e) {
