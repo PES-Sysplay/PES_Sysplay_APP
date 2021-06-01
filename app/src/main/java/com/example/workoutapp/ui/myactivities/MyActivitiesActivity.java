@@ -115,21 +115,15 @@ public class MyActivitiesActivity extends Fragment {
                 Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 NavHostFragment.findNavController(MyActivitiesActivity.this)
                         .navigate(R.id.action_my_activities_fragment_to_navigation_profile);
+                navBar.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    @Override
-    public void onDestroy(){
-        navBar.setVisibility(View.VISIBLE);
-        super.onDestroy();
-    }
 
 
     public void onBackPressed() {
-        Log.d("DFDF", "fdds");
-        navBar.setVisibility(View.VISIBLE);
         super.onDestroy();
     }
 

@@ -73,6 +73,7 @@ public class FavoritesFragment extends Fragment {
                 Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                 NavHostFragment.findNavController(FavoritesFragment.this)
                         .navigate(R.id.action_favorites_fragment_to_navigation_profile);
+                navBar.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
