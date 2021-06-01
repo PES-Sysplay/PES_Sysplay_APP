@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,8 @@ public class FutureTabFragment extends HomeFragment {
 
     ViewGroup root;
     ArrayList<Activitat> futActivities;
+    TextView emptyView;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class FutureTabFragment extends HomeFragment {
         super.updateType(root);
 
         adapter = ActivityListAdapter.getInstance(root.getContext(), new ArrayList<>());
+        emptyView = root.findViewById(R.id.empty_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
 
