@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.Organizer;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
@@ -234,30 +233,9 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     }
 
-    public void updateFavs(@NonNull ViewHolder holder, int position){
-        Integer activityID = activitats.get(position).getId();
-        boolean favorite =  activitats.get(position).isFavorite();
-        if(!favorite) {
-            holder.favBtn.setVisibility(View.VISIBLE);
-            holder.unfavBtn.setVisibility(View.GONE);
-        }
-        else{
-            holder.unfavBtn.setVisibility(View.VISIBLE);
-            holder.favBtn.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return activitats.size();
-    }
-
-    public List<Activitat> getActivitats() {
-        return activitats;
-    }
-
-    public List<Activitat> getActivitatsFull() {
-        return activitatsFull;
     }
 
     public Filter getFilter() {
@@ -283,8 +261,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         out.add(StringUtils.substringBetween(query, "StartOrganization", "EndOrganization"));
         out.add(StringUtils.substringBetween(query, "StartSport", "EndSport"));
 
-        //TODO que devuelva el codigo del deporte
-
         return out;
     }
 
@@ -300,7 +276,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         TextView organization, activityTitle, dateTime;
         AppCompatButton favBtn, unfavBtn;
         ImageView image, superhost;
-        Context context = itemView.getContext();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
