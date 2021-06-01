@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder> {
-    private List<Chat> chatList;
-    private Context context;
+    private final List<Chat> chatList;
+    private final Context context;
 
     public ChatListAdapter(List<Chat> chatList, Context ctx) {
         this.chatList = chatList;
@@ -82,9 +82,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Holder
         return chatList.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
-        private TextView name_tv, desc_tv, date_tv;
-        private CircularImageView profileImg;
+    public static class Holder extends RecyclerView.ViewHolder {
+        private final TextView name_tv;
+        private final TextView desc_tv;
+        private final TextView date_tv;
+        private final CircularImageView profileImg;
 
         public Holder(@NonNull View itemView) {
             super(itemView);

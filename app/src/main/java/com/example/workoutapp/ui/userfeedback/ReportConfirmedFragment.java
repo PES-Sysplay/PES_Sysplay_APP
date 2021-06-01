@@ -36,12 +36,9 @@ public class ReportConfirmedFragment extends Fragment {
 
         goMainBt = view.findViewById(R.id.goMainBt);
 
-        goMainBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                v.getContext().startActivity(intent);
-            }
+        goMainBt.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), MainActivity.class);
+            v.getContext().startActivity(intent);
         });
     }
 }

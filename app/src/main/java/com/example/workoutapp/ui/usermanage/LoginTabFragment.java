@@ -20,10 +20,7 @@ import com.example.workoutapp.LoginRegisterActivity;
 import com.example.workoutapp.MainActivity;
 import com.example.workoutapp.R;
 import com.example.workoutapp.UserController;
-import com.example.workoutapp.UserSingleton;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
-
-import java.util.ArrayList;
 
 import java.util.ArrayList;
 
@@ -72,9 +69,7 @@ public class LoginTabFragment extends Fragment {
             });
         });
 
-        google_bt.setOnClickListener(v -> {
-            ((LoginRegisterActivity)getActivity()).signIn();
-        });
+        google_bt.setOnClickListener(v -> ((LoginRegisterActivity)getActivity()).signIn());
 
         return root;
     }

@@ -57,7 +57,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("REGISTRAR"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final LoginRegisterFragmentManager fragManager = new LoginRegisterFragmentManager(getSupportFragmentManager(), this, tabLayout.getTabCount());
+        final LoginRegisterFragmentManager fragManager = new LoginRegisterFragmentManager(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(fragManager);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

@@ -25,11 +25,10 @@ public class ReportActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                return true;
+        if (id == android.R.id.home) {
+            onBackPressed();
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

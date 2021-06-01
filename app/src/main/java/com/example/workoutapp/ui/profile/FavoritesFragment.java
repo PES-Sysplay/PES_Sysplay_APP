@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,9 +31,7 @@ import java.util.Objects;
 public class FavoritesFragment extends Fragment {
 
     RecyclerView activityListView;
-    TextView title;
     FavoriteAdapter adapter;
-    ArrayList<Activitat>  activityList;
     BottomNavigationView navBar;
 
     @Override
@@ -68,16 +65,14 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-                NavHostFragment.findNavController(FavoritesFragment.this)
-                        .navigate(R.id.action_favorites_fragment_to_navigation_profile);
-                navBar.setVisibility(View.VISIBLE);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            NavHostFragment.findNavController(FavoritesFragment.this)
+                    .navigate(R.id.action_favorites_fragment_to_navigation_profile);
+            navBar.setVisibility(View.VISIBLE);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getFaveActivities() {

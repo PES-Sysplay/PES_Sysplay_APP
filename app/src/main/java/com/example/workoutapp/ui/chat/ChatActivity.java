@@ -1,24 +1,20 @@
 package com.example.workoutapp.ui.chat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.Chat;
@@ -32,6 +28,7 @@ import com.example.workoutapp.ui.home.ActivityListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -50,14 +47,12 @@ public class ChatActivity extends AppCompatActivity {
 
         getWindow().setBackgroundDrawableResource(R.drawable.ivinini8);
 
-        setKeyboardListener(new OnKeyboardVisibilityListener() { //cuando se abre/cierra el teclado, scrollea la vista para que se vean los mensajes
-                                @Override
-                                public void onVisibilityChanged(boolean visible) {
-                                    if (MessageList.size()!=0) {
-                                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-                                    }
-                                }
-                            });
+        //cuando se abre/cierra el teclado, scrollea la vista para que se vean los mensajes
+        setKeyboardListener(visible -> {
+            if (MessageList.size()!=0) {
+                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+            }
+        });
 
         Context ctx = this;
 
@@ -65,6 +60,7 @@ public class ChatActivity extends AppCompatActivity {
         //act = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo().get(pos);
         act = get_activity();
 
+        assert act != null;
         setTitle(act.getOrganizerName() + " - " + act.getName());
 
         userInput = findViewById(R.id.userInput);
@@ -170,67 +166,64 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
-        userInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND){
-                    String text = userInput.getText().toString();
-                    Message mess = new Message(text, UserSingleton.getInstance().getUsername(), System.currentTimeMillis()/1000);
-                    uac.sendMessage(act.getId(), text, new UserActivityController.VolleyResponseListener() {
-                        @Override
-                        public void onError(String message) {
-                            Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+        userInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND){
+                String text = userInput.getText().toString();
+                Message mess = new Message(text, UserSingleton.getInstance().getUsername(), System.currentTimeMillis()/1000);
+                uac.sendMessage(act.getId(), text, new UserActivityController.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String message) {
+                        MessageList.add(mess);
+                        updateMessages();
+                        if(!isVisible()) {
+                            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
                         }
+                        userInput.clearComposingText();
+                        userInput.getText().clear();
+                    }
 
-                        @Override
-                        public void onResponse(String message) {
-                            MessageList.add(mess);
-                            updateMessages();
-                            if(!isVisible()) {
-                                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount()-1);
-                            }
-                            userInput.clearComposingText();
-                            userInput.getText().clear();
-                        }
+                    @Override
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {
 
-                        @Override
-                        public void onResponseFavorites(ArrayList<Activitat> ret) {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseFav() {
 
-                        @Override
-                        public void onResponseFav() {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
 
-                        @Override
-                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseReviewList(ArrayList<Review> ret) {
 
-                        @Override
-                        public void onResponseReviewList(ArrayList<Review> ret) {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
 
-                        @Override
-                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseChat(ArrayList<Chat> ret) {
 
-                        @Override
-                        public void onResponseChat(ArrayList<Chat> ret) {
+                    }
 
-                        }
+                    @Override
+                    public void onResponseReportReview() {
 
-                        @Override
-                        public void onResponseReportReview() {
-
-                        }
-                    });
-                }
-                return true;
+                    }
+                });
             }
+            return true;
         });
     }
 
@@ -248,19 +241,19 @@ public class ChatActivity extends AppCompatActivity {
 
     public boolean isVisible(){
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        assert linearLayoutManager != null;
         int lastVisibleItemPos = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-        int itemCount = recyclerView.getAdapter().getItemCount();
+        int itemCount = Objects.requireNonNull(recyclerView.getAdapter()).getItemCount();
         return (lastVisibleItemPos>=itemCount);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                return true;
+        if (id == android.R.id.home) {
+            onBackPressed();
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -290,17 +283,15 @@ public class ChatActivity extends AppCompatActivity {
 
             private boolean wasOpened;
 
-            private final int DefaultKeyboardDP = 100;
-
-            private final int EstimatedKeyboardDP = DefaultKeyboardDP + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 48 : 0);
-
             private final Rect r = new Rect();
 
             @Override
             public void onGlobalLayout() {
                 // Convert the dp to pixels.
+                int defaultKeyboardDP = 100;
+                int estimatedKeyboardDP = defaultKeyboardDP + 48;
                 int estimatedKeyboardHeight = (int) TypedValue
-                        .applyDimension(TypedValue.COMPLEX_UNIT_DIP, EstimatedKeyboardDP, activityRootView.getResources().getDisplayMetrics());
+                        .applyDimension(TypedValue.COMPLEX_UNIT_DIP, estimatedKeyboardDP, activityRootView.getResources().getDisplayMetrics());
 
                 // Conclude whether the keyboard is shown or not.
                 activityRootView.getWindowVisibleDisplayFrame(r);
