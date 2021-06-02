@@ -3,6 +3,7 @@ package com.example.workoutapp.ui.organization;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import java.util.List;
 public class OrganizationActivity extends AppCompatActivity {
 
     TextView orgName;
-    ImageView orgImage;
+    ImageView orgImage,crown;
     RatingBar rating;
     OrganizationAdapter adapter;
     List<Review> reviews;
@@ -45,7 +46,7 @@ public class OrganizationActivity extends AppCompatActivity {
         orgImage = findViewById(R.id.incono_org);
         rating = findViewById(R.id.org_ratingBar);
         reviewList = findViewById(R.id.org_recyclerView);
-        //crown = findViewById(R.id.suphost_detail_org);
+        crown = findViewById(R.id.suphost_detail_org);
 
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(adapter);
@@ -55,7 +56,7 @@ public class OrganizationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         organizationName = intent.getStringExtra("orgName");
 
-        //crown.setVisibility(View.INVISIBLE);
+        crown.setVisibility(View.INVISIBLE);
 
         getOrganizer();
         setRatings();
@@ -177,7 +178,7 @@ public class OrganizationActivity extends AppCompatActivity {
         Picasso.get().load(organization.getPhoto()).into(orgImage);
         //Picasso.get().load("https://r1.ilikewallpaper.net/iphone-8-wallpapers/download/30787/Funny-Movie-Cartoon-Minion-iphone-8-wallpaper-ilikewallpaper_com.jpg").into(orgImage);
         rating.setRating(organization.getRank());
-        //if(organization.isSuperhost()) crown.setVisibility(View.VISIBLE);
+        if(organization.isSuperhost()) crown.setVisibility(View.VISIBLE);
     }
 
     private Organizer searchOrg(ArrayList<Organizer> ret) {
