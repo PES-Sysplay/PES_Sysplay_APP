@@ -183,8 +183,8 @@ public class UserActivityController {
                     }
                     vrl.onResponseJoinedActivites(ret);
                 }, error -> {
-                    Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
-                    vrl.onError("No se han encontrado actividades favoritas");
+                    Toast.makeText(ctx, "No se han encontrado actividades ", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado actividades ");
                 }) {
             @Override
             public Map<String,String> getHeaders() {
