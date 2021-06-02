@@ -257,8 +257,9 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 Intent intent = new Intent(this, QRActivity.class);
                 ActivityListAdapter ala = ActivityListAdapter.getInstance(null, null);
                 int pos2 = ala.getActivityIndex(activity_list.get(pos).getName());
-                List<Activitat> aux = ala.activitats;
-                intent.putExtra("Updated Token", aux.get(pos2).getToken());
+                //List<Activitat> aux = ala.activitats;
+                String auxs = activity_list.get(pos).getToken();
+                intent.putExtra("Updated Token", auxs);
                 intent.putExtra("Position recycler", pos2);
                 this.startActivity(intent);
                 return true;
@@ -484,8 +485,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     @Override
                     public void onResponseJoinActivity() {
-                        buttonJoin.setText("ME DESAPUNTO");
-                        updatePeople(1);
                         activityController.getActivitats(new ActivityController.VolleyResponseListener() {
                             @Override
                             public void onError(String message) {
@@ -494,7 +493,10 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                             @Override
                             public void onResponseActivity(ArrayList<Activitat> ret) {
+                                updatePeople(1);
+                                buttonJoin.setText("ME DESAPUNTO");
                                 activity_list = ret;
+                                qrBtn.setVisible(true);
                             }
 
                             @Override
@@ -507,7 +509,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
                             }
                         });
-                        qrBtn.setVisible(true);
+
                     }
 
                 });
