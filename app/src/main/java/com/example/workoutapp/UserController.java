@@ -45,8 +45,6 @@ public class UserController {
             JSONObject jsonBody = new JSONObject(params);
 
             JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, loginURL, jsonBody, response -> {
-                Log.i("VOLLEY", "successful login");
-                Log.d("register", response.toString());
                 String response_token;
                 try {
                     response_token = response.getString("token");
@@ -59,7 +57,6 @@ public class UserController {
                 }
                 vrl.onResponse("successful login");
             }, error -> {
-                Log.e("VOLLEY", error.toString());
                 String msg = error.toString();
                 vrl.onError(msg);
             }) {
@@ -90,8 +87,6 @@ public class UserController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, registerURL, jsonBody, response -> {
-            Log.i("VOLLEY", response.toString());
-            Log.d("register", response.toString());
             try {
 
                 String response_token = response.getString("token");
@@ -104,7 +99,6 @@ public class UserController {
             }
             vrl.onResponse("Registrado Correctamente");
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             String msg = error.toString();
             vrl.onError(msg);
         }) {
@@ -131,14 +125,12 @@ public class UserController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, changePassURL, jsonBody, response -> vrl.onResponse("Contraseña cambiada correctamente"), error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al cambiar la contraseña");
         }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -191,14 +183,12 @@ public class UserController {
             }
             vrl.onResponseProfile(ret);
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al obtener datos del perfil");
         }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -217,17 +207,14 @@ public class UserController {
         String deleteURL = URL + "/api/me/";
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, deleteURL, response -> {
-            Log.i("VOLLEY", response);
             vrl.onResponse("El usuario se ha eliminado correctamente");
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al eliminar el usuario");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -260,14 +247,12 @@ public class UserController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, notifsURL, jsonBody, response -> vrl.onResponse("Notificaciones actualizadas"), error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al cambiar los ajustes de notificaciones");
         }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }

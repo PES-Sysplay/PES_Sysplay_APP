@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        Log.d("edffffffffffffffffffffffgggggggggggggggggggggggggggggggggggg","jjjj");
     }
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -161,7 +160,6 @@ public class HomeFragment extends Fragment {
                     adapter.setList(futAux);
                 }
 
-                Log.d("STATE", ret.get(0).getDate_time());
                 MainActivity.response = true;
 
                 // do things

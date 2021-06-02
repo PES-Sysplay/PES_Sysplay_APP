@@ -126,13 +126,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.superhost.setVisibility(View.GONE);
 
         }
-        Log.d("JUST ABANS", String.valueOf(link));
-        Log.d("JUST ABANS", String.valueOf(secure));
         if(link != -33){
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             int pos = getActivity(link);
-            Log.d("POSicioooooooooooooooooooommmmmmmmmmmmmmmmmmmmmoooooooooo", String.valueOf(pos));
             intent.putExtra("Position recycler", pos);
             intent.putExtra("adapter",1);
             context.startActivity(intent);
@@ -176,7 +173,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 }
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 }
 
                 @Override
@@ -224,7 +221,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}
@@ -265,7 +262,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 ++i;
             }
         }
-        Log.d("psocio", String.valueOf(pos));
         return pos;
     }
 

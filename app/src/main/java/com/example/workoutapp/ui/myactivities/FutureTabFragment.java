@@ -153,7 +153,7 @@ public class FutureTabFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 futActivities = ret;
                 displayFutAct();
             }

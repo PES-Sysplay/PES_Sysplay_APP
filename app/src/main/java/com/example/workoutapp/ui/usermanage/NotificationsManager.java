@@ -74,7 +74,7 @@ public class NotificationsManager{
 
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                     for (int i = 0; i < ret.size(); i++) {
                         Long date = ret.get(i).getTimestamp();
                         boolean notified = spc.isNotified(ret.get(i).getId(), "joins");
@@ -154,7 +154,7 @@ public class NotificationsManager{
                 }
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 }
 
                 @Override

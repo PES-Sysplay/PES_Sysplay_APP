@@ -65,7 +65,6 @@ public class ActivityController {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -124,14 +123,12 @@ public class ActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, response -> vrl.onResponseJoinActivity(), error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError(String.valueOf(error.networkResponse.statusCode));
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -149,14 +146,12 @@ public class ActivityController {
         String leaveActURL = BASE_URL + "/api/join/"+activityID+"/";
         //Map<String, String> params = new HashMap<>();
         StringRequest request = new StringRequest(Request.Method.DELETE, leaveActURL, response -> vrl.onResponseJoinActivity(), error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al desapuntarse de la actividad");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -180,13 +175,11 @@ public class ActivityController {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, response -> {
-            Log.i("VOLLEY", response);
             if (response.equals("200")) {
                 ret.add("success");
             }
             vrl.onResponseType(ret);
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Verifica tu correo eléctronico");
         }) {
             @Override

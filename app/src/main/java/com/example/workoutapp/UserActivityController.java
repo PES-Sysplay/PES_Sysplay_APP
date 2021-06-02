@@ -39,7 +39,7 @@ public class UserActivityController {
 
         void onResponseFav();
         
-        void onResponseJoinedActivites(ArrayList<Activitat> ret);
+        void onResponseJoinedActivities(ArrayList<Activitat> ret);
 
         void onResponseReviewList(ArrayList<Review> ret);
 
@@ -57,17 +57,14 @@ public class UserActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, favURL, jsonBody, response -> {
-            Log.i("VOLLEY", response.toString());
             vrl.onResponseFav();
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al dar a favoritos");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -87,17 +84,14 @@ public class UserActivityController {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, unfavURL, response -> {
-            Log.i("VOLLEY", response);
             vrl.onResponseFav();
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al dejar de tener en favoritos");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -149,7 +143,6 @@ public class UserActivityController {
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -181,16 +174,15 @@ public class UserActivityController {
                         }
 
                     }
-                    vrl.onResponseJoinedActivites(ret);
+                    vrl.onResponseJoinedActivities(ret);
                 }, error -> {
-                    Toast.makeText(ctx, "No se han encontrado actividades favoritas", Toast.LENGTH_SHORT).show();
-                    vrl.onError("No se han encontrado actividades favoritas");
+                    Toast.makeText(ctx, "No se han encontrado actividades", Toast.LENGTH_SHORT).show();
+                    vrl.onError("No se han encontrado actividades");
                 }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -212,17 +204,14 @@ public class UserActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reportURL, jsonBody, response -> {
-            Log.i("VOLLEY", response.toString());
             vrl.onResponse("Reporte enviado");
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al enviar el reporte");
         }) {
                 @Override
                 public Map<String,String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();
                     String userToken = UserSingleton.getInstance().getId();
-                    Log.d("", "");
                     headers.put("Authorization", "Token " + userToken);
                     return headers;
                 }
@@ -247,17 +236,14 @@ public class UserActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, response -> {
-            Log.i("VOLLEY", response.toString());
             vrl.onResponse("Review enviada");
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al enviar la review");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -301,7 +287,6 @@ public class UserActivityController {
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -322,13 +307,11 @@ public class UserActivityController {
         JsonArrayRequest req = new JsonArrayRequest
                 (Request.Method.GET, reviewURL, null, response -> {
 
-                    Log.d("JSON", String.valueOf(response.length()));
 
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject jsonact = response.getJSONObject(i);
 
-                            Log.d("JSON", jsonact.toString());
 
                             Gson gson = new Gson();
                             Organizer org = gson.fromJson(jsonact.toString(), Organizer.class);
@@ -342,13 +325,11 @@ public class UserActivityController {
                 }, error -> {
                     Toast.makeText(ctx, "No se han encontrado organizers", Toast.LENGTH_SHORT).show();
                     vrl.onError("No se han encontrado organizers");
-                    Log.d("ERROR", error.toString());
                 }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -371,17 +352,14 @@ public class UserActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, reviewURL, jsonBody, response -> {
-            Log.i("VOLLEY", response.toString());
             vrl.onResponse("Mensaje enviado");
         }, error -> {
-            Log.e("VOLLEY", error.toString());
             vrl.onError("Error al enviar la mensaje");
         }) {
             @Override
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -424,7 +402,6 @@ public class UserActivityController {
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -458,7 +435,6 @@ public class UserActivityController {
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }
@@ -479,7 +455,6 @@ public class UserActivityController {
         JSONObject jsonBody = new JSONObject(params);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, joinActURL, jsonBody, response -> vrl.onResponseReportReview(), error -> {
-            Log.e("VOLLEY", error.toString());
 
             if(error.networkResponse.statusCode == 400){
                 String errorMsg = new String(error.networkResponse.data);
@@ -495,7 +470,6 @@ public class UserActivityController {
             public Map<String,String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String userToken = UserSingleton.getInstance().getId();
-                Log.d("", "");
                 headers.put("Authorization", "Token " + userToken);
                 return headers;
             }

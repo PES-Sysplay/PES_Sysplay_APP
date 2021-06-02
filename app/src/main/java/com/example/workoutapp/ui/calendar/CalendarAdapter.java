@@ -85,7 +85,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                 }
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 }
 
                 @Override
@@ -133,7 +133,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                 public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}

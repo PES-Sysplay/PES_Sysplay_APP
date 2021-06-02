@@ -112,7 +112,7 @@ public class FavoritesFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
             }
 
             @Override
