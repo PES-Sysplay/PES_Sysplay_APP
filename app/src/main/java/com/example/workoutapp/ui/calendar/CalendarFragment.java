@@ -43,7 +43,6 @@ public class CalendarFragment extends Fragment {
     CalendarAdapter adapter;
     List<Activitat> activitatsUsuari;
     DateFormatSymbols mesesEnEsp;
-    ArrayList<String> activityTypesList;
     Date selectedDate;
 
 
@@ -77,7 +76,6 @@ public class CalendarFragment extends Fragment {
         activityListView.setAdapter(adapter);
 
         calendarIni();
-        getActivityTypeList();
         updateList();
 
 
@@ -116,7 +114,8 @@ public class CalendarFragment extends Fragment {
         calendar.setCurrentSelectedDayBackgroundColor(Color.argb(81,110,180,255));
         calendar.setCurrentSelectedDayIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
 
-        calendar.setEventIndicatorStyle(CompactCalendarView.SMALL_INDICATOR);
+        //calendar.setEventIndicatorStyle(CompactCalendarView.SMALL_INDICATOR);
+        calendar.setEventIndicatorStyle(CompactCalendarView.FILL_LARGE_INDICATOR);
 
         String a = new SimpleDateFormat("MMMM - yyyy", mesesEnEsp).format(Calendar.getInstance().getTime());
         monthText.setText(a);
@@ -158,28 +157,10 @@ public class CalendarFragment extends Fragment {
     }
 
     private void setUpEvents() {
-        int color;
-
         calendar.removeAllEvents();
-
-        if (activityTypesList == null) {
-            for (Activitat act : activitatsUsuari) {
-                color = Color.GREEN;
-                Event event = new Event(color, act.getTimestamp() * 1000L);
-                calendar.addEvent(event);
-            }
-        } else {
-            int n = activityTypesList.size();
-            for (Activitat act : activitatsUsuari) {
-                color = Color.GREEN;
-                int pos = activityTypesList.indexOf(act.getActivity_type_id());
-
-                if (pos != -1)
-                    color = Color.HSVToColor(new float[]{360.f / (float) n * pos, 1.f, 1.f});
-
-                Event event = new Event(color, act.getTimestamp() * 1000L);
-                calendar.addEvent(event);
-            }
+        for (Activitat act : activitatsUsuari) {
+            Event event = new Event(Color.argb(192, 80, 128, 255), act.getTimestamp() * 1000L);
+            calendar.addEvent(event);
         }
     }
 
@@ -236,33 +217,6 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onResponseReportReview() {
-
-            }
-        });
-    }
-
-    private void getActivityTypeList() {
-        ActivityController dc = new ActivityController(getContext());
-
-        dc.getActivityTypes(new ActivityController.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponseActivity(ArrayList<Activitat> ret) {
-
-            }
-
-            @Override
-            public void onResponseType(ArrayList<String> ret) {
-                activityTypesList = ret;
-                if(activitatsUsuari != null) setUpEvents();
-            }
-
-            @Override
-            public void onResponseJoinActivity() {
 
             }
         });
