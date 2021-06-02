@@ -493,6 +493,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                                 updatePeople(1);
                                 buttonJoin.setText("ME DESAPUNTO");
                                 activity_list = ret;
+                                onlyFutureActivities();
                                 qrBtn.setVisible(true);
                             }
 
@@ -542,6 +543,14 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
     }
     //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
+
+    private void onlyFutureActivities() {
+        ArrayList<Activitat> aux = new ArrayList<>();
+        for (int i=0; i<activity_list.size(); i++) {
+            if (!activity_list.get(i).isOld()) aux.add(activity_list.get(i));
+        }
+        activity_list = aux;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
