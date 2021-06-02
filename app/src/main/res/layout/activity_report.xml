@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.userfeedback.ReportActivity">
+
+    <FrameLayout
+        android:id="@+id/reportContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="184dp">
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

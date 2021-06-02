@@ -1,10 +1,108 @@
 <resources>
     <string name="app_name">WorkOut</string>
-    <string name="title_home">Activities</string>
-    <string name="title_dashboard">Calendar</string>
-    <string name="title_notifications">Map</string>
-    <string name="title_profile">Profile</string>
-    <string name="song_artist">Song Artist</string>
-    <string name="song_title">Song Title</string>
+    <string name="title_home">Actividades</string>
+    <string name="title_dashboard">Calendario</string>
+    <string name="title_notifications">Mapa</string>
+    <string name="title_profile">Perfil</string>
     <string name="todo">TODO</string>
+    <string name="welcome">Bienvenido a WorkOut</string>
+    <string name="email">Email</string>
+    <string name="resetpassword">ACTUALIZAR CONTRASEÑA</string>
+    <string name="pwd">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Regístrate</string>
+    <string name="forgetpwd">¿Olvidaste tu contraseña?</string>
+    <string name="pwdconfirm">Confirma tu contraseña</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="settings">Ajustes</string>
+    <string name="changepwd">Cambiar contraseña</string>
+    <string name="covid_gencat">Consultar restricciones COVID-19</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="myevents">Mis eventos</string>
+    <string name="myfavs">Mis favoritos</string>
+    <string name="join">¡ME APUNTO!</string>
+    <string name="leave">ME DESAPUNTO</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvpqaDWNAMYWb6ePt-PFrLkl1F5MKorS0</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+
+    <string name="action_settings">Ajustes</string>
+    <!-- Preference Titles -->
+    <string name="notifications_header">Notificaciones</string>
+    <string name="account_header">Perfil</string>
+
+    <!-- Preferences -->
+    <string name="sync_email">Permitir mensajes por correo</string>
+    <string name="sync_push">Permitir notificaciones</string>
+    <string name="delete_button">Eliminar cuenta</string>
+    <string name="favorite">Alertas de favoritos</string>
+    <string name="favorite_desc">Notificar cuando queden pocas plazas de un evento que tengo en favoritos</string>
+    <string name="activity">Alertas de mis actividades</string>
+    <string name="activity_desc">Notificar cuando queden menos de 48h para que se realice un evento al que estoy apuntado</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="title_activity_my_activities2">Mis actividades</string>
+    <string name="month_name">Nombre del mes</string>
+    <string name="no_tienes_ninguna_actividad">No tienes ninguna actividad</string>
+    <string name="no_pendientes"> No tienes actividades pendientes</string>
+    <string name="no_pasadas">No has asistido a ninguna actividad</string>
+    <string name="title_activity_changepass">Cambiar contraseña</string>
+    <string name="title_activity_report">Reportar actividad</string>
+    <string name="title_activity_review">Valorar actividad</string>
+    <string name="title_activity_qr">Tu entrada</string>
+    <string name="title_activity_chat">Mis chats</string>
+    <string name="gochat">Mis chats</string>
+    <string name="nochat">No tienes ningún chat activo</string>
+    <string name="reportar_como_inapropiado">Reportar como inapropiado</string>
+    <string name="org_name">Org Name</string>
+    <string name="enviar_mensaje">Enviar mensaje…</string>
+    <string name="datetime">dateTime</string>
+    <string name="activitytitle">activityTitle</string>
+    <string name="fecha">Fecha: </string>
+    <string name="lugar">Lugar: </string>
+    <string name="codigo">Enseña este código QR el día de la actividad al organizador responsable. No compartas este código con otras personas.</string>
+    <string name="titol">Título</string>
+    <string name="organizacion">Organización</string>
+    <string name="organizacion_may">ORGANIZACIÓN</string>
+    <string name="fecha_y_hora">FECHA Y HORA</string>
+    <string name="lugar_may">LUGAR</string>
+    <string name="descripcion_may">DESCRIPCIÓN</string>
+    <string name="textview">TextView</string>
+    <string name="precio_may">PRECIO</string>
+    <string name="precio_socio">PRECIO SOCIO</string>
+    <string name="contraseña_act">Contraseña Actualizada</string>
+    <string name="contrasena_camb">Tu contraseña ha sido cambiada correctamente</string>
+    <string name="volver_pag">VOLVER A LA PÁGINA PRINCIPAL</string>
+    <string name="gracias_por">Gracias por enviar tu solucitud</string>
+    <string name="medidas_mejoras">Nuestros administradores tomarán las medidas necesarias para seguir ofreciendo el mejor servicio.</string>
+    <string name="volver_inicio">Volver al inicio</string>
+    <string name="motivo">Motivo</string>
+    <string name="anade_descr">Añade una descripción</string>
+    <string name="reportar">Reportar</string>
+    <string name="nueva_cont">Contraseña nueva</string>
+    <string name="contrasena_actual">Contraseña actual</string>
+    <string name="confirmar_contrasena_nueva">Confirmar contraseña nueva</string>
+    <string name="anade_comentario">Añade un comentario (opcional)</string>
+    <string name="valorar">Valorar</string>
+    <string name="gracias_valora">Gracias por enviar tu valoración</string>
+    <string name="sugerencia_admin">Nuestros administradores considerarán sus sugerencias para seguir ofreciendo el mejor servicio.</string>
+    <string name="volver_al_inicio">Volver al inicio</string>
+    <string name="username_chat">Username</string>
+    <string name="date_chat">15/04/2020</string>
+    <string name="description_caht">Description..</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+
+
+
 </resources>

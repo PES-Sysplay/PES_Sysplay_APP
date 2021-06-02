@@ -1,15 +1,24 @@
 *.iml
+*.apk
 .gradle
 /local.properties
+./.idea
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/misc.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/res/values/token.xml
+/app/release/output-metadata.json
+# Keystore files
+# Uncomment the following lines if you do not want to check your keystore files in.
+*.jks
+*.keystore
