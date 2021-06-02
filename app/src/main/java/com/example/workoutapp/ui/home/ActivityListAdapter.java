@@ -2,6 +2,7 @@ package com.example.workoutapp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public void setLink(int param){
         link = param;
     }
+
+    public void secureLink(){
+        secure = true;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // bind the data
@@ -120,14 +126,18 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.superhost.setVisibility(View.GONE);
 
         }
-        if(link != -33 && secure){
+        Log.d("JUST ABANS", String.valueOf(link));
+        Log.d("JUST ABANS", String.valueOf(secure));
+        if(link != -33){
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
-            intent.putExtra("Position recycler", link);
+            int pos = getActivity(link);
+            Log.d("POSicioooooooooooooooooooommmmmmmmmmmmmmmmmmmmmoooooooooo", String.valueOf(pos));
+            intent.putExtra("Position recycler", pos);
             intent.putExtra("adapter",1);
             context.startActivity(intent);
             link = -33;
-            secure = false;
+            //secure = false;
         }
         holder.itemView.setOnClickListener((View v) -> {
             Context context = v.getContext();
@@ -243,6 +253,20 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             holder.unfavBtn.setVisibility(View.GONE);
         });
 
+    }
+
+    public int getActivity(int id){
+        int pos = -33,i = 0;
+        for(Activitat act: activitats){
+            if(act.getId().equals(id)){
+                pos = i;
+            }
+            else {
+                ++i;
+            }
+        }
+        Log.d("psocio", String.valueOf(pos));
+        return pos;
     }
 
     @Override

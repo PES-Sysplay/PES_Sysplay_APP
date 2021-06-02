@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,7 +61,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     int pos, clientsJoin, adapterNum;
     ImageView photo, people_photo,superhost;
     TextView activity, time, place,price, member_price,description,people_activity;
-    Boolean favorite, is_old, checked_in, joined,host;
+    Boolean favorite, is_old, checked_in, joined, host, reported, reviewed;
     Button organization;
     MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
@@ -132,6 +133,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         joined = activity_list.get(pos).isJoined();
         is_old = activity_list.get(pos).isOld();
         checked_in = activity_list.get(pos).isChecked_in();
+        reported = activity_list.get(pos).isReported();
+        reviewed = activity_list.get(pos).isReviewed();
 
         if(!favorite){
             favBtn.setVisible(true);
@@ -144,7 +147,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
 
         qrBtn.setVisible(joined && !is_old);
 
-        moreBtn.setVisible(!is_old || checked_in);
+        moreBtn.setVisible(!is_old || (checked_in && (!reported || !reviewed)));
 
         return true;
     }
@@ -333,7 +336,8 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setType("text/plain");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + pos);
+                Log.d("POSicioooooooooooooooooooooooooooooo", String.valueOf(pos));
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + activity_list.get(pos).getId());
                 Intent shareIntent = Intent.createChooser(sendIntent, "Compartir actividad");
                 this.startActivity(shareIntent);
                 break;

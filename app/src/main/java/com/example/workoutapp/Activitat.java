@@ -141,7 +141,7 @@ public class Activitat {
     }
 
 
-    public boolean isOld() { return (timestamp+(60*duration))*1000L<System.currentTimeMillis(); }
+    public boolean isOld() { return (timestamp+(60*duration))*1000L < System.currentTimeMillis(); }
 
     public boolean isSuperHost(){
         return superhost;
