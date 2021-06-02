@@ -10,6 +10,7 @@ public class UserSingleton {
     public UserSingleton(String username, String id){
         this.username = username;
         this.token_id = id;
+        this.link = false;
     }
 
     public void setLink(boolean linkAux){
