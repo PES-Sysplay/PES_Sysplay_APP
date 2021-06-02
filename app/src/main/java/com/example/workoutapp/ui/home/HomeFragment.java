@@ -33,8 +33,6 @@ import com.example.workoutapp.UserSingleton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -66,6 +64,7 @@ public class HomeFragment extends Fragment {
     public void onDestroy(){
         super.onDestroy();
     }
+
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
