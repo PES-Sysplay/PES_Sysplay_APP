@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,9 +105,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         link = param;
     }
 
-    public void secureLink(){
-        secure = true;
-    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {

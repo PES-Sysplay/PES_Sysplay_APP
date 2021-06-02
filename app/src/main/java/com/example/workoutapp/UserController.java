@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class UserController {
 
-    public static final String URL = "https://dev-pes-workout.herokuapp.com";
+    public static final String URL = "https://pes-workout.herokuapp.com";
     Context ctx;
 
     public UserController(Context context){
@@ -57,7 +57,9 @@ public class UserController {
                 }
                 vrl.onResponse("successful login");
             }, error -> {
-                String msg = error.toString();
+                String errorcode = String.valueOf(error.networkResponse.statusCode);
+                String msg = "Error al iniciar sesión, intentalo de nuevo";
+                if (errorcode.equals("504")) msg = "Error de servidor, vuelve a intentarlo";
                 vrl.onError(msg);
             }) {
                 @Override

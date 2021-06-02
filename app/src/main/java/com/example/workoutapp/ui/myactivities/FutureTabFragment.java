@@ -30,16 +30,12 @@ import com.example.workoutapp.UserActivityController;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class FutureTabFragment extends Fragment {
 
     private RecyclerView recyclerViewFut;
     private FutureActAdapter adapter;
     private Boolean advancedSearch = false;
-    private SearchView searchView;
-    int intents = 0, poss = -33;
 
     ViewGroup root;
     ArrayList<Activitat> futActivities;
@@ -72,12 +68,12 @@ public class FutureTabFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setIconifiedByDefault(false);
 

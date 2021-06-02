@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class ActivityController {
 
-    public static final String BASE_URL = "https://dev-pes-workout.herokuapp.com";
+    public static final String BASE_URL = "https://pes-workout.herokuapp.com";
 
     @SuppressLint("StaticFieldLeak")
     private static Context ctx;
