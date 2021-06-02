@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class UserActivityController {
 
-    public static final String URL = "https://dev-pes-workout.herokuapp.com";
+    public static final String URL = "https://pes-workout.herokuapp.com";
     Context ctx;
 
 

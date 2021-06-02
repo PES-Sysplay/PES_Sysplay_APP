@@ -131,10 +131,6 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
         return activitats.size();
     }
 
-    public List<Activitat> getActivitatsFull() {
-        return activitatsFull;
-    }
-
     public Filter getFilter() {
         return exampleFilter;
     }
