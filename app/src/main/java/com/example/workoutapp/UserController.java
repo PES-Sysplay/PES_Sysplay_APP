@@ -102,7 +102,7 @@ public class UserController {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            vrl.onResponse("success");
+            vrl.onResponse("Registrado Correctamente");
         }, error -> {
             Log.e("VOLLEY", error.toString());
             String msg = error.toString();
