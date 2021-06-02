@@ -155,6 +155,9 @@ public class UserController {
                 String responseToken = response.getString("token");
                 SharedPreferencesController pref_ctrl = new SharedPreferencesController(ctx);
                 pref_ctrl.storePreferences(username, responseToken);
+
+                UserSingleton us = UserSingleton.setInstance(username, responseToken);
+
                 vrl.onResponse(responseToken);
             } catch (JSONException e) {
                 e.printStackTrace();
