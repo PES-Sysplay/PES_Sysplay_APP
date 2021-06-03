@@ -138,7 +138,7 @@ public class NotificationsManager{
                         int joineds = ret.get(i).getClientJoined();
                         int participants = ret.get(i).getNumberParticipants();
                         boolean notified = spc.isNotified(ret.get(i).getId(), "favs");
-                        if (!notified && joineds <= 2 && !ret.get(i).isOld() && participants != joineds) {
+                        if (!notified && (participants - joineds) <= 2 && !ret.get(i).isOld() && participants != joineds) {
                             Integer notification_id = ret.get(i).getId() + 200001;
                             spc.setNotified(ret.get(i).getId(),"favs");
                             String organization = ret.get(i).getOrganizerName();
