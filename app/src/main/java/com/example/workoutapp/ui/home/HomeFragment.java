@@ -1,9 +1,7 @@
 package com.example.workoutapp.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,15 +35,13 @@ import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
     private Boolean advancedSearch = false;
     private SearchView searchView;
     private LayoutInflater privInflater;
     private ViewGroup privContainer;
     private Bundle privInstanceState;
-    private View root;
-    int intents = 0, poss = -33;
+    int poss = -33;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +68,8 @@ public class HomeFragment extends Fragment {
         privInflater = inflater;
         privContainer = container;
         privInstanceState = savedInstanceState;
-        root = inflater.inflate(R.layout.fragment_home, container, false);
-        recyclerView = root.findViewById(R.id.recyclerview);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerview);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setShowHideAnimationEnabled(false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
 
@@ -93,7 +89,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
@@ -159,7 +155,6 @@ public class HomeFragment extends Fragment {
                     adapter.setList(futAux);
                 }
 
-                Log.d("STATE", ret.get(0).getDate_time());
                 MainActivity.response = true;
 
                 // do things
@@ -209,29 +204,25 @@ public class HomeFragment extends Fragment {
         ArrayList<String> types = adapter.getActivity_id_list();
         if(!types.get(0).equals(anySport)) types.add(0, anySport);
 
-        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, types);
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, types);
         sport.setAdapter(stringAdapter);
 
-        dialog.setPositiveButton("Buscar!", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String sTitle = title.getText().toString();
-                String sOrg = organization.getText().toString();
-                String sSport = sport.getSelectedItem().toString();
+        dialog.setPositiveButton("Buscar!", (dialog1, whichButton) -> {
+            String sTitle = title.getText().toString();
+            String sOrg = organization.getText().toString();
+            String sSport = sport.getSelectedItem().toString();
 
-                if (sSport.equals(anySport)) sSport = "";
+            if (sSport.equals(anySport)) sSport = "";
 
-                adapter.getFilter().filter(transformQueryFormat(sTitle, sOrg, sSport));
-                //searchView.setIconified(true);
-            }
+            adapter.getFilter().filter(transformQueryFormat(sTitle, sOrg, sSport));
+            //searchView.setIconified(true);
         });
 
-        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                searchView.setQuery("", true);
-                searchView.clearFocus();
-                dialog.cancel();
-                //searchView.setIconified(true);
-            }
+        dialog.setNegativeButton("Cancelar", (dialog12, whichButton) -> {
+            searchView.setQuery("", true);
+            searchView.clearFocus();
+            dialog12.cancel();
+            //searchView.setIconified(true);
         });
 
         dialog.show();

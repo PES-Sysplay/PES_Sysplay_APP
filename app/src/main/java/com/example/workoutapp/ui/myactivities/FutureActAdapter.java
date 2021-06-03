@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.Organizer;
 import com.example.workoutapp.Chat;
+import com.example.workoutapp.Organizer;
 import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityDetail;
-import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -84,12 +82,6 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
         activitatsFull = new ArrayList<>(activitats);
     }
 
-    //for testing purposes
-    public FutureActAdapter(List<Activitat> activitats) {
-        this.activitats = activitats;
-        activitatsFull = new ArrayList<>(activitats);
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -97,16 +89,6 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
         return new ViewHolder(view);
     }
 
-    public int getActivityIndex(String title){
-        for (int i = 0; i < activitatsFull.size(); ++i){
-            if(activitatsFull.get(i).getName().equals(title)) return i;
-        }
-        return -1;
-    }
-
-    public void setLink(int param){
-        link = param;
-    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // bind the data
@@ -166,7 +148,7 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
                 public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                 @Override
                 public void onResponseReviewList(ArrayList<Review> ret) {}
@@ -207,7 +189,7 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
                 public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}
@@ -232,30 +214,9 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
 
     }
 
-    public void updateFavs(@NonNull ViewHolder holder, int position){
-        Integer activityID = activitats.get(position).getId();
-        boolean favorite =  activitats.get(position).isFavorite();
-        if(!favorite) {
-            holder.favBtn.setVisibility(View.VISIBLE);
-            holder.unfavBtn.setVisibility(View.GONE);
-        }
-        else{
-            holder.unfavBtn.setVisibility(View.VISIBLE);
-            holder.favBtn.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return activitats.size();
-    }
-
-    public List<Activitat> getActivitats() {
-        return activitats;
-    }
-
-    public List<Activitat> getActivitatsFull() {
-        return activitatsFull;
     }
 
     public Filter getFilter() {
@@ -286,10 +247,6 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
         return out;
     }
 
-    public ArrayList<String> getActivity_id_list() {
-        return activity_id_list;
-    }
-
     public void setActivity_id_list(ArrayList<String> activity_id_list) {
         this.activity_id_list = activity_id_list;
     }
@@ -298,7 +255,6 @@ public class FutureActAdapter extends RecyclerView.Adapter<FutureActAdapter.View
         TextView organization, activityTitle, dateTime;
         AppCompatButton favBtn, unfavBtn;
         ImageView image, superhost;
-        Context context = itemView.getContext();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

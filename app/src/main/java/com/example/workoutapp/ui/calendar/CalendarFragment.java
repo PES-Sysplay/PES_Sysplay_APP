@@ -189,7 +189,7 @@ public class CalendarFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 activitatsUsuari = new ArrayList<Activitat>();
 
                 for(Activitat act : ret)

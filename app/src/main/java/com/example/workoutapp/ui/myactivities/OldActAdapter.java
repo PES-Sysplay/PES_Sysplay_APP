@@ -2,7 +2,6 @@ package com.example.workoutapp.ui.myactivities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.workoutapp.Activitat;
-import com.example.workoutapp.Organizer;
-import com.example.workoutapp.Chat;
 import com.example.workoutapp.R;
-import com.example.workoutapp.Review;
-import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.home.ActivityDetail;
-import com.example.workoutapp.ui.home.ActivityListAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,9 +29,6 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
     LayoutInflater inflater;
     List<Activitat> activitats;
     List<Activitat> activitatsFull;
-    int link = -33;
-    boolean secure = true;
-
     private final Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -71,23 +62,19 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
             notifyDataSetChanged();
         }
     };
+    int link = -33;
+    boolean secure = true;
     ArrayList<String> activity_id_list;
 
-    public static OldActAdapter getInstance(Context ctx, List<Activitat> activitats){
-        if (INSTANCE == null) INSTANCE = new OldActAdapter(ctx,activitats);
-        return INSTANCE;
-    }
-
-    public OldActAdapter(Context ctx, List<Activitat> activitats){
+    public OldActAdapter(Context ctx, List<Activitat> activitats) {
         this.inflater = LayoutInflater.from(ctx);
         this.activitats = activitats;
         activitatsFull = new ArrayList<>(activitats);
     }
 
-    //for testing purposes
-    public OldActAdapter(List<Activitat> activitats) {
-        this.activitats = activitats;
-        activitatsFull = new ArrayList<>(activitats);
+    public static OldActAdapter getInstance(Context ctx, List<Activitat> activitats) {
+        if (INSTANCE == null) INSTANCE = new OldActAdapter(ctx, activitats);
+        return INSTANCE;
     }
 
     @NonNull
@@ -97,16 +84,6 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
-    public int getActivityIndex(String title){
-        for (int i = 0; i < activitatsFull.size(); ++i){
-            if(activitatsFull.get(i).getName().equals(title)) return i;
-        }
-        return -1;
-    }
-
-    public void setLink(int param){
-        link = param;
-    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // bind the data
@@ -116,18 +93,17 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
         Picasso.get().load(activitats.get(position).getPhoto_url()).into(holder.image);
 
         boolean shost = activitats.get(position).isSuperHost();
-        if(shost){
+        if (shost) {
             holder.superhost.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             holder.superhost.setVisibility(View.GONE);
 
         }
-        if(link != -33 && secure){
+        if (link != -33 && secure) {
             Context context = holder.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", link);
-            intent.putExtra("adapter",4);
+            intent.putExtra("adapter", 4);
             context.startActivity(intent);
             link = -33;
             secure = false;
@@ -136,10 +112,9 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
             Context context = v.getContext();
             Intent intent = new Intent(context, ActivityDetail.class);
             intent.putExtra("Position recycler", position);
-            intent.putExtra("adapter",4);
+            intent.putExtra("adapter", 4);
             context.startActivity(intent);
         });
-        Integer activityID = activitats.get(position).getId();
         boolean favorite = activitats.get(position).isFavorite();
         if (!favorite) {
             holder.favBtn.setVisibility(View.VISIBLE);
@@ -151,41 +126,20 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
 
     }
 
-    public void updateFavs(@NonNull ViewHolder holder, int position){
-        Integer activityID = activitats.get(position).getId();
-        boolean favorite =  activitats.get(position).isFavorite();
-        if(!favorite) {
-            holder.favBtn.setVisibility(View.VISIBLE);
-            holder.unfavBtn.setVisibility(View.GONE);
-        }
-        else{
-            holder.unfavBtn.setVisibility(View.VISIBLE);
-            holder.favBtn.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return activitats.size();
-    }
-
-    public List<Activitat> getActivitats() {
-        return activitats;
-    }
-
-    public List<Activitat> getActivitatsFull() {
-        return activitatsFull;
     }
 
     public Filter getFilter() {
         return exampleFilter;
     }
 
-    public List<Activitat> copyInfo(){
+    public List<Activitat> copyInfo() {
         return activitats;
     }
 
-    public void setList(List<Activitat> aux){
+    public void setList(List<Activitat> aux) {
         activitats = new ArrayList<>(aux);
         activitatsFull = new ArrayList<>(aux);
 
@@ -200,13 +154,7 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
         out.add(StringUtils.substringBetween(query, "StartOrganization", "EndOrganization"));
         out.add(StringUtils.substringBetween(query, "StartSport", "EndSport"));
 
-        //TODO que devuelva el codigo del deporte
-
         return out;
-    }
-
-    public ArrayList<String> getActivity_id_list() {
-        return activity_id_list;
     }
 
     public void setActivity_id_list(ArrayList<String> activity_id_list) {
@@ -217,7 +165,6 @@ public class OldActAdapter extends RecyclerView.Adapter<OldActAdapter.ViewHolder
         TextView organization, activityTitle, dateTime;
         AppCompatButton favBtn, unfavBtn;
         ImageView image, superhost;
-        Context context = itemView.getContext();
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

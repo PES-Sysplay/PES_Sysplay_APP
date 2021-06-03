@@ -84,7 +84,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 }
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 }
 
                 @Override
@@ -132,7 +132,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 public void onResponseFavorites(ArrayList<Activitat> ret) {}
 
                 @Override
-                public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                 @Override
                 public void onResponseChat(ArrayList<Chat> ret) {}

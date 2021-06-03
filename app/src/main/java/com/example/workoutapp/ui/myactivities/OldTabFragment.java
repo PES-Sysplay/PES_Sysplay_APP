@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,16 +30,12 @@ import com.example.workoutapp.UserActivityController;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class OldTabFragment extends Fragment {
 
     private RecyclerView recyclerViewOld;
     private OldActAdapter adapter;
     private Boolean advancedSearch = false;
-    private SearchView searchView;
-    int intents = 0, poss = -33;
 
     ViewGroup root;
     ArrayList<Activitat> oldActivities;
@@ -73,12 +68,12 @@ public class OldTabFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.toolbar_seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setIconifiedByDefault(false);
 
@@ -154,7 +149,7 @@ public class OldTabFragment extends Fragment {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
                 oldActivities = ret;
                 displayOldAct();
             }

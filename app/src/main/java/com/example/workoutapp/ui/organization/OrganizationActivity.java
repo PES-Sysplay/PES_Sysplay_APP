@@ -96,7 +96,7 @@ public class OrganizationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
 
             }
 
@@ -147,7 +147,7 @@ public class OrganizationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
 
             }
 

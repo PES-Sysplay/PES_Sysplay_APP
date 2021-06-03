@@ -103,7 +103,7 @@ public class ReportFragment extends Fragment {
                     public void onResponseFav() {}
 
                     @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                    public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
                     @Override
                     public void onResponseReviewList(ArrayList<Review> ret) {}

@@ -85,7 +85,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
                         }
 
                         @Override
-                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                        public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
 
                         }
 

@@ -6,14 +6,11 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -32,10 +29,10 @@ import com.example.workoutapp.R;
 import com.example.workoutapp.Review;
 import com.example.workoutapp.UserActivityController;
 import com.example.workoutapp.ui.calendar.CalendarAdapter;
+import com.example.workoutapp.ui.chat.ChatActivity;
 import com.example.workoutapp.ui.myactivities.FutureActAdapter;
 import com.example.workoutapp.ui.myactivities.OldActAdapter;
 import com.example.workoutapp.ui.organization.OrganizationActivity;
-import com.example.workoutapp.ui.chat.ChatActivity;
 import com.example.workoutapp.ui.profile.FavoriteAdapter;
 import com.example.workoutapp.ui.userfeedback.ReportActivity;
 import com.example.workoutapp.ui.userfeedback.ReviewActivity;
@@ -44,7 +41,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
@@ -55,20 +51,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
     int pos, clientsJoin, adapterNum;
-    ImageView photo, people_photo,superhost;
-    TextView activity, time, place,price, member_price,description,people_activity;
+    ImageView photo, people_photo, superhost;
+    TextView activity, time, place, price, member_price, description, people_activity;
     Boolean favorite, is_old, checked_in, joined, host, reported, reviewed;
     Button organization;
     MenuItem favBtn, unfavBtn, moreBtn, qrBtn;
     ExtendedFloatingActionButton buttonJoin;
-    ExtendedFloatingActionButton buttonLeave;
     List<Activitat> activity_list = new ArrayList<>();
-    private GoogleMap mMap;
-    Uri uri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,22 +71,24 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         pos = getIntent().getIntExtra("Position recycler", 0);
         invalidateOptionsMenu();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.submap);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         adapterNum = getIntent().getIntExtra("adapter", 0);
 
         init_values();
-        switch(adapterNum) {
+        switch (adapterNum) {
             case 1:
                 activity_list = ActivityListAdapter.getInstance(this, new ArrayList<>()).copyInfo();
                 break;
@@ -129,23 +126,24 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         unfavBtn = menu.findItem(R.id.action_unfav);
         moreBtn = menu.findItem(R.id.action_more);
         qrBtn = menu.findItem(R.id.action_qr);
-        favorite =  activity_list.get(pos).isFavorite();
+        favorite = activity_list.get(pos).isFavorite();
         joined = activity_list.get(pos).isJoined();
         is_old = activity_list.get(pos).isOld();
         checked_in = activity_list.get(pos).isChecked_in();
         reported = activity_list.get(pos).isReported();
         reviewed = activity_list.get(pos).isReviewed();
 
-        if(!favorite){
+        if (!favorite) {
             favBtn.setVisible(true);
             unfavBtn.setVisible(false);
-        }
-        else{
+        } else {
             favBtn.setVisible(false);
             unfavBtn.setVisible(true);
         }
 
         qrBtn.setVisible(joined && !is_old);
+
+        if (is_old) buttonJoin.setVisibility(View.GONE);
 
         moreBtn.setVisible(!is_old || (checked_in && (!reported || !reviewed)));
 
@@ -153,55 +151,59 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     }
 
 
-
-
-    public boolean onOptionsItemSelected(MenuItem item){
+    @SuppressLint("NonConstantResourceId")
+    public boolean onOptionsItemSelected(MenuItem item) {
         UserActivityController uaController = new UserActivityController(this);
         Integer activityID = activity_list.get(pos).getId();
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_fav:
-                uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+                if (adapterNum != 4) {
+                    uaController.favorite(activityID, new UserActivityController.VolleyResponseListener() {
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onResponse(String message) {}
+                        @Override
+                        public void onResponse(String message) {
+                        }
 
-                    @Override
-                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                        @Override
+                        public void onResponseFavorites(ArrayList<Activitat> ret) {
+                        }
 
-                    @Override
-                    public void onResponseFav() {
-                        item.setVisible(false);
-                        unfavBtn.setVisible(true);
-                    }
+                        @Override
+                        public void onResponseFav() {
+                            item.setVisible(false);
+                            unfavBtn.setVisible(true);
+                        }
 
-                    @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+                        @Override
+                        public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
+                        }
 
-                    @Override
-                    public void onResponseReviewList(ArrayList<Review> ret) {
+                        @Override
+                        public void onResponseReviewList(ArrayList<Review> ret) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponseOrganizationList(ArrayList<Organizer> ret) {
+                        @Override
+                        public void onResponseOrganizationList(ArrayList<Organizer> ret) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onResponseChat(ArrayList<Chat> ret) {}
+                        @Override
+                        public void onResponseChat(ArrayList<Chat> ret) {
+                        }
 
-                    @Override
-                    public void onResponseReportReview() {
+                        @Override
+                        public void onResponseReportReview() {
 
-                    }
+                        }
 
-                });
-
+                    });
+                }
 
                 return true;
 
@@ -213,10 +215,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponse(String message) {}
+                    public void onResponse(String message) {
+                    }
 
                     @Override
-                    public void onResponseFavorites(ArrayList<Activitat> ret) {}
+                    public void onResponseFavorites(ArrayList<Activitat> ret) {
+                    }
 
                     @Override
                     public void onResponseFav() {
@@ -225,10 +229,12 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) { }
+                    public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
+                    }
 
                     @Override
-                    public void onResponseChat(ArrayList<Chat> ret) {}
+                    public void onResponseChat(ArrayList<Chat> ret) {
+                    }
 
                     @Override
                     public void onResponseReportReview() {
@@ -303,9 +309,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
             if (!activity_list.get(pos).isReviewed()) {
                 reviewBt.setVisible(true);
             }
-        }
-
-        else if (!is_old) { //not old
+        } else if (!is_old) { //not old
             questionBt.setVisible(true);
             shareBt.setVisible(true);
         }
@@ -313,13 +317,14 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         popup.show();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.reportBt:
                 Intent intent = new Intent(this, ReportActivity.class);
                 intent.putExtra("Position recycler", pos);
-                intent.putExtra("adapter",1);
+                intent.putExtra("adapter", 1);
 
                 this.startActivity(intent);
                 break;
@@ -337,7 +342,6 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setType("text/plain");
-                Log.d("POSicioooooooooooooooooooooooooooooo", String.valueOf(pos));
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "Qué te parece este plan? '" + activity_list.get(pos).getName() + "' \n https://www.workout.com/activity/" + activity_list.get(pos).getId());
                 Intent shareIntent = Intent.createChooser(sendIntent, "Compartir actividad");
                 this.startActivity(shareIntent);
@@ -350,7 +354,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         return true;
     }
 
-    void init_values(){
+    void init_values() {
 
         activity = findViewById(R.id.activitat_text);
         organization = findViewById(R.id.organization_button);
@@ -365,39 +369,37 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         buttonJoin = findViewById(R.id.meapunto);
         superhost = findViewById(R.id.suphost_detail);
 
-        organization.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityIntent = new Intent(getApplicationContext(), OrganizationActivity.class);
-                activityIntent.putExtra("orgName", organization.getText().toString());
-                startActivity(activityIntent);
-            }
+        organization.setOnClickListener(v -> {
+            Intent activityIntent = new Intent(getApplicationContext(), OrganizationActivity.class);
+            activityIntent.putExtra("orgName", organization.getText().toString());
+            startActivity(activityIntent);
         });
 
     }
-    void updatePeople(int join){
+
+    void updatePeople(int join) {
         clientsJoin += join;
 
-        String people = (clientsJoin + " / " +activity_list.get(pos).getNumberParticipants());
+        String people = (clientsJoin + " / " + activity_list.get(pos).getNumberParticipants());
         people_activity.setText(people);
-        if(activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
+        if (activity_list.get(pos).getNumberParticipants() - clientsJoin <= 2) {
             people_activity.setTextColor(Color.parseColor("#A41E01"));
-            if(activity_list.get(pos).getNumberParticipants() - clientsJoin == 0)
+            if (activity_list.get(pos).getNumberParticipants() - clientsJoin == 0)
                 people_photo.setColorFilter(Color.parseColor("#A41E01"));
-            else{
+            else {
                 people_photo.setColorFilter(Color.BLACK);
             }
-        }
-        else{
+        } else {
             people_activity.setTextColor(Color.BLACK);
             people_photo.setColorFilter(Color.BLACK);
         }
     }
+
     @SuppressLint("SetTextI18n")
     void set_values() throws IOException {
         activity.setText(activity_list.get(pos).getName());
 
-        clientsJoin = activity_list.get(pos).getClientJoined() ;
+        clientsJoin = activity_list.get(pos).getClientJoined();
         updatePeople(0);
 
 
@@ -406,24 +408,21 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         String[] date_time_beg = activity_list.get(pos).getDate_time().split(", ");
         String[] date_time_end = activity_list.get(pos).getDateTimeFinish().split(", ");
         String Date;
-        if((date_time_beg[0].split(" "))[1].equals((date_time_end[0].split(" "))[1])){
-           Date = activity_list.get(pos).getDate_time() +" - "+date_time_end[2];
-        }
-        else{
-            Date = activity_list.get(pos).getDate_time() +" - "+activity_list.get(pos).getDateTimeFinish();
+        if ((date_time_beg[0].split(" "))[1].equals((date_time_end[0].split(" "))[1])) {
+            Date = activity_list.get(pos).getDate_time() + " - " + date_time_end[2];
+        } else {
+            Date = activity_list.get(pos).getDate_time() + " - " + activity_list.get(pos).getDateTimeFinish();
         }
 
         host = activity_list.get(pos).isSuperHost();
-        if(host){
+        if (host) {
             superhost.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             superhost.setVisibility(View.GONE);
         }
         time.setText(Date);
         time.setText(Date);
         Integer activity_ID = activity_list.get(pos).getId();
-        boolean joined = activity_list.get(pos).isJoined();
         ActivityController activityController = new ActivityController(this);
 
         String[] locations = activity_list.get(pos).getLocation().split(", ");
@@ -432,7 +431,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         try {
             List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]), 1);
 
-            if(null!=addresses&&addresses.size()>0){
+            if (null != addresses && addresses.size() > 0) {
                 place.setText(String.valueOf(addresses.get(0).getAddressLine(0)));
             }
         } catch (IOException e) {
@@ -453,22 +452,20 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
         Picasso.get().load(activity_list.get(pos).getPhoto_url()).into(photo);
 
 
-        if(!activity_list.get(pos).isJoined()) {
+        if (!activity_list.get(pos).isJoined()) {
             buttonJoin.setText("¡ME APUNTO!");
-        }
-        else{
+        } else {
             buttonJoin.setText("ME DESAPUNTO");
         }
 
         buttonJoin.setOnClickListener(v -> {
-            if(buttonJoin.getText().equals("¡ME APUNTO!")){
-                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener(){
+            if (buttonJoin.getText().equals("¡ME APUNTO!")) {
+                activityController.joinActivity(activity_ID, new ActivityController.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {
-                        if(message.equals("400")){
+                        if (message.equals("400")) {
                             Toast.makeText(getBaseContext(), "Actividad llena", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
 
                         }
@@ -496,6 +493,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                                 updatePeople(1);
                                 buttonJoin.setText("ME DESAPUNTO");
                                 activity_list = ret;
+                                onlyFutureActivities();
                                 qrBtn.setVisible(true);
                             }
 
@@ -515,9 +513,7 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
                 });
 
 
-
-            }
-            else {
+            } else {
                 activityController.leftActivity(activity_ID, new ActivityController.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {
@@ -548,26 +544,29 @@ public class ActivityDetail extends AppCompatActivity implements OnMapReadyCallb
     }
     //Log.d("ABNS BEE  m   E", String.valueOf(activity_list.get(0)));
 
+    private void onlyFutureActivities() {
+        ArrayList<Activitat> aux = new ArrayList<>();
+        for (int i=0; i<activity_list.size(); i++) {
+            if (!activity_list.get(i).isOld()) aux.add(activity_list.get(i));
+        }
+        activity_list = aux;
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setScrollGesturesEnabled(false);
-        mMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
-        List<Marker> markers = new ArrayList<>();
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         String[] locations = activity_list.get(pos).getLocation().split(", ");
-
 
         LatLng sydney = new LatLng(Double.parseDouble(locations[0]), Double.parseDouble(locations[1]));
 
+        googleMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName()));
 
-        markers.add(mMap.addMarker(new MarkerOptions().position(sydney).title(activity_list.get(pos).getName())));
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
         // Zoom in, animating the camera.
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        googleMap.animateCamera(CameraUpdateFactory.zoomIn());
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }

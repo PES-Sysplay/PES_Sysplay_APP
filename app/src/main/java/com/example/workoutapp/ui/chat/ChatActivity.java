@@ -87,7 +87,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onResponseFav() {}
 
             @Override
-            public void onResponseJoinedActivites(ArrayList<Activitat> ret) {}
+            public void onResponseJoinedActivities(ArrayList<Activitat> ret) {}
 
             @Override
             public void onResponseReviewList(ArrayList<Review> ret) {}
@@ -122,7 +122,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                        public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
 
                         }
 
@@ -197,7 +197,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onResponseJoinedActivites(ArrayList<Activitat> ret) {
+                    public void onResponseJoinedActivities(ArrayList<Activitat> ret) {
 
                     }
 

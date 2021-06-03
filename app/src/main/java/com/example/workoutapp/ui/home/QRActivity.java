@@ -1,17 +1,14 @@
 package com.example.workoutapp.ui.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethod;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.workoutapp.Activitat;
 import com.example.workoutapp.R;
@@ -57,7 +54,8 @@ public class QRActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        activity_place.append(" " + String.valueOf(addresses.get(0).getAddressLine(0)));
+        assert addresses != null;
+        activity_place.append(" " + addresses.get(0).getAddressLine(0));
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
@@ -76,10 +74,9 @@ public class QRActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
